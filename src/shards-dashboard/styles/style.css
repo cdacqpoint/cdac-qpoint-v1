@@ -1,0 +1,29 @@
+.nav-link.text-nowrap.px-4.link-button {
+    padding: 1.5em;
+        padding-right: 1.5em;
+        padding-left: 1.5em;
+}
+.hot-new-ques{
+    padding:0px;
+    list-style: none; /* Remove default bullets */
+}
+
+
+.hot-new-ques li::before {
+    content: "\2754";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+    color: #555170;
+    font-weight: bold; /* If you want it to be bold */
+    display: inline-block; /* Needed to add space between the bullet and the text */
+    width: 1em; /* Also needed for space (tweak if needed) */
+    margin-left: -1em; /* Also needed for space (tweak if needed) */
+  }
+.category-link{
+    font-weight: 300;
+    color:#007bff;
+    padding-right: .5rem;
+    padding-left: .5rem;
+}
+.qpoint-tools {
+    display: grid;
+    grid-template-columns: 1fr auto;
+}

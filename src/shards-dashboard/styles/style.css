@@ -27,3 +27,10 @@
     display: grid;
     grid-template-columns: 1fr auto;
 }
+.tag-search{
+    width: 4rem !important;
+}
+.tag-desc {
+    height: 238px;
+    overflow-y: auto;
+}

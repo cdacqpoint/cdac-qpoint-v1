@@ -7,14 +7,14 @@ export default function() {
       htmlAfter: ""
     },
     {
-      title: "Ask Doubt",
+      title: "Ask Question",
       htmlBefore: '<i class="material-icons">forum</i>',
       to: "/add-new-post",
     },
     {
       title: "Tags",
       htmlBefore: '<i class="material-icons">style</i>',
-      to: "/blog-overview",
+      to: "/tags",
     },
     {
       title: "Categories",

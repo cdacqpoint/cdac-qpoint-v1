@@ -13,8 +13,8 @@ export default class SignUpNav extends React.Component {
                 <NavLink
                     className="nav-link text-nowrap px-4 link-button"
                     tag={Link} to="user-profile">
-                    <i class="material-icons mr-2">person_add</i>
-                    <span class="d-none d-md-inline-block">Sign up</span>
+                    <i className="material-icons mr-2">person_add</i>
+                    <span className="d-none d-md-inline-block">Sign up</span>
                 </NavLink>
             </NavItem>
             );

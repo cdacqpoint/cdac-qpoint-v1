@@ -162,7 +162,7 @@ class Question extends React.Component {
                     <PageTitle sm="4" title="Questions" subtitle="Forum" className="text-sm-left" />
                 </Row>
                 <Row className="mb-4">
-                    <Filter currentPerPage="10" />
+                    <Filter currentPerPage={10} />
                 </Row>
                 <Row >
                     {/* Posts */}
@@ -240,12 +240,12 @@ class Question extends React.Component {
                                 </div>
                                 <ListGroup flush>
                                     <ListGroupItem className="px-4 text-center">
-                                        <strong class="text-muted d-block mb-2">Related Tags</strong>
+                                        <strong className="text-muted d-block mb-2">Related Tags</strong>
                                         <span>
                                             {this.state.taglists.map((tag, idx) => {
                                                 return (
-                                                    <a href={tag.url}>
-                                                        <Badge pill className="ml-2" key={idx}>{tag.tag}</Badge>
+                                                    <a href={tag.url}  key={idx}>
+                                                        <Badge pill className="ml-2">{tag.tag}</Badge>
                                                         <span className="text-muted m-2">x{tag.post_count}
                                                         </span>
                                                     </a>
@@ -254,10 +254,10 @@ class Question extends React.Component {
                                         </span>
                                     </ListGroupItem>
                                     <ListGroupItem className="p-4">
-                                        <strong class="text-muted d-block mb-2">New Hot Questions</strong>
+                                        <strong className="text-muted d-block mb-2">New Hot Questions</strong>
                                         <span>
-                                            <div class="card-post__author d-flex text-left">
-                                                <ul flush className="hot-new-ques">
+                                            <div className="card-post__author d-flex text-left">
+                                                <ul className="hot-new-ques">
                                                     {this.state.hotQuestions.map((ques, idx) => (
                                                         <li className="px-4" key={idx}>
                                                             <a href="#">

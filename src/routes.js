@@ -7,8 +7,8 @@ import { DefaultLayout } from "./layouts";
 // Route Views
 import BlogOverview from "./views/BlogOverview";
 import UserProfileLite from "./views/UserProfileLite";
-import AddNewPost from "./views/AddNewPost";
 import Question from "./views/common/Dashboard";
+import AddQuestion from "./views/common/Add-question";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
@@ -39,7 +39,7 @@ export default [
   {
     path: "/add-new-post",
     layout: DefaultLayout,
-    component: AddNewPost
+    component: AddQuestion
   },
   {
     path: "/errors",

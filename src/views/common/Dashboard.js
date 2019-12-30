@@ -161,6 +161,7 @@ class Question extends React.Component {
      *
      *
      * @author ALisha Bilquis
+     * axios mounting hc
      */
     componentDidMount(){
      Axios.get('/getpost')

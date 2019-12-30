@@ -12,7 +12,7 @@ import Question from "./views/common/Dashboard";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
 import Tables from "./views/Tables";
-import BlogPosts from "./views/BlogPosts";
+import Tags from "./views/common/Tags";
 
 export default [
   {
@@ -57,8 +57,8 @@ export default [
     component: Tables
   },
   {
-    path: "/blog-posts",
+    path: "/tags",
     layout: DefaultLayout,
-    component: BlogPosts
+    component: Tags
   }
 ];

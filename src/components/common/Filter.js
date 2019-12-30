@@ -85,11 +85,11 @@ const FilterRow = ({ currentPerPage, showFilter, showPerPage, className, ...attr
 
     return (
         <Col xs="12" lg="12" className={classes} {...attrs}>
-            <div class="qpoint-tools">
-                <div class="tool-left">
+            <div className="qpoint-tools">
+                <div className="tool-left">
                     {showFilter && <FilterDropdown />}
                 </div>
-                <div class="tool-right">
+                <div className="tool-right">
                   {showPerPage && <QuestionsPerPage currentPage={currentPerPage} />}
                 </div>
             </div>

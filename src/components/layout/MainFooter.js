@@ -39,18 +39,26 @@ MainFooter.propTypes = {
 
 MainFooter.defaultProps = {
   contained: false,
-  copyright: "Copyright © 2020 Cdac Qpoint",
+  copyright: "Copyright © 2018 DesignRevision",
   menuItems: [
     {
-      title: "Questions",
+      title: "Home",
       to: "#"
     },
     {
-      title: "Tags",
+      title: "Services",
       to: "#"
     },
     {
-      title: "Categories",
+      title: "About",
+      to: "#"
+    },
+    {
+      title: "Products",
+      to: "#"
+    },
+    {
+      title: "Blog",
       to: "#"
     }
   ]

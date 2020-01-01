@@ -12,7 +12,7 @@ export default function() {
       to: "/add-new-post",
     },
     {
-      title: "Tags",
+      title: "Course Tags",
       htmlBefore: '<i class="material-icons">style</i>',
       to: "/tags",
     },
@@ -20,11 +20,6 @@ export default function() {
       title: "Categories",
       htmlBefore: '<i class="material-icons">view_module</i>',
       to: "/components-overview",
-    },
-    {
-      title: "Unanswered",
-      htmlBefore: '<i class="material-icons">error</i>',
-      to: "/tables",
     }
   ];
 }

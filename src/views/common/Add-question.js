@@ -8,7 +8,8 @@ import {
 } from "shards-react";
 
 import PageTitle from "../../components/common/PageTitle";
-import  Editor  from "../../components/add-question/Editor"
+import Editor from "../../components/add-question/Editor"
+import HowToAsk from "../../components/add-question/HowToAsk"
 
 /**
  * Add Question View
@@ -34,7 +35,8 @@ class AddQuestion extends React.Component {
 
                     {/* Sidebar Widgets */}
                     <Col lg="4" md="12">
-                      {/* Sidebar Widgets */}
+                        {/* Sidebar Widgets */}
+                        <HowToAsk />
                     </Col>
                 </Row>
             </Container>

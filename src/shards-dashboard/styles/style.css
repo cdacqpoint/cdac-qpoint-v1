@@ -34,3 +34,16 @@
     height: 238px;
     overflow-y: auto;
 }
+.fw-700 {
+    font-weight: 700;
+}
+.how-to-ask {
+    font-size: 80%;
+    font-weight: 300;
+}
+.hidden{
+    display: none;
+}
+.iampointer{
+    cursor: pointer;
+}

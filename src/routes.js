@@ -8,6 +8,7 @@ import { DefaultLayout } from "./layouts";
 import BlogOverview from "./views/BlogOverview";
 import UserProfileLite from "./views/UserProfileLite";
 import Question from "./views/common/Dashboard";
+import ViewQuestion from "./views/common/View-question";
 import AddQuestion from "./views/common/Add-question";
 import Errors from "./views/Errors";
 import ComponentsOverview from "./views/ComponentsOverview";
@@ -25,6 +26,11 @@ export default [
     path: "/questions",
     layout: DefaultLayout,
     component: Question
+  },
+  {
+    path: "/question/:id",
+    layout: DefaultLayout,
+    component: ViewQuestion
   },
   {
     path: "/blog-overview",

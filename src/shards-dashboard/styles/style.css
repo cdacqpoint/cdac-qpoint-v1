@@ -41,9 +41,7 @@
     font-size: 80%;
     font-weight: 300;
 }
-.hidden{
-    display: none;
-}
-.iampointer{
-    cursor: pointer;
+.avatar-cdac{
+    width: 50px;
+    height: 50px;
 }

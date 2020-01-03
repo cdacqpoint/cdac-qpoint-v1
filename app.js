@@ -29,6 +29,6 @@ app.use('/users', usersRouter);
 require('./config');
 
 //Middlewares
-require("./middlewares/errorhandler")
+require("./middlewares")
 
 module.exports = app;

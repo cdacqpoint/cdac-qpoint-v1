@@ -70,12 +70,42 @@ var courseTags = []
 //---------------------------------------------------------//
 
 
+//---------------------------------------------------------//
+/*
+ * 
+ * 
+ * #3 => **Remove all existing Documents in the collection** 
+ * 
+ *  
+ */
+
+/**
+ * Remove All Existing Documents
+ * @param {callback} cb 
+ */
+function RemoveAllDocuments(cb) {
+    async.series([
+        (callback) => {
+            Post.remove({}, callback);
+        },
+        (callback) => {
+            CourseTag.remove({}, callback);
+        },
+        (callback) => {
+            Category.remove({}, callback);
+        },
+
+    ], cb);
+}
+//---------------------------------------------------------//
+
+
 
 //---------------------------------------------------------//
 /*
  * 
  * 
- * #3 => **Create Instance Helpers for seeder to work** 
+ * #4 => **Create Instance Helpers for seeder to work** 
  * 
  *  
  */
@@ -137,7 +167,7 @@ function CategoryCreate(name, desc, status, cb) {
  * @param {callback} cb 
  */
 function PostCreate(title, desc, courseTag, categories, attachments, name, email, cb) {
-    let post = new Post({ title: title, desc: desc, courseTag: courseTag, categories: categories});
+    let post = new Post({ title: title, desc: desc, courseTag: courseTag, categories: categories });
 
     post.save(function (err) {
         if (err) {
@@ -158,7 +188,7 @@ function PostCreate(title, desc, courseTag, categories, attachments, name, email
 /*
  *
  *
- * #4 => **Now setup functions to seed values into the collections**
+ * #5 => **Now setup functions to seed values into the collections**
  *
  *
  */
@@ -416,7 +446,7 @@ function createPosts(cb) {
         },
         function (callback) {
             PostCreate(
-                'How to check whether a string contains a substring in JavaScript?',//title
+                'How to check whether a string contains a substring using String.contains() in JavaScript?',//title
                 `<p>Usually I would expect a <code>String.contains()</code> method, but there doesn't seem to be one. </p><p>What is a reasonable way to check for this?</p>
                 `,//Desc
                 courseTags[0],//courseTags
@@ -502,13 +532,14 @@ function createPosts(cb) {
 /*
  *
  *
- * #5 => Now Lets run these seeders and see what happens, fingers crossed :)
+ * #6 => Now Lets run these seeders and see what happens, fingers crossed :)
  * Order of series is very important please be carefull while adding seeder
  *
  *
  */
 
 async.series([
+    RemoveAllDocuments,
     createCourseTags,
     createCategories,
     createPosts

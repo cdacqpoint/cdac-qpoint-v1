@@ -11,6 +11,7 @@ var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var postsRouter = require('./routes/posts');
 
 var app = express();
 
@@ -22,8 +23,11 @@ app.use(helmet());
 app.use(compression()); // Compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
+//Routes
+const urlPrefix = process.env.URL_PREFIX || "/api/v1";
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use(urlPrefix, postsRouter);
 
 //Configurations
 require('./config');

@@ -17,6 +17,7 @@ exports.createPost = async (details) => {
         desc: details.desc,
         courseTag: CourseTag._id,
         categories: categoriesId,
+        notify: details.notify
     };
     if (details.notify === true) {
         postData.name = details.name;

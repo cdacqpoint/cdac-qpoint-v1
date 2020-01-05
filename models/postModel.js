@@ -72,6 +72,10 @@ const postSchema = new Schema({
         type: Number,
         default: 0
     },
+    notify: {
+        type: Boolean,
+        default: false
+    },
     name: {
         type: String,
         trim: true

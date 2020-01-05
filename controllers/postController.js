@@ -1,6 +1,7 @@
 const PostService = require("../services/postService")
 const helper = require("../helpers")
-const { body, validationResult,sanitizeBody } = require('express-validator');
+const { body, validationResult, sanitizeBody } = require('express-validator');
+const mailer = require('../helpers/mailer')
 
 // Handle Post create on POST.
 exports.post_create_post = [
@@ -27,10 +28,15 @@ exports.post_create_post = [
             res.status(400).send(helper.formatResponse(false, "Please check the value submitted!", errors));
             return;
         } else {
-            console.log("req body",req.body)
+            console.log("req body", req.body)
             // file upload will be here
             PostService.createPost(req.body).then((post) => {
                 // intimation mailing will be here
+                console.log(process.env.SEND_MAIL,post.notify)
+                if (post.notify && process.env.SEND_MAIL) {
+                    console.log("Hello im here",post)
+                    mailer.init(post.email, "Thank you for reaching out!").sendReachingOutMessage(post.name, post.title).catch(console.log);
+                }
                 // Successful - send back response that new record created.
                 res.status(200).send(helper.formatResponse(true, "Posted Successfully!", post));
             }).catch(next)

@@ -19,7 +19,7 @@ exports.createPost = async (details) => {
         categories: categoriesId,
         notify: details.notify
     };
-    if (details.notify === true) {
+    if (details.notify) {
         postData.name = details.name;
         postData.email = details.email;
     }

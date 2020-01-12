@@ -118,6 +118,7 @@ class Categories extends React.Component {
             filteredCategories = filteredCategories.filter(category =>{
                return new RegExp('^.*' + SearchCategory.replace(/\*./g, '.*') + '.*$').test(category.name)
             });
+        const defaultUrl = "#";
         return (
             <Container fluid className="main-content-container px-4">
                 {/* Page Header */}
@@ -165,19 +166,19 @@ class Categories extends React.Component {
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-end">
                         <li className="page-item disabled">
-                            <a className="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            <a className="page-link" href={defaultUrl} tabindex="-1" aria-disabled="true">Previous</a>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="#">1</a>
+                            <a className="page-link" href={defaultUrl}>1</a>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="#">2</a>
+                            <a className="page-link" href={defaultUrl}>2</a>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="#">3</a>
+                            <a className="page-link" href={defaultUrl}>3</a>
                         </li>
                         <li className="page-item">
-                            <a className="page-link" href="#">Next</a>
+                            <a className="page-link" href={defaultUrl}>Next</a>
                         </li>
                     </ul>
                 </nav>

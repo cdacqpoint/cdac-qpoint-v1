@@ -11,7 +11,7 @@ import Question from "./views/common/Dashboard";
 import ViewQuestion from "./views/common/View-question";
 import AddQuestion from "./views/common/Add-question";
 import Errors from "./views/Errors";
-import ComponentsOverview from "./views/ComponentsOverview";
+import Categories from "./views/common/Categories";
 import Tables from "./views/Tables";
 import Tags from "./views/common/Tags";
 
@@ -55,7 +55,7 @@ export default [
   {
     path: "/components-overview",
     layout: DefaultLayout,
-    component: ComponentsOverview
+    component: Categories
   },
   {
     path: "/tables",

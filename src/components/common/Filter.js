@@ -27,12 +27,14 @@ const FilterDropdown = class FilterDropdown extends React.Component {
             <Dropdown open={this.state.open} toggle={this.toggle}>
                 <DropdownToggle caret theme="transparent">
                     <i className="material-icons text-primary">filter_lists</i>
+                    {this.props.selectedFilter.toUpperCase()}
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem>Latest</DropdownItem>
-                    <DropdownItem>Top Posts</DropdownItem>
-                    <DropdownItem>Most rated</DropdownItem>
-                    <DropdownItem>Top comments</DropdownItem>
+                    <DropdownItem active={this.props.selectedFilter === "latest"} onClick={() => this.props.handleFilterChange('latest')}>Latest</DropdownItem>
+                    <DropdownItem active={this.props.selectedFilter === "top_posts"} onClick={() => this.props.handleFilterChange('top_posts')}>Top Posts</DropdownItem>
+                    <DropdownItem active={this.props.selectedFilter === "most_rated"}
+                        onClick={() => this.props.handleFilterChange('most_rated')}>Most rated</DropdownItem>
+                    <DropdownItem active={this.props.selectedFilter === "top_comments"} onClick={() => this.props.handleFilterChange('top_comments')}>Top comments</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         );
@@ -43,8 +45,8 @@ const QuestionsPerPage = class PerPageDropdown extends React.Component {
     constructor(props) {
         super(props);
         this.toggle = this.toggle.bind(this);
-        this.changeCurrentPage = this.changeCurrentPage.bind(this);
-        this.state = { open: false,currentPage: this.props.currentPage };
+        this.handleLimitChange = this.handleLimitChange.bind(this);
+        this.state = { open: false };
     }
 
     toggle() {
@@ -53,30 +55,30 @@ const QuestionsPerPage = class PerPageDropdown extends React.Component {
         });
     }
 
-    changeCurrentPage(newLimit){
-        this.setState(() => {
-            return { currentPage: newLimit };
-        });
+    handleLimitChange(limit) {
+        console.log(limit)
+        this.props.handleLimitChange(limit)
     }
 
     render() {
         return (
             <Dropdown open={this.state.open} toggle={this.toggle}>
                 <DropdownToggle caret theme="transparent">
-                  Questions per Page <span className="text-primary">{this.state.currentPage}</span>
+                    Questions per Page <span className="text-primary">{this.props.currentPage}</span>
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem active={ this.state.currentPage === 5 ? true : false}> 5 </DropdownItem>
-                    <DropdownItem active={ this.state.currentPage === 10 ? true : false}>10</DropdownItem>
-                    <DropdownItem active={ this.state.currentPage === 15 ? true : false}>15</DropdownItem>
-                    <DropdownItem  active={ this.state.currentPage === 20 ? true : false}>20</DropdownItem>
+                    <DropdownItem active={this.props.currentPage === 5} onClick={() => this.handleLimitChange(5)}> 5 </DropdownItem>
+                    <DropdownItem active={this.props.currentPage === 10} onClick={() => this.handleLimitChange(10)}>10</DropdownItem>
+                    <DropdownItem active={this.props.currentPage === 15} onClick={() => this.handleLimitChange(15)}>15</DropdownItem>
+                    <DropdownItem active={this.props.currentPage === 20} onClick={() => this.handleLimitChange(20)}>20</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         );
     }
 }
 
-const FilterRow = ({ questionsPerPage, showFilter, showPerPage, className, ...attrs }) => {
+const FilterRow = (props) => {
+    const { questionsPerPage, selectedFilter, showFilter, showPerPage, className } = props;
     const classes = classNames(
         className,
         "mb-4",
@@ -84,13 +86,13 @@ const FilterRow = ({ questionsPerPage, showFilter, showPerPage, className, ...at
     );
 
     return (
-        <Col xs="12" lg="12" className={classes} {...attrs}>
+        <Col xs="12" lg="12" className={classes} >
             <div className="qpoint-tools">
                 <div className="tool-left">
-                    {showFilter && <FilterDropdown />}
+                    {showFilter && <FilterDropdown selectedFilter={selectedFilter} handleFilterChange={props.handleFilterChange} />}
                 </div>
                 <div className="tool-right">
-                  {showPerPage && <QuestionsPerPage currentPage={questionsPerPage} />}
+                    {showPerPage && <QuestionsPerPage currentPage={questionsPerPage} handleLimitChange={props.handleLimitChange} />}
                 </div>
             </div>
         </Col>

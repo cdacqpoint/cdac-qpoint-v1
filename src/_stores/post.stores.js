@@ -5,7 +5,7 @@ import { PostsAPI } from "../_dummyApis/posts.API";
 
 let _store = {
     posts: [],
-    filter: null,
+    filter: 'latest',
     category: null,
     tag: null,
     limit: 10,
@@ -138,7 +138,7 @@ class PostStore extends EventEmitter {
                 this.filterByTags(payload.tag)
                 break;
             case Constants.CHANGE_QUESTION_PER_PAGE:
-                this.changePageLimit()
+                this.changePageLimit(payload.limit)
                 break;
             case Constants.PAGENATE_QUESTIONS:
                 this.paginate(payload.page)

@@ -25,6 +25,8 @@ class Question extends React.Component {
         super(props);
         this.getPosts = this.getPosts.bind(this);
         this.pagenate = this.pagenate.bind(this);
+        this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleLimitChange = this.handleLimitChange.bind(this);
         this.state = {
             totalQuestions: PostStore.totalQuestions,
             totalMembers: 150,
@@ -82,7 +84,6 @@ class Question extends React.Component {
      * @memberof Question
      */
     getPosts() {
-        console.log("post")
         this.setState({
             PostLists: PostStore.fetchQuestions(),
         });
@@ -108,12 +109,22 @@ class Question extends React.Component {
         PostStore.removeChangeListener(this.getPosts) // Sai krishnan
     }
 
-    handleFilterChange() {
+    handleFilterChange(filter) {
         //Change in filter
+        DashboardActions.changeFilter(filter);
+        console.log('new filter', filter)
+        this.setState({
+            selectedFilter: filter,
+        });
     }
 
-    handleLimitChange() {
+    handleLimitChange(limit) {
         //Change in limits
+        DashboardActions.changeQuestionsPerPage(limit);
+        console.log('new limit', limit)
+        this.setState({
+            questionsPerPage: limit,
+        });
     }
 
     handleTagChange() {
@@ -141,6 +152,7 @@ class Question extends React.Component {
         currentNum++;
         console.log("current num:", currentNum)
         console.log("current page", this.state.currentPage)
+        console.log("questions per page",this.state.questionsPerPage)
         return (
             <Container fluid className="main-content-container px-4">
                 {/* Page Header */}
@@ -148,7 +160,7 @@ class Question extends React.Component {
                     <PageTitle sm="4" title="Questions" subtitle="Forum" className="text-sm-left" />
                 </Row>
                 <Row className="mb-4">
-                    <Filter questionsPerPage={this.state.questionsPerPage} />
+                    <Filter selectedFilter={this.state.selectedFilter} questionsPerPage={this.state.questionsPerPage} handleFilterChange={this.handleFilterChange} handleLimitChange={this.handleLimitChange} />
                 </Row>
                 <Row >
                     {/* Posts */}

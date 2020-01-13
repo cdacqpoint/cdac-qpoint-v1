@@ -7,7 +7,7 @@ const Post = ({ post }) => {
     const defaultUrl = "#";
     return (<Col lg="12" className="mb-4">
         <Card small className="card-post mb-4">
-            <CardBody tag={Link} to="blog-overview">
+            <CardBody tag={Link} to={`question/${post._id}`}>
                 <h5 className="card-title" >{post.title.substr(0, 100) + "..."}</h5>
                 <p className="card-text text-muted">{post.desc.substr(0, 250) + "..."}</p>
             </CardBody>

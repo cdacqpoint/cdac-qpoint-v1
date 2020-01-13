@@ -36,7 +36,7 @@ class Question extends React.Component {
         this.handleTagChange = this.handleTagChange.bind(this);
         this.state = {
             totalQuestions: PostStore.totalQuestions,
-            totalMembers: 150,
+            totalMembers: 0,
             isLoading: false,
             questionsPerPage: PostStore.getPageLimit(),
             currentPage: PostStore.getCurrentPage(),

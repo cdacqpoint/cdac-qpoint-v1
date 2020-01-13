@@ -118,7 +118,7 @@ class Question extends React.Component {
                     {/* Posts */}
                     <Col lg="8" md="8" sm="12" className="mb-4">
                         {this.state.PostLists.map((post, idx) => (
-                            <Post key={idx} post={post} />
+                            <Post key={post._id} post={post} />
                         ))}
                         <PostPagination />
                     </Col>

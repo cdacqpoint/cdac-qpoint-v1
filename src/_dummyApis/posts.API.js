@@ -8,7 +8,7 @@ export const PostsAPI = {
         console.log("page,last", page, last)
         Questions = allQuestions.slice(page, last);
         if (tag !== null && tag !== "") {
-            Questions = Questions.filter(ques => ques.tags === tag);
+            Questions.filter(ques => ques.tags === tag);
         }
         if (category !== null && category !== "") {
             Questions = Questions.filter(ques => ques.category.includes(category));

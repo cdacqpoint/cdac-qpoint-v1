@@ -20,6 +20,12 @@ import TagList from "../../components/dashboard/TagList";
 import { PostStore } from "../../_stores";
 import { DashboardActions } from "../../_actions/dashboard.actions";
 
+/**
+ *
+ * @author Sai krishnan S <xicoder96@github.com>
+ * @class Question
+ * @extends {React.Component}
+ */
 class Question extends React.Component {
     constructor(props) {
         super(props);
@@ -27,6 +33,7 @@ class Question extends React.Component {
         this.pagenate = this.pagenate.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleLimitChange = this.handleLimitChange.bind(this);
+        this.handleTagChange = this.handleTagChange.bind(this);
         this.state = {
             totalQuestions: PostStore.totalQuestions,
             totalMembers: 150,
@@ -127,8 +134,13 @@ class Question extends React.Component {
         });
     }
 
-    handleTagChange() {
+    handleTagChange(tag) {
         //Change in Tags
+        DashboardActions.changeCourseTags(tag);
+        console.log('new tag', tag)
+        this.setState({
+            selectedTag: tag,
+        });
     }
 
     handleCategoryChange() {
@@ -152,7 +164,7 @@ class Question extends React.Component {
         currentNum++;
         console.log("current num:", currentNum)
         console.log("current page", this.state.currentPage)
-        console.log("questions per page",this.state.questionsPerPage)
+        console.log("questions per page", this.state.questionsPerPage)
         return (
             <Container fluid className="main-content-container px-4">
                 {/* Page Header */}
@@ -180,11 +192,11 @@ class Question extends React.Component {
                                 </div>
                                 <ListGroup flush>
                                     <ListGroupItem className="px-4 text-center">
+                                        <TagList title="Course tags" taglists={this.state.taglists} selected={this.state.selectedTag} handleClick={this.handleTagChange}/>
+                                    </ListGroupItem>
+                                    {/* <ListGroupItem className="px-4 text-center">
                                         <TagList title="Related Categories" taglists={this.state.taglists} />
-                                    </ListGroupItem>
-                                    <ListGroupItem className="px-4 text-center">
-                                        <TagList title="Course tags" taglists={this.state.taglists} />
-                                    </ListGroupItem>
+                                    </ListGroupItem> */}
                                 </ListGroup>
                             </CardBody>
                         </Card>

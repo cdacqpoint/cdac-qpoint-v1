@@ -18,6 +18,7 @@ class PostStore extends EventEmitter {
         this.isLoading = false;
         this.hasError = false;
         this.error = null;
+        this.totalQuestions = PostsAPI.totalQuestions();
         this.registerToActions = this.registerToActions.bind(this);
         this.dispatchToken = Dispatcher.register(this.registerToActions.bind(this));
     }
@@ -76,7 +77,9 @@ class PostStore extends EventEmitter {
     paginate(page) {
         //Paginate Posts
         this.isLoading = true;
-        _store.filter = page;
+        page = page === 1 ? 0 : page;
+        _store.page = page;
+        console.log("Im In")
         this.emit(Constants.CHANGE);
     }
 
@@ -89,6 +92,7 @@ class PostStore extends EventEmitter {
     }
 
     fetchQuestions() {
+        console.log("Store", _store)
         let { filter, category, tag, limit, page } = _store;
         let response = PostsAPI.fetchQuestions(filter, page, limit, tag, category)
         if (response.status === true) {
@@ -100,7 +104,7 @@ class PostStore extends EventEmitter {
             this.hasError = true;
             this.error = response.data;
         }
-        this.emit(Constants.CHANGE);
+        return _store.posts;
     }
 
     addChangeListener(callback) {
@@ -137,7 +141,7 @@ class PostStore extends EventEmitter {
                 this.changePageLimit()
                 break;
             case Constants.PAGENATE_QUESTIONS:
-                this.paginate()
+                this.paginate(payload.page)
                 break;
             case Constants.FETCH_QUESTIONS_ERROR:
                 this.isLoading = false;

@@ -76,7 +76,7 @@ const QuestionsPerPage = class PerPageDropdown extends React.Component {
     }
 }
 
-const FilterRow = ({ currentPerPage, showFilter, showPerPage, className, ...attrs }) => {
+const FilterRow = ({ questionsPerPage, showFilter, showPerPage, className, ...attrs }) => {
     const classes = classNames(
         className,
         "mb-4",
@@ -90,7 +90,7 @@ const FilterRow = ({ currentPerPage, showFilter, showPerPage, className, ...attr
                     {showFilter && <FilterDropdown />}
                 </div>
                 <div className="tool-right">
-                  {showPerPage && <QuestionsPerPage currentPage={currentPerPage} />}
+                  {showPerPage && <QuestionsPerPage currentPage={questionsPerPage} />}
                 </div>
             </div>
         </Col>
@@ -106,7 +106,7 @@ FilterRow.propTypes = {
      * Show Filter.
      */
     showPerPage: PropTypes.bool,
-    currentPerPage: PropTypes.number,
+    questionsPerPage: PropTypes.number,
 };
 FilterRow.defaultProps = {
     showFilter: true,
@@ -114,7 +114,7 @@ FilterRow.defaultProps = {
      * Show Filter.
      */
     showPerPage: true,
-    currentPerPage: 10,
+    questionsPerPage: 10,
 };
 
 export default FilterRow;

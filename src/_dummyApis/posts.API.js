@@ -2,8 +2,11 @@ export const PostsAPI = {
     // Load mock questions data from localStorage into QPoint via Action
     fetchQuestions: (filter = "latest", page = 0, limit = 10, tag = null, category = null) => {
         let Questions = [];
-        const allQuestions = JSON.parse(localStorage.getItem('questions'));
-        Questions = allQuestions.slice(page, limit);
+        let allQuestions = JSON.parse(localStorage.getItem('questions'));
+        let last = limit * Math.ceil(page / limit);
+        last = last > 0 ? last : limit;
+        console.log("page,last", page, last)
+        Questions = allQuestions.slice(page, last);
         if (tag !== null && tag !== "") {
             Questions = Questions.filter(ques => ques.tags === tag);
         }
@@ -15,5 +18,10 @@ export const PostsAPI = {
         }
         console.log("inside API", Questions)
         return { status: true, message: "", data: Questions };
+    },
+
+    totalQuestions: () => {
+        let allQuestions = JSON.parse(localStorage.getItem('questions'));
+        return allQuestions.length;
     }
 }

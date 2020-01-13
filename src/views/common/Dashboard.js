@@ -24,10 +24,15 @@ class Question extends React.Component {
     constructor(props) {
         super(props);
         this.getPosts = this.getPosts.bind(this);
+        this.pagenate = this.pagenate.bind(this);
         this.state = {
-            totalQuestions: 3500,
+            totalQuestions: PostStore.totalQuestions,
             totalMembers: 150,
             isLoading: false,
+            questionsPerPage: PostStore.getPageLimit(),
+            currentPage: PostStore.getCurrentPage(),
+            selectedTag: PostStore.getTag(),
+            selectedFilter: PostStore.getFilter(),
             taglists: [
                 {
                     name: "DAC",
@@ -66,7 +71,7 @@ class Question extends React.Component {
 
                 }
             ],
-            PostLists: PostStore.getAll()
+            PostLists: []
         }
     }
 
@@ -78,9 +83,8 @@ class Question extends React.Component {
      */
     getPosts() {
         console.log("post")
-        DashboardActions.fetchQuestions();
         this.setState({
-            PostLists: PostStore.getAll(),
+            PostLists: PostStore.fetchQuestions(),
         });
     }
 
@@ -104,7 +108,39 @@ class Question extends React.Component {
         PostStore.removeChangeListener(this.getPosts) // Sai krishnan
     }
 
+    handleFilterChange() {
+        //Change in filter
+    }
+
+    handleLimitChange() {
+        //Change in limits
+    }
+
+    handleTagChange() {
+        //Change in Tags
+    }
+
+    handleCategoryChange() {
+        //Change in category
+    }
+
+    pagenate(number) {
+        //Paginate
+
+        let nextPage = this.state.questionsPerPage * (number - 1) + 1;
+        console.log(nextPage)
+        DashboardActions.pagenateQuestions(nextPage);
+
+        this.setState({
+            currentPage: nextPage,
+        });
+    }
+
     render() {
+        let currentNum = Math.floor(this.state.currentPage / this.state.questionsPerPage);
+        currentNum++;
+        console.log("current num:", currentNum)
+        console.log("current page", this.state.currentPage)
         return (
             <Container fluid className="main-content-container px-4">
                 {/* Page Header */}
@@ -112,15 +148,15 @@ class Question extends React.Component {
                     <PageTitle sm="4" title="Questions" subtitle="Forum" className="text-sm-left" />
                 </Row>
                 <Row className="mb-4">
-                    <Filter currentPerPage={10} />
+                    <Filter questionsPerPage={this.state.questionsPerPage} />
                 </Row>
                 <Row >
                     {/* Posts */}
                     <Col lg="8" md="8" sm="12" className="mb-4">
-                        {this.state.PostLists.map((post, idx) => (
+                        {this.state.PostLists.map((post) => (
                             <Post key={post._id} post={post} />
                         ))}
-                        <PostPagination />
+                        <PostPagination limit={this.state.questionsPerPage} total={this.state.totalQuestions} num={currentNum} pagenate={this.pagenate} />
                     </Col>
                     {/* Brief Desc */}
                     <Col lg="4" md="4" sm="12" className="mb-4">

@@ -180,7 +180,7 @@ class Question extends React.Component {
                         {this.state.PostLists.map((post) => (
                             <Post key={post._id} post={post} />
                         ))}
-                        <PostPagination limit={this.state.questionsPerPage} total={this.state.totalQuestions} num={currentNum} pagenate={this.pagenate} />
+                       {this.state.totalQuestions !== 0 && <PostPagination limit={this.state.questionsPerPage} total={this.state.totalQuestions} num={currentNum} pagenate={this.pagenate} />}
                     </Col>
                     {/* Brief Desc */}
                     <Col lg="4" md="4" sm="12" className="mb-4">

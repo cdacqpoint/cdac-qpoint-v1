@@ -2,7 +2,7 @@ export const PostsAPI = {
     // Load mock questions data from localStorage into QPoint via Action
     fetchQuestions: (filter = "latest", page = 0, limit = 10, tag = null, category = null) => {
         let Questions = [];
-        let allQuestions = JSON.parse(localStorage.getItem('questions'));
+        let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
         let last = limit * Math.ceil(page / limit);
         last = last > 0 ? last : limit;
         console.log("page,last", page, last)
@@ -21,7 +21,7 @@ export const PostsAPI = {
     },
 
     totalQuestions: () => {
-        let allQuestions = JSON.parse(localStorage.getItem('questions'));
+        let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
         return allQuestions.length;
     }
 }

@@ -48,3 +48,9 @@
 .hidden{
     display: none;
 }
+.p-10{
+    padding: 10px;
+}
+.react-autosuggest__suggestions-container{
+    width:100%;
+}

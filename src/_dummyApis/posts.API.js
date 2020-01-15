@@ -1,3 +1,18 @@
+function escapeRegexCharacters(str) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function getMatchingLanguages(value, questions) {
+    const escapedValue = escapeRegexCharacters(value.trim());
+
+    if (escapedValue === '') {
+        return [];
+    }
+
+    const regex = new RegExp('^.*' + escapedValue + '.*$', 'i');
+
+    return questions.filter(questions => regex.test(questions.title));
+}
 export const PostsAPI = {
     // Load mock questions data from localStorage into QPoint via Action
     fetchQuestions: (filter = "latest", page = 0, limit = 10, tag = null, category = null) => {
@@ -23,5 +38,21 @@ export const PostsAPI = {
     totalQuestions: () => {
         let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
         return allQuestions.length;
+    },
+
+    searchQuestions: (value) => {
+        let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+        var Matchingquestions = getMatchingLanguages(value, allQuestions);
+        var questions = [];
+        for (var i = 0; i < Matchingquestions.length; i++) {
+            questions.push({
+                _id: Matchingquestions[i]._id,
+                title: Matchingquestions[i].title,
+                activeTimeAgo: "2 days ago",
+                askedTimeAgo: "2 days ago",
+            })
+        }
+        // localStorage.getItem('questions',questions); --> remove me after use
+        return questions;
     }
 }

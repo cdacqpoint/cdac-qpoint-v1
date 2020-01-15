@@ -1,64 +1,25 @@
 import React from "react";
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupText,
+    FormInput
+  } from "shards-react";
 import { Link } from "react-router-dom";
-import { random } from "../_helpers/random";
 import Autosuggest from 'react-autosuggest';
-import { CommonActions } from '../_actions';
-import { PostStore } from '../_stores';
-import "../assets/react-autosuggest.css"
+import { CommonActions } from '../../_actions';
+import PostStore from '../../_stores/post.stores';
 
-const languages = [
-    {
-        _id: random(25),
-        title: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-        activeTimeAgo: "2 days ago",
-        askedTimeAgo: "2 days ago",
-    },
-    {
-        _id: random(25),
-        title: 'Tellus id interdum velit laoreet id donec ultrices tincidunt..',
-        activeTimeAgo: "2 days ago",
-        askedTimeAgo: "2 days ago",
-    },
-    {
-        _id: random(25),
-        title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        activeTimeAgo: "2 days ago",
-        askedTimeAgo: "2 days ago",
-    },
-    {
-        _id: random(25),
-        title: 'Erat imperdiet sed euismod nisi porta lorem mollis aliquam..',
-        activeTimeAgo: "2 days ago",
-        askedTimeAgo: "2 days ago",
-    },
-
-];
 const renderInputComponent = inputProps => (
-    <div className="ml-3 input-group input-group-seamless">
-        <div className="input-group-prepend">
-            <span className="input-group-text">
+    <InputGroup seamless className="ml-3 p-10 w-100">
+        <InputGroupAddon type="prepend">
+            <InputGroupText>
                 <i className="material-icons">search</i>
-            </span>
-        </div>
-        <input  {...inputProps} />
-    </div>
+            </InputGroupText>
+        </InputGroupAddon>
+        <FormInput {...inputProps} />
+    </InputGroup>
 );
-// https://developer.mozilla.org/en/docs/Web/JavaScript/Guide/Regular_Expressions#Using_Special_Characters
-function escapeRegexCharacters(str) {
-    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function getMatchingLanguages(value) {
-    const escapedValue = escapeRegexCharacters(value.trim());
-
-    if (escapedValue === '') {
-        return [];
-    }
-
-    const regex = new RegExp('^' + escapedValue, 'i');
-
-    return languages.filter(language => regex.test(language.title));
-}
 
 function getSuggestionValue(suggestion) {
     return suggestion.title;
@@ -66,17 +27,16 @@ function getSuggestionValue(suggestion) {
 
 function renderSuggestion(suggestion) {
     return (
-        <Link className="media" to={`question/${suggestion._id}`}>
+        <Link className="media" to={`/question/${suggestion._id}`}>
             <div className="media-body">
                 <h6 className="mt-0">{suggestion.title}</h6>
                 <small>Asked {suggestion.askedTimeAgo}, Active {suggestion.activeTimeAgo}</small>
             </div>
         </Link>
-
     );
 }
 
-export default class Example extends React.Component {
+export default class SearchPost extends React.Component {
     constructor() {
         super();
         this.getSearchedQuestions = this.getSearchedQuestions.bind(this)
@@ -85,15 +45,14 @@ export default class Example extends React.Component {
             suggestions: [],
             isLoading: false
         };
-        this.lastRequestId = null;
+        this.postDispatchToken = PostStore.dispatchToken;
     }
-
 
     /**
      *
      * Get All Questions
      * @author Sai Krishnan S
-     * @memberof Question
+     * @memberof SearchPost
      */
     getSearchedQuestions() {
         this.setState({
@@ -116,29 +75,24 @@ export default class Example extends React.Component {
     /**
      *
      * @author Sai krishnan
-     * @memberof Question
+     * @memberof SearchPost
      */
     componentWillUnmount() {
         PostStore.removeChangeListener(this.getSearchedQuestions) // Sai krishnan
     }
 
+    /**
+     *
+     * Load Suggestions
+     * @param {*} value
+     * @memberof SearchPost
+     */
     loadSuggestions(value) {
         // Cancel the previous request
-        if (this.lastRequestId !== null) {
-            clearTimeout(this.lastRequestId);
-        }
-
         this.setState({
             isLoading: true
         });
         CommonActions.searchQuestions(value);
-        // Fake request
-        // this.lastRequestId = setTimeout(() => {
-        //     this.setState({
-        //         isLoading: false,
-        //         suggestions: getMatchingLanguages(value)
-        //     });
-        // }, 1000);
     }
 
     onChange = (event, { newValue }) => {
@@ -157,13 +111,13 @@ export default class Example extends React.Component {
         });
     };
 
+
     render() {
         const { value, suggestions } = this.state;
-        console.log(getMatchingLanguages(value))
         const inputProps = {
             placeholder: "Search for something...",
             value,
-            className: "navbar-search form-control",
+            className: "navbar-search form-control w-100",
             onChange: this.onChange
         };
 
@@ -178,11 +132,10 @@ export default class Example extends React.Component {
                     renderSuggestion={renderSuggestion}
                     inputProps={inputProps} />
                 {this.state.isLoading && <div className="spinner-grow ml-3" role="status">
-                    <i className="fa fa-spinner fa-spin"></i> Loading...
+                    <i className="fa fa-spinner fa-spin"></i>
                     <span className="sr-only">Loading...</span>
                 </div>}
             </>
         );
     }
 }
-

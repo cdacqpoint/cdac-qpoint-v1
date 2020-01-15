@@ -25,4 +25,5 @@ export default {
 
     PAGENATE_QUESTIONS: "PAGENATE_QUESTIONS",//Change pagenation
 
+    SEARCH_QUESTIONS: "SEARCH_QUESTIONS",//Search Questions
 };

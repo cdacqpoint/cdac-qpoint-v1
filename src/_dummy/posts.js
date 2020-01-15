@@ -17,7 +17,7 @@ export default {
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
                 date_created: '2019 Dec 25 20:50:55',
-                posturl: '/posts/4sg2343615a7c4821fdb7b998',
+                posturl: '/question/4sg2343615a7c4821fdb7b998',
                 times_ago: '2 days ago'
             },
             {

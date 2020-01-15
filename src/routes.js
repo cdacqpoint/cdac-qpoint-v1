@@ -13,6 +13,7 @@ import AddQuestion from "./views/common/Add-question";
 import Errors from "./views/Errors";
 import Categories from "./views/common/Categories";
 import Tables from "./views/Tables";
+import Example from "./views/Area55";
 import Tags from "./views/common/Tags";
 
 export default [
@@ -58,9 +59,9 @@ export default [
     component: Categories
   },
   {
-    path: "/tables",
+    path: "/area55",
     layout: DefaultLayout,
-    component: Tables
+    component: Example
   },
   {
     path: "/tags",

@@ -43,15 +43,15 @@ MainFooter.defaultProps = {
   menuItems: [
     {
       title: "Questions",
-      to: "#"
+      to: "/questions"
     },
     {
       title: "Tags",
-      to: "#"
+      to: "/tags"
     },
     {
       title: "Categories",
-      to: "#"
+      to: "/components-overview"
     }
   ]
 };

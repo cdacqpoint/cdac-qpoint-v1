@@ -22,6 +22,7 @@ export default class CommentForm extends React.Component {
     }
     handleSubmit(e) {
         console.log(e);
+        alert("commented successfully!")
     }
     render() {
         return (

@@ -98,6 +98,7 @@ class QuestionForm extends React.Component {
   constructor(props) {
     super(props);
     this.changeNotify.bind(this);
+    this.handleSubmit.bind(this);
     this.state = {
       showNameEmail: false,
       DefaultTag: null,
@@ -163,7 +164,9 @@ class QuestionForm extends React.Component {
       DefaultTag: 1
     });
   }
-
+  handleSubmit = (event) => {
+    alert("Question added successfully!");
+  }
   changeNotify = () => {
     this.setState(prevState => ({
       showNameEmail: !prevState.showNameEmail,
@@ -224,7 +227,7 @@ class QuestionForm extends React.Component {
     //   },
     // });
     return (
-      <Form className="add-new-post" encType="multipart/form-data" method="get">
+      <Form className="add-new-post" encType="multipart/form-data" method="get" onSubmit={this.handleSubmit}>
         <small>
           <i className="material-icons text-primary mx-1" title="info">info</i>
           Be specific and imagine you’re asking a question to another person

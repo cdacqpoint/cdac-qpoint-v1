@@ -113,6 +113,28 @@ class PostStore extends EventEmitter {
         return _store.posts;
     }
 
+    /**
+     *
+     * Create Post
+     * @param {*} data
+     * @memberof PostStore
+     */
+    createPost(data) {
+        try {
+            const response = PostsAPI.createQuestion(data)
+            if (response.status === true) {
+                this.emit(Constants.CHANGE);
+            } else {
+                this.isLoading = false;
+                this.hasError = true;
+                this.error = response.data;
+            }
+        } catch (error) {
+            console.log("Error On Post Creation:", error)
+            throw error
+        }
+    }
+
     addChangeListener(callback) {
         this.on(Constants.CHANGE, callback);
         console.log("listeners:", this.listenerCount(Constants.CHANGE))
@@ -127,6 +149,9 @@ class PostStore extends EventEmitter {
         switch (payload.actionType) {
             case Constants.FETCH_QUESTIONS:
                 this.fetchQuestions();
+                break;
+            case Constants.CREATE_QUESTION:
+                this.createPost(payload.data);
                 break;
             case Constants.RECIEVE_QUESTIONS:
                 this.isLoading = false;

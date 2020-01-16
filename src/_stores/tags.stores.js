@@ -15,13 +15,27 @@ class TagStore extends EventEmitter {
         this.dispatchToken = Dispatcher.register(this.registerToActions.bind(this));
     }
 
+    getTags() {
+        return _store.tags;
+    }
+
+    addChangeListener(callback) {
+        this.on(Constants.CHANGE, callback);
+        console.log("Tags listeners:", this.listenerCount(Constants.CHANGE))
+    }
+
+    removeChangeListener(callback) {
+        this.removeListener(Constants.CHANGE, callback);
+        console.log("Tags listeners:", this.listenerCount(Constants.CHANGE))
+    }
 
     registerToActions(payload) {
         switch (payload.actionType) {
             case Constants.FETCH_COURSE_TAGS:
-                return _store.tags;
+                _store.tags = TagsAPI.fetchTags();
+                break;
             default:
-                return _store;
+
         }
     }
 }

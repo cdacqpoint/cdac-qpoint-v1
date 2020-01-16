@@ -1,4 +1,5 @@
 import { random } from "../_helpers/random";
+import Moment from "moment";
 
 function escapeRegexCharacters(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -41,26 +42,27 @@ export const PostsAPI = {
      * @author Alisha B, Dhiraj C
      * 
      */
-    createQuestion:(data)=>{
+    createQuestion: (data) => {
         let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+        let _id = random(25);
         allQuestions.push({
-            _id: random(25),
+            _id: _id,
             title: data.title,
-            desc: data.desc,
+            desc: data.description,
             images: ['image.jpg'],
-            category: [
-                'java',
-                'refelection'
-            ],
-            tag: data.tag,
-            email: '',
-            author: 'Anonymous',
+            category:data.category,
+            tag: data.tags,
+            email: data.email,
+            author: data.name,
             authorAvatar: "../../images/avatars/noimage.png",
             commentsCount: 5,
-            date_created: '2019 Dec 25 20:50:55',
-            posturl: '/posts/4sg2343615a7c4821fdb7b998',
-            times_ago: '2 days ago'
+            date_created: Moment(Date.now()).format('MMMM Do YYYY hh:mm:ss'),
+            posturl: '/posts/' + _id,
+            times_ago: Moment(Date.now()).startOf('hour').fromNow()
         });
+        localStorage.setItem('questions', JSON.stringify(allQuestions))
+
+        return { status: true, message: "Post Created!", data: null }
     },
     totalQuestions: () => {
         let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];

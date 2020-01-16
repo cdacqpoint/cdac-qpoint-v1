@@ -18,6 +18,9 @@ import {
 import "react-quill/dist/quill.snow.css";
 import "../../assets/quill.css";
 import { components } from "react-select";
+import TagStore from "../../_stores/tags.stores";
+import PostStore from "../../_stores/post.stores";
+import { EditorAction } from "../../_actions/createpost.actions";
 
 // For this example the limite will be 5
 /**
@@ -99,6 +102,7 @@ class QuestionForm extends React.Component {
     super(props);
     this.changeNotify.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getTagList = this.getTagList.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -117,56 +121,24 @@ class QuestionForm extends React.Component {
     };
   }
 
-  componentDidMount() {
+  /**
+   *
+   * Get All Questions
+   * @author Sai Krishnan S
+   * @memberof Question
+   */
+  getTagList() {
+    const tagList = TagStore.getTags();
     this.setState({
-      TagList: [
-        {
-          name: "DAC",
-          _id: 1
-        },
-        {
-          name: "DESD",
-          _id: 2
-        },
-        {
-          name: "DIOT",
-          _id: 3
-        },
-        {
-          name: "DBDA",
-          _id: 4
-        },
-        {
-          name: "DMC",
-          _id: 5
-        },
-        {
-          name: "DVLSI",
-          _id: 6
-        },
-        {
-          name: "DITISS",
-          _id: 7
-        },
-        {
-          name: "DSSD",
-          _id: 8
-        },
-        {
-          name: "DBIHI",
-          _id: 9
-        },
-        {
-          name: "DHPCSA",
-          _id: 10
-        },
-        {
-          name: "Others",
-          _id: 11
-        },
+      TagList: tagList || [],
+      DefaultTag: tagList[0]._id || ""
+    });
+  }
 
-      ],
-      DefaultTag: 1,
+  componentDidMount() {
+    this.getTagList();
+    TagStore.addChangeListener(this.getTagList) // Sai krishnan
+    this.setState({
       categoryList: [
         { value: 'java', label: 'Java' },
         { value: 'awp', label: 'AWP' },
@@ -175,11 +147,30 @@ class QuestionForm extends React.Component {
     });
   }
 
+  /**
+   *
+   * @author Sai krishnan
+   * @memberof Question
+   */
+  componentWillUnmount() {
+    TagStore.removeChangeListener(this.getTagList) // Sai krishnan
+  }
+
   handleSubmit(event) {
-    alert("Question added successfully!");
+   
     let { title, description, tags, category, name, email, showNameEmail } = this.state;
     const data = { title, description, category, tags, name, email, notify: showNameEmail }
     console.log(data)
+    try {
+      EditorAction.addQuestions(data)
+      console.group('Post Submitted Changed');
+      console.log(PostStore.hasError);
+      console.log(PostStore.error);
+      alert("Question added successfully!");
+    } catch (error) {
+      alert("Oops Someyhing went wrong!");
+      console.log(error)
+    }
     event.preventDefault();
   }
   changeNotify = () => {
@@ -214,7 +205,7 @@ class QuestionForm extends React.Component {
     let DefaultTag = this.state.DefaultTag;
     let showNameEmail = this.state.showNameEmail;
     let showDraftButton = this.props.showDraftButton;
-    
+
     return (
       <Form className="add-new-post" encType="multipart/form-data" method="get" onSubmit={this.handleSubmit}>
         <small>

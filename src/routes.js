@@ -12,7 +12,6 @@ import ViewQuestion from "./views/common/View-question";
 import AddQuestion from "./views/common/Add-question";
 import Errors from "./views/Errors";
 import Categories from "./views/common/Categories";
-import Tables from "./views/Tables";
 import Example from "./views/Area55";
 import Tags from "./views/common/Tags";
 

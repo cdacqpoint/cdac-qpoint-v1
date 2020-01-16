@@ -9,6 +9,7 @@ let _store = {
     category: null,
     tag: null,
     limit: 10,
+    searchedQuestions: [],
     page: 0
 };
 
@@ -46,6 +47,11 @@ class PostStore extends EventEmitter {
     getCurrentPage() {
         //Get Current Page
         return _store.page;
+    }
+
+    getSearchedQuestions() {
+        //Get Current Page
+        return _store.searchedQuestions;
     }
 
     getPageLimit() {
@@ -149,7 +155,14 @@ class PostStore extends EventEmitter {
                 this.error = payload.errors;
                 this.emit(Constants.CHANGE);
                 break;
+            case Constants.SEARCH_QUESTIONS:
+                console.log(payload.keyword, PostsAPI.searchQuestions(payload.keyword))
+                this.isLoading = false;
+                _store.searchedQuestions = PostsAPI.searchQuestions(payload.keyword);
+                this.emit(Constants.CHANGE);
+                break;
             default:
+                return _store;
         }
     }
 }

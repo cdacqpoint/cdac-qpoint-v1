@@ -54,3 +54,6 @@
 .react-autosuggest__suggestions-container{
     width:100%;
 }
+.post-text{
+    padding: 4px;
+}

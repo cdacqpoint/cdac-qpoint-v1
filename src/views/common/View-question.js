@@ -12,6 +12,12 @@ import QuestionDetails from "../../components/view-question/QuestionDetails";
 import Sidebar from "../../components/view-question/Sidebar";
 import Comments from "../../components/view-question/Comments";
 import CommentForm from "../../components/view-question/CommentForm";
+import { PostStore } from "../../_stores";
+import { ViewQuestionActions } from "../../_actions/view_question.actions";
+import postStores from "../../_stores/post.stores";
+import {
+    withRouter
+} from 'react-router-dom'
 
 
 /**
@@ -24,12 +30,14 @@ import CommentForm from "../../components/view-question/CommentForm";
 class ViewQuestion extends React.Component {
     constructor(props) {
         super(props);
+        this.getQuestionDetail = this.getQuestionDetail.bind(this);
+        this.loadData = this.loadData.bind(this);
         this.state = {
             id: null,
             details: {
                 title: "",
                 desc: "",
-                hasImage:true,
+                hasImage: true,
                 image: "",
                 tag: "",
                 tagUrl: "",
@@ -55,6 +63,29 @@ class ViewQuestion extends React.Component {
     }
 
     /**
+     *
+     *
+     * @memberof ViewQuestion
+     */
+    getQuestionDetail() {
+        const details = PostStore.getQuestionDetails();
+        console.log(details)
+        if (details === null) {
+            this.props.history.push('/questions')
+        } else {
+            this.setState({
+                id: postStores._getSelectedQuestionId(),
+                details: details,
+            });
+        }
+    }
+
+    loadData(id){
+        ViewQuestionActions.fetchQuestionDetails(id);
+        this.getQuestionDetail();
+    }
+
+    /**
      *Lifecycle method
      *
      * @memberof ViewQuestion
@@ -62,42 +93,8 @@ class ViewQuestion extends React.Component {
     componentDidMount() {
         //Mount with service call
         const { id } = this.props.match.params; //useParams();
-        const postDetails = {//servicecall.getPost(id).data; this is where service call goes
-            title: "How do I read / convert an InputStream into a String in Java?",
-            desc: " <p>If you have a java.io.InputStream object, how should you process that object and produce a String?</p><p>Suppose I have an InputStream that contains text data, and I want to convertit to a String, so for example I can write that to a log file.</p><p>What is the easiest way to take the InputStream and convert it to a String?</p>",
-            hasImage:true,
-            image: "https://picsum.photos/1920/1080",
-            tag: "DAC",
-            tagUrl: "/tagged/DAC/questions",
-            category: [
-                {
-                    name: "java",
-                    url: "/categorized/java/questions"
-                },
-                {
-                    name: "io",
-                    url: "/categorized/io/questions"
-                },
-                {
-                    name: "stream",
-                    url: "/categorized/stream/questions"
-                },
-                {
-                    name: "inputstream",
-                    url: "/categorized/inputstream/questions"
-                },
-            ],
-            dateCreated: "1 Jan 2020",
-            activeTimeAgo: "2 days ago",
-            askedTimeAgo: "2 days ago",
-            upvotes: 300,
-            upvoteUrl: `vote/${id}/question`,
-            name: "Anonymous User",
-            avatarUrl: require("../../images/avatars/noimage.png"),
-            answerCount: 23,
-            editUrl: "#",
-            userUpvoted: false
-        };
+        this.loadData(id);
+        PostStore.addChangeListener(this.getQuestionDetail) // Sai krishnan
         const commentDetails = [
             {
                 commentId: "12s3vc4rqrf34",
@@ -167,14 +164,33 @@ class ViewQuestion extends React.Component {
             },
         ]
         this.setState({
-            id: id,
-            details: postDetails,
             comments: commentDetails,
             relatedQuestions: relatedQuestionsDetails,
             hotQuestions: hotQuestionsDetails,
             showMoreRelatedUrl: "#",
             showMoreHotQuestionsUrl: "#"
         });
+    }
+
+    /**
+     * To be updated
+     * @author Sai krishnan
+     * @memberof ViewQuestion
+     */
+    componentDidUpdate() {
+        const { id } = this.props.match.params; //useParams();
+        if (id !== this.state.id) {
+            this.loadData(id);
+        }
+    }
+
+    /**
+     *
+     * @author Sai krishnan
+     * @memberof ViewQuestion
+     */
+    componentWillUnmount() {
+        PostStore.removeChangeListener(this.getQuestionDetail) // Sai krishnan
     }
 
     /**
@@ -208,4 +224,4 @@ class ViewQuestion extends React.Component {
     }
 }
 
-export default ViewQuestion;
+export default withRouter(ViewQuestion);

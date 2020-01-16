@@ -26,4 +26,12 @@ export default {
     PAGENATE_QUESTIONS: "PAGENATE_QUESTIONS",//Change pagenation    
     CREATE_QUESTION: "CREATE_QUESTION", // Create question
     SEARCH_QUESTIONS: "SEARCH_QUESTIONS",//Search Questions
+
+    FETCH_QUESTION_DETAILS: "FETCH_QUESTION_DETAILS",//Fetch single questions
+    EDIT_QUESTION_DETAIL: "EDIT_QUESTION_DETAIL",//Edit Question Details
+    ADD_COMMENT: "ADD_COMMENT",//Add comment
+    FETCH_COMMENTS: "FETCH_COMMENTS",//Fetch comments
+    EDIT_COMMENT: "EDIT_COMMENT",//Edit comment
+    PAGENATE_COMMENT: "PAGENATE_COMMENT",//PAgnate comment
+    CHANGE_COMMENTS_PER_PAGE: "CHANGE_COMMENTS_PER_PAGE",//Change comments per page limit
 };

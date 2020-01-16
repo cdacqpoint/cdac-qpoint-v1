@@ -8,6 +8,8 @@ let _store = {
     filter: 'latest',
     category: null,
     tag: null,
+    _selectedQuestionId: "",
+    selectedQuestionDetails: null,
     limit: 10,
     searchedQuestions: [],
     page: 0
@@ -54,9 +56,29 @@ class PostStore extends EventEmitter {
         return _store.searchedQuestions;
     }
 
+    getSelectedQuestionDetails() {
+        //Get Current Page
+        return _store.selectedQuestionDetails;
+    }
+
+    _getSelectedQuestionId() {
+        //Get Current Page
+        return _store._selectedQuestionId;
+    }
+
     getPageLimit() {
         //Get Page Limit
         return _store.limit;
+    }
+
+    getQuestionDetails() {
+        //Get Question Details
+        return _store.selectedQuestionDetails;
+    }
+
+    _getQuestionId() {
+        //Get Question Id
+        return _store._selectedQuestionId;
     }
 
     filterByCategoryPosts(category) {
@@ -135,20 +157,36 @@ class PostStore extends EventEmitter {
         }
     }
 
+    fetchQuestionDetails(id) {
+        //post api willbe here
+        const questionDetail = PostsAPI.getQuestionDetails(id);
+        if (questionDetail === null) {
+            this.isLoading = false;
+            this.hasError = true;
+            this.error = "No Question found!";
+        }
+        _store._selectedQuestionId = id;
+        _store.selectedQuestionDetails = questionDetail;
+        this.emit(Constants.CHANGE);
+    }
+
     addChangeListener(callback) {
         this.on(Constants.CHANGE, callback);
-        console.log("listeners:", this.listenerCount(Constants.CHANGE))
+        console.log("Post store listeners:", this.listenerCount(Constants.CHANGE))
     }
 
     removeChangeListener(callback) {
         this.removeListener(Constants.CHANGE, callback);
-        console.log("listeners:", this.listenerCount(Constants.CHANGE))
+        console.log("Post store listeners:", this.listenerCount(Constants.CHANGE))
     }
 
     registerToActions(payload) {
         switch (payload.actionType) {
             case Constants.FETCH_QUESTIONS:
                 this.fetchQuestions();
+                break;
+            case Constants.FETCH_QUESTION_DETAILS:
+                this.fetchQuestionDetails(payload.questionId);
                 break;
             case Constants.CREATE_QUESTION:
                 this.createPost(payload.data);

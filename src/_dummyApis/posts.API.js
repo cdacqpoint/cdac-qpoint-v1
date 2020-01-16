@@ -50,7 +50,7 @@ export const PostsAPI = {
             title: data.title,
             desc: data.description,
             images: ['image.jpg'],
-            category:data.category,
+            category: data.category,
             tag: data.tags,
             email: data.email,
             author: data.name,
@@ -83,5 +83,48 @@ export const PostsAPI = {
         }
         // localStorage.getItem('questions',questions); --> remove me after use
         return questions;
+    },
+    //Get Question details
+    getQuestionDetails: (qid) => {
+        let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+        const questions = allQuestions.filter(question => question._id === qid);
+        let selectedQuestion = questions[0] || {};
+        return typeof selectedQuestion._id === 'undefined' ? null : {
+            _id: selectedQuestion._id || "",
+            title: selectedQuestion.title,
+            desc: selectedQuestion.desc,
+            hasImage: false,
+            image: "https://picsum.photos/1920/1080",
+            tag: "DAC",
+            tagUrl: "/tagged/DAC/questions",
+            category: [
+                {
+                    name: "java",
+                    url: "/categorized/java/questions"
+                },
+                {
+                    name: "io",
+                    url: "/categorized/io/questions"
+                },
+                {
+                    name: "stream",
+                    url: "/categorized/stream/questions"
+                },
+                {
+                    name: "inputstream",
+                    url: "/categorized/inputstream/questions"
+                },
+            ],
+            dateCreated: "1 Jan 2020",
+            activeTimeAgo: "2 days ago",
+            askedTimeAgo: "2 days ago",
+            upvotes: 300,
+            upvoteUrl: `vote/${qid}/question`,
+            name: "Anonymous User",
+            avatarUrl: require("../images/avatars/noimage.png"),
+            answerCount: 23,
+            editUrl: "#",
+            userUpvoted: false
+        }
     }
 }

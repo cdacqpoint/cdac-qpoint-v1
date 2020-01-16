@@ -39,7 +39,7 @@ const QuestionDetails = ({ details, className, ...attrs }) => {
 
             {/* Post Cell */}
             <div className="p-2 post-cell flex-grow-1">
-                <div className="post-images text-center pb-4">
+                {details.hasImage && <div className="post-images text-center pb-4">
                     <figure className="figure">
                         <LazyLoadImage
                             alt={details.title}
@@ -51,7 +51,7 @@ const QuestionDetails = ({ details, className, ...attrs }) => {
                                 Fig 1 {details.title.substr(0, 50)}</a>
                         </figcaption>
                     </figure>
-                </div>
+                </div>}
 
                 <div className="post-text">
                     {renderHTML(details.desc)}

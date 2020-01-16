@@ -29,6 +29,7 @@ class ViewQuestion extends React.Component {
             details: {
                 title: "",
                 desc: "",
+                hasImage:true,
                 image: "",
                 tag: "",
                 tagUrl: "",
@@ -64,6 +65,7 @@ class ViewQuestion extends React.Component {
         const postDetails = {//servicecall.getPost(id).data; this is where service call goes
             title: "How do I read / convert an InputStream into a String in Java?",
             desc: " <p>If you have a java.io.InputStream object, how should you process that object and produce a String?</p><p>Suppose I have an InputStream that contains text data, and I want to convertit to a String, so for example I can write that to a log file.</p><p>What is the easiest way to take the InputStream and convert it to a String?</p>",
+            hasImage:true,
             image: "https://picsum.photos/1920/1080",
             tag: "DAC",
             tagUrl: "/tagged/DAC/questions",

@@ -23,7 +23,7 @@ export default {
     CHANGE_COURSE_TAGS: "CHANGE_COURSE_TAGS",//Course tags
     CHANGE_CATEGORIES: "CHANGE_CATEGORIES",//Course tags
 
-    PAGENATE_QUESTIONS: "PAGENATE_QUESTIONS",//Change pagenation
-
+    PAGENATE_QUESTIONS: "PAGENATE_QUESTIONS",//Change pagenation    
+    CREATE_QUESTION: "CREATE_QUESTION", // Create question
     SEARCH_QUESTIONS: "SEARCH_QUESTIONS",//Search Questions
 };

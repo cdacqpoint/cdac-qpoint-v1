@@ -25,4 +25,7 @@ export default {
 
     PAGENATE_QUESTIONS: "PAGENATE_QUESTIONS",//Change pagenation
 
+    
+    CREATE_QUESTION: "CREATE_QUESTION", // Create question
+
 };

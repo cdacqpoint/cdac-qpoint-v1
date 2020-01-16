@@ -1,8 +1,6 @@
 import React from "react";
 import ReactQuill from "react-quill";
 import CreatableSelect from 'react-select/creatable';
-// import { useFormik } from "formik";
-// import * as Yup from "yup";
 import {
   Card,
   CardBody,
@@ -67,6 +65,7 @@ class SelectCategory extends React.Component {
   handleChange = (newValue, actionMeta) => {
     console.group('Value Changed');
     console.log(newValue);
+    this.props.changeCategory(newValue);
     console.log(`action: ${actionMeta.action}`);
     console.groupEnd();
   };
@@ -77,7 +76,7 @@ class SelectCategory extends React.Component {
     console.groupEnd();
   };
   render() {
-    let options = this.state.options;
+    let options = this.props.options;
     const isValidNewOption = (inputValue, selectValue) =>
       inputValue.length > 0 && selectValue.length < 5;
     return (
@@ -88,6 +87,7 @@ class SelectCategory extends React.Component {
         onInputChange={this.handleInputChange}
         isValidNewOption={isValidNewOption}
         options={options}
+        value={this.props.value}
         isMulti
         {...this.props}
       />
@@ -98,17 +98,22 @@ class QuestionForm extends React.Component {
   constructor(props) {
     super(props);
     this.changeNotify.bind(this);
-    this.handleSubmit.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.attachments = React.createRef();
     this.state = {
       showNameEmail: false,
       DefaultTag: null,
       title: "",
       description: "",
-      tags: "",
+      tags: 1,
       category: [],
       name: "",
       email: "",
-      TagList: []
+      TagList: [],
+      categoryList: []
     };
   }
 
@@ -161,11 +166,21 @@ class QuestionForm extends React.Component {
         },
 
       ],
-      DefaultTag: 1
+      DefaultTag: 1,
+      categoryList: [
+        { value: 'java', label: 'Java' },
+        { value: 'awp', label: 'AWP' },
+        { value: 'c#', label: 'C#' }
+      ]
     });
   }
-  handleSubmit = (event) => {
+
+  handleSubmit(event) {
     alert("Question added successfully!");
+    let { title, description, tags, category, name, email, showNameEmail } = this.state;
+    const data = { title, description, category, tags, name, email, notify: showNameEmail }
+    console.log(data)
+    event.preventDefault();
   }
   changeNotify = () => {
     this.setState(prevState => ({
@@ -176,67 +191,42 @@ class QuestionForm extends React.Component {
     );
   }
 
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+  handleCategoryChange(select) {
+    this.setState({ category: select });
+  }
+  changeTagChange(select) {
+    this.setState({ tags: select });
+  }
+  handleDescriptionChange(html) {
+    this.setState({ description: html });
+  }
   render() {
     let TagList = this.state.TagList;
     let DefaultTag = this.state.DefaultTag;
     let showNameEmail = this.state.showNameEmail;
     let showDraftButton = this.props.showDraftButton;
-    // const formik = useFormik({
-    //   initialValues: {
-    //     title: this.state.title,
-    //     description: this.state.description,
-    //     tags: this.state.tags,
-    //     category: this.state.category,
-    //     showNameEmail: this.state.showNameEmail,
-    //     name: this.state.name,
-    //     email: this.state.email
-    //   },
-    //   validationSchema: Yup.object({
-    //     title: Yup.string()
-    //       .min(3, "Must contain atleast 3 characters")
-    //       .max(150, "Must be 150 characters or less")
-    //       .required("Required"),
-    //     description: Yup.string()
-    //       .min(3, "Must contain atleast 3 characters")
-    //       .max(700, "Must be 700 characters or less")
-    //       .required("Required"),
-    //     tag: Yup.number()
-    //       .required("Required"),
-    //     category: Yup.array().max(5, "You can select upto 5 categories"),
-    //     showNameEmail: Yup.bool(),
-    //     name: Yup.string()
-    //       .min(3, "Must contain atleast 3 characters")
-    //       .max(50, "Must be 50 characters or less")
-    //       .test('check-name', 'Please Enter Name', function (value) {
-    //         return this.parent.showNameEmail === true ? value !== "" : true;
-    //       }),
-    //     email: Yup.string()
-    //       .email()
-    //       .min(3, "Must contain atleast 3 characters")
-    //       .max(50, "Must be 50 characters or less")
-    //       .test('check-email', 'Please Enter Email', function (value) {
-    //         return this.parent.showNameEmail === true ? value !== "" : true;
-    //       }),
-    //   }),
-    //   onSubmit: (values, { setSubmitting }) => {
-    //     setTimeout(() => {
-    //       console.log(values)
-    //       alert(JSON.stringify(values, null, 2));
-    //       setSubmitting(false);
-    //     }, 400);
-    //   },
-    // });
+    
     return (
       <Form className="add-new-post" encType="multipart/form-data" method="get" onSubmit={this.handleSubmit}>
         <small>
           <i className="material-icons text-primary mx-1" title="info">info</i>
           Be specific and imagine you’re asking a question to another person
         </small>
-        <FormInput size="lg" className="mb-3" placeholder="Your Post Title" name="title" />
+        <FormInput size="lg" className="mb-3" placeholder="Your Post Title" name="title" value={this.state.title}
+          onChange={this.handleInputChange} />
         <small>
           <i className="material-icons text-primary mx-1" title="info">info</i>Include all the information someone would need to answer your question
         </small>
-        <ReactQuill className="add-new-post__editor mb-1" name="description" placeholder="Describe your question in not more than 700 characters." />
+        <ReactQuill className="add-new-post__editor mb-1" name="description" placeholder="Describe your question in not more than 700 characters." value={this.state.description} onChange={this.handleDescriptionChange} />
         <hr />
         <small>
           <i className="material-icons text-primary mx-1" title="info">info</i>
@@ -246,27 +236,29 @@ class QuestionForm extends React.Component {
           {TagList.map((tag, idx) => (
             <Col lg="3" md="3" sm="12" key={idx}>
               <span>
-                <FormRadio value={tag._id} name="tag" defaultChecked={DefaultTag === tag._id}>{tag.name}</FormRadio>
+                <FormRadio value={tag._id} name="tag" defaultChecked={DefaultTag === tag._id} onChange={() => {
+                  this.changeTagChange(tag._id);
+                }}>{tag.name}</FormRadio>
               </span>
             </Col>
           ))}
         </Row>
-        <small className="mb-2">
+        {/* <small className="mb-2">
           <i className="material-icons text-primary mx-1" title="info">info</i>
           Screenshots or images related to your question (optional)
             </small>
         <div className="custom-file mb-3">
-          <input type="file" className="custom-file-input" id="customFile2" name="attachements[]" />
+          <input type="file" className="custom-file-input" id="customFile2" name="attachements" ref={this.attachments} />
           <label className="custom-file-label" htmlFor="customFile2">
             Choose file...
               </label>
-        </div>
+        </div> */}
         <div className="mb-3">
           <small className="mb-2">
             <i className="material-icons text-primary mx-1" title="info">info</i>
             Add up to 5 course tags to describe what your question is about
-              </small>
-          <SelectCategory name="category" />
+              </small>..
+          <SelectCategory name="category" options={this.state.categoryList} changeCategory={this.handleCategoryChange} value={this.state.category} />
         </div>
         <hr />
         <FormGroup>
@@ -278,8 +270,13 @@ class QuestionForm extends React.Component {
           </FormCheckbox>
         </FormGroup>
         <div className={showNameEmail ? "" : "hidden"}>
-          <FormInput size="lg" className="mb-3" placeholder="John Doe" name="name" />
-          <FormInput size="lg" className="mb-3" placeholder="johndoe@email.com" type="email" name="email" />
+          <FormInput size="lg" className="mb-3" placeholder="John Doe" name="name"
+            value={this.state.name}
+            onChange={this.handleInputChange} />
+          <FormInput size="lg" className="mb-3" placeholder="johndoe@email.com" type="email" name="email"
+            value={this.state.email}
+            onChange={this.handleInputChange}
+          />
         </div>
         <CardFooter>
           <div className="d-flex px-1">

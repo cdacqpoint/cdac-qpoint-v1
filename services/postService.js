@@ -1,5 +1,6 @@
 const Post = require("../models/postModel")
 
+const moment = require('moment');
 const categoryService = require("./categoryService")
 const CourseTagService = require("./courseTagService")
 
@@ -39,6 +40,44 @@ exports.isTitleUnique = async (title) => {
     return await Post.findOne({ title: title }).then(post => {
         if (post) {
             return Promise.reject('Duplicate Question');
+        }
+    });
+}
+
+/**
+ * Get Post Grouped By Course Tags...
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {*} courseTag
+ * @returns
+ */
+exports.getPostCountByCourseTag = async (courseTag) => {
+    return await Post.countDocuments({ courseTag: courseTag });
+}
+
+/**
+ * Get Post Counts in this week By Course Tags...
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {*} courseTag
+ * @returns
+ */
+exports.getPostCountInWeekByCourseTag = async (courseTag) => {
+    return await Post.countDocuments({
+        courseTag: courseTag, createdAt: {
+            $gte: moment().week(-1).toString()
+        }
+    });
+}
+
+/**
+ * Get Post Counts today By Course Tags...
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {*} courseTag
+ * @returns
+ */
+exports.getPostCountTodayByCourseTag = async (courseTag) => {
+    return await Post.countDocuments({
+        courseTag: courseTag, createdAt: {
+            $gte: moment().day(-1).toString()
         }
     });
 }

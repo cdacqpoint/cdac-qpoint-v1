@@ -12,6 +12,7 @@ var helmet = require('helmet');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var postsRouter = require('./routes/posts');
+var tagsRouter = require('./routes/tags');
 
 var app = express();
 
@@ -28,6 +29,7 @@ const urlPrefix = process.env.URL_PREFIX || "/api/v1";
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use(urlPrefix, postsRouter);
+app.use(urlPrefix, tagsRouter);
 
 //Configurations
 require('./config');

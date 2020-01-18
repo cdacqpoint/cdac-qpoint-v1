@@ -84,7 +84,7 @@ exports.getPostCountTodayByCourseTag = async (courseTag) => {
 }
 
 /**
- * Get Post Counts today By Course Tags...
+ * Master function for all fetch operations on Post.
  * @author Sai Krishnan S <xicoder96@github.com>
  * @param {*} data
  * @param {boolean} active

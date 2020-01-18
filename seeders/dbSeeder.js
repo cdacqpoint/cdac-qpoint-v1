@@ -34,6 +34,7 @@ const mongoose = require('mongoose');
 const Post = require('../models/postModel');
 const Category = require('../models/categoryModel');
 const CourseTag = require('../models/courseTagModel');
+const Comment = require('../models/commentModel');
 //---------------------------------------------------------//
 
 
@@ -67,6 +68,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var posts = []
 var catgories = []
 var courseTags = []
+var comments = []
 //---------------------------------------------------------//
 
 
@@ -93,6 +95,9 @@ function RemoveAllDocuments(cb) {
         },
         (callback) => {
             Category.remove({}, callback);
+        },
+        (callback) => {
+            Comment.remove({}, callback);
         },
 
     ], cb);
@@ -151,6 +156,29 @@ function CategoryCreate(name, desc, status, cb) {
         console.log('New Category:', category);
         catgories.push(category)
         cb(null, category);
+    });
+}
+
+/**
+ * Create Comment Document
+ * @author Sai krishnan S <xicoder96@github.com>
+ * @param {string} postId
+ * @param {string} desc
+ * @param {string} status
+ * @param {number} upvotes
+ * @param {callback} cb
+ */
+function CommentCreate(postId, desc, status, upvotes, cb) {
+    let comment = new Comment({ post: postId, desc: desc, status: status, upvotes: upvotes });
+    comment.save(function (err) {
+        if (err) {
+            cb(err, null);
+            return;
+        }
+        //do stuff
+        console.log('New Comment:', comment);
+        comments.push(comment)
+        cb(null, comment);
     });
 }
 
@@ -284,6 +312,41 @@ function createCategories(cb) {
         },
         function (callback) {
             CategoryCreate('Moment js', '', true, callback);
+        },
+    ],
+        // optional callback
+        cb);
+}
+
+/**
+ * Create Comments
+ * @param {callback} cb
+ */
+function createComments(cb) {
+    async.series([
+        function (callback) {
+            CommentCreate(posts[0], `
+            <p>The enums here are basically String objects. Change the enum line to <code>enum: ['NEW', 'STATUS']</code> instead. You have a typo there with your quotation marks.</p>`, "published", 105, callback);
+        },
+        function (callback) {
+            CommentCreate(posts[0], `
+            <p>From the <a href="https://mongoosejs.com/docs/validation.html" rel="noreferrer">docs</a></p>
+
+            <p>Mongoose has several inbuilt validators. Strings have <strong>enum</strong> as one of the validators.
+            So enum creates a validator and checks if the value is given in an array.
+            E.g:</p>
+            
+            <pre class="lang-js prettyprint prettyprinted" style=""><code><span class="kwd">var</span><span class="pln"> userSchema </span><span class="pun">=</span><span class="pln"> </span><span class="kwd">new</span><span class="pln"> mongooseSchema</span><span class="pun">({</span><span class="pln">
+               userType</span><span class="pun">:</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
+                    type</span><span class="pun">:</span><span class="pln"> </span><span class="typ">String</span><span class="pun">,</span><span class="pln">
+                    </span><span class="kwd">enum</span><span class="pln"> </span><span class="pun">:</span><span class="pln"> </span><span class="pun">[</span><span class="str">'user'</span><span class="pun">,</span><span class="str">'admin'</span><span class="pun">],</span><span class="pln">
+                    </span><span class="kwd">default</span><span class="pun">:</span><span class="pln"> </span><span class="str">'user'</span><span class="pln">
+                </span><span class="pun">},</span><span class="pln">
+            </span><span class="pun">})</span><span class="pln">
+            </span></code></pre>`, "published", 14, callback);
+        },
+        function (callback) {
+            CommentCreate(posts[1], `<span class="comment-copy">Flags itself does nothing. Also, C# does not require Flags per se. But the <code>ToString</code> implementation of your enum uses Flags, and so does <code>Enum.IsDefined</code>, <code>Enum.Parse</code>, etc. Try to remove Flags and look at the result of MyColor.Yellow | MyColor.Red; without it you get "5", with Flags you get "Yellow, Red". Some other parts of the framework also use [Flags] (e.g., XML Serialization).</span>`, "published", 105, callback);
         },
     ],
         // optional callback
@@ -542,7 +605,8 @@ async.series([
     RemoveAllDocuments,
     createCourseTags,
     createCategories,
-    createPosts
+    createPosts,
+    createComments
 ],
     // Optional callback
     function (err, results) {

@@ -15,7 +15,12 @@ const CategorySchema = new Schema({
         type: Boolean,
         required: true,
         default: true
-    }
+    },
+    posts:[{
+        type: Schema.ObjectId,
+        ref: 'Post',
+        index: true
+    }]
 }, { timestamps: { createdAt: 'created_at' } })
 
 // Export model.

@@ -11,14 +11,18 @@ const CourseTagSchema = new Schema({
         required: true,
     },
     desc: {
-        type: String,
-        required: true,
+        type: String
     },
     status: {
         type: Boolean,
         required: true,
         default: true
     },
+    posts: [{
+        type: Schema.ObjectId,
+        ref: 'Post',
+        index: true
+    }]
 })
 CourseTagSchema.virtual('postCount', {
     ref: 'Post', // The model to use

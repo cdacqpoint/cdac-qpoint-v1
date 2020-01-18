@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
 const moment = require('moment'); // For date handling.
-
+const Category = require('./categoryModel')
+const CourseTag = require('./courseTagModel')
 const Schema = mongoose.Schema;
 
 //Post Table schema
@@ -88,7 +89,13 @@ const postSchema = new Schema({
                 throw new Error({ error: 'Invalid Email address' })
             }
         }
-    }
+    },
+    comments: [
+        {
+            type: Schema.ObjectId,
+            ref: 'Comment'
+        }
+    ],
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'modifiedAt' } })
 
 // Virtual for this post instance URL.
@@ -100,6 +107,18 @@ postSchema.virtual('courseTagUrl').get(function () {
 });
 postSchema.virtual('voteUrl').get(function () {
     return `/vote/${this._id}/post`;
+});
+
+//After insertion middlewares
+postSchema.post('save', async function (doc) {
+    await CourseTag.findByIdAndUpdate(doc.courseTag,
+        { $push: { posts: doc } },
+        { safe: true, upsert: true });
+    await doc.categories.map(async (category) => {
+        await Category.findByIdAndUpdate(category,
+            { $push: { posts: doc } },
+            { safe: true, upsert: true });
+    })
 });
 
 

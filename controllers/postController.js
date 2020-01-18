@@ -3,6 +3,18 @@ const helper = require("../helpers")
 const { body, validationResult, sanitizeBody } = require('express-validator');
 const mailer = require('../helpers/mailer')
 
+// Handle Fetching of posts on GET.
+exports.fetch_posts_get = (req, res, next) => {
+    PostService.postFetchMaster(req.query).then((result) => {
+        //send back response
+        res.status(200).send(helper.formatResponse(true, "Post details fetched successfully!", result));
+    }).catch((err) => {
+        // There are errors. 
+        res.status(400).send(helper.formatResponse(false, "Unable to fetch details!", err))
+        return next(err);
+    });
+}
+
 // Handle Post create on POST.
 exports.post_create_post = [
     // Validate fields.
@@ -32,9 +44,9 @@ exports.post_create_post = [
             // file upload will be here
             PostService.createPost(req.body).then((post) => {
                 // intimation mailing will be here
-                console.log(process.env.SEND_MAIL,post.notify)
+                console.log(process.env.SEND_MAIL, post.notify)
                 if (post.notify && process.env.SEND_MAIL) {
-                    console.log("Hello im here",post)
+                    console.log("Hello im here", post)
                     mailer.init(post.email, "Thank you for reaching out!").sendReachingOutMessage(post.name, post.title).catch(console.log);
                 }
                 // Successful - send back response that new record created.

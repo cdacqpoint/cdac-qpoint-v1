@@ -23,7 +23,6 @@ describe('Categories', () => {
             chai.request(server)
                 .get('/api/v1/category')
                 .end((err, res) => {
-                    console.log(res.body);
                     (res).should.have.status(200);//check status of api
                     done();
                 });
@@ -31,16 +30,14 @@ describe('Categories', () => {
     });
 });
 describe('CategoriesFilteredPosts', () => {
-    describe('GET /api/v1/posts?category', async () => {
-        const category = await Category.findOne({ name: "Javascript" });
+    describe('GET /api/v1/posts?category=:category', async () => {
+        const category = await Category.findOne({ name: "Javascript" }, '_id');
         const url = `/api/v1/posts?category=${category._id}`;
-        console.log(url)
         //it => tells us what should be tested in this method
         it('it should GET all the posts under particular category', (done) => {
             chai.request(server)
                 .get(url)
                 .end((err, res) => {
-                    console.log(res.body);
                     (res).should.have.status(200);//check status of api
                     res.body.should.be.a('object');
                     res.body.should.have.property('data');

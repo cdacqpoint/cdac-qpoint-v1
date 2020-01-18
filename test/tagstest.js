@@ -34,12 +34,13 @@ describe('Tags', () => {
     });
 });
 describe('TagsFilteredPosts', () => {
-    describe('GET /api/v1/posts?CourseTag', async () => {
-        const tagId = await CourseTags.findOne({ name: "DAC" })._id;
+    describe('GET /api/v1/posts?CourseTag=:CourseTag', async () => {
+        const tag = await CourseTags.findOne({ name: "DAC" },'_id');
+        const url = `/api/v1/posts?CourseTag=${tag._id}`;
         //it => tells us what should be tested in this method
         it('it should GET all the posts under particular tag', (done) => {
             chai.request(server)
-                .get(`/api/v1/posts?CourseTag=${tagId}`)
+                .get(url)
                 .end((err, res) => {
                     (res).should.have.status(200);//check status of api
                     res.body.should.be.a('object');

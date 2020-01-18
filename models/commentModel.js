@@ -23,10 +23,6 @@ const CommentSchema = new Schema({
         type: Number,
         default: 0
     },
-    name: {
-        type: String,
-        trim: true
-    },
 }, { timestamps: { createdAt: 'createdAt', updatedAt: 'modifiedAt' }})
 
 CommentSchema.virtual('createdTimesAgo').get(function () {

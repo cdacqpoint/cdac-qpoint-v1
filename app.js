@@ -11,6 +11,7 @@ var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var commentsRouter = require('./routes/comments');
 var postsRouter = require('./routes/posts');
 var tagsRouter = require('./routes/tags');
 
@@ -30,6 +31,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use(urlPrefix, postsRouter);
 app.use(urlPrefix, tagsRouter);
+app.use(urlPrefix, commentsRouter);
 
 //Configurations
 require('./config');

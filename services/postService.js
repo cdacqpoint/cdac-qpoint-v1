@@ -2,8 +2,24 @@ const Post = require("../models/postModel")
 
 const moment = require('moment');
 const async = require("async")
+const mongoose = require("mongoose")
 const categoryService = require("./categoryService")
 const CourseTagService = require("./courseTagService")
+
+/**
+ * Get Post Details
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {string} [_id]
+ * @param {string} [details="_id title desc courseTag categories status visibility upvotes attachments modifiedAt publishedOn name email"]
+ * @returns
+ */
+exports.getPostDetails = async (_id, details = "_id title desc courseTag categories status visibility upvotes attachments modifiedAt publishedOn name email") => {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+        return null;
+    return Post.findById(_id, details)
+        .populate('categories', '_id name')
+        .populate('courseTag', '_id name').exec()
+}
 
 /**
  * Create Post

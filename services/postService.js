@@ -86,9 +86,9 @@ exports.getPostCountTodayByCourseTag = async (courseTag) => {
 /**
  * Master function for all fetch operations on Post.
  * @author Sai Krishnan S <xicoder96@github.com>
- * @param {*} data
- * @param {boolean} active
- * @param {callback} callback
+ * @param {*} { limit, offset, relatedQuesId, courseTag, category, titleOnly, sort }
+ * @param {boolean} [active=true]
+ * @param {callback}[callback=null]
  * @returns Promise
  */
 exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {

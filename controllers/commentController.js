@@ -4,6 +4,22 @@ const PostModel = require("../models/postModel");
 const { body, validationResult } = require('express-validator');
 const mailer = require('../helpers/mailer')
 
+// Handle Upvotes of post on GET.
+exports.upvote_comment_get = (req, res, next) => {
+    CommentService.incrementUpvotes(req.params.id).then(result => {
+        if (result === null) {
+            res.status(404).send(helper.formatResponse(false, "Comment not found!", null))
+            return;
+        }
+        //send back response
+        res.status(200).send(helper.formatResponse(true, "Your Response is marked!", null));
+    }).catch((err) => {
+        // There are errors. 
+        res.status(400).send(helper.formatResponse(false, "Failed to mark response!", err))
+        return next(err);
+    });
+}
+
 // Handle Fetching of posts on GET.
 exports.fetch_comments_get = (req, res, next) => {
     //Only if post variable is present all this makes sense...

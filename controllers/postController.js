@@ -11,7 +11,7 @@ exports.upvote_post_get = (req, res, next) => {
             return;
         }
         //send back response
-        res.status(200).send(helper.formatResponse(true, "Your Response is marked!", result));
+        res.status(200).send(helper.formatResponse(true, "Your Response is marked!", null));
     }).catch((err) => {
         // There are errors. 
         res.status(400).send(helper.formatResponse(false, "Failed to mark response!", err))

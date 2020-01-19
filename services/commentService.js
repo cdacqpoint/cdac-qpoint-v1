@@ -1,9 +1,26 @@
 const Comment = require("../models/commentModel")
+const mongoose = require("mongoose")
 const async = require("async")
 
 module.exports = {
     createComment,
     fetchCommentsMaster,
+    incrementUpvotes,
+}
+
+/**
+ * Increment Upvotes...
+ *
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {*} _id
+ * @returns Promise
+ */
+async function incrementUpvotes(_id) {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+        return null;
+    return Comment.findOneAndUpdate({ _id }, { $inc: { upvotes: 1 } }, {
+        new: true
+    })
 }
 
 /**

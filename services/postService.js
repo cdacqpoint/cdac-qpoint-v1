@@ -16,7 +16,7 @@ const CourseTagService = require("./courseTagService")
 exports.incrementUpvotes = async (_id) => {
     if (!mongoose.Types.ObjectId.isValid(_id))
         return null;
-    return Post.findOneAndUpdate({ _id }, { $inc: { views: 1 } }, {
+    return Post.findOneAndUpdate({ _id }, { $inc: { upvotes: 1 } }, {
         new: true
     })
 }

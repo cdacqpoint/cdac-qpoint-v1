@@ -6,6 +6,21 @@ const mongoose = require("mongoose")
 const categoryService = require("./categoryService")
 const CourseTagService = require("./courseTagService")
 
+
+/**
+ * Increment Upvotes...
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {string} {_id}
+ * @returns Promise
+ */
+exports.incrementUpvotes = async (_id) => {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+        return null;
+    return Post.findOneAndUpdate({ _id }, { $inc: { views: 1 } }, {
+        new: true
+    })
+}
+
 /**
  * Get Post Details
  * @author Sai Krishnan S <xicoder96@github.com>

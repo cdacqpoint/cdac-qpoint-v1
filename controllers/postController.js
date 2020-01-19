@@ -3,6 +3,22 @@ const helper = require("../helpers")
 const { body, validationResult, sanitizeBody } = require('express-validator');
 const mailer = require('../helpers/mailer')
 
+// Handle Upvotes of post on GET.
+exports.upvote_post_get = (req, res, next) => {
+    PostService.incrementUpvotes(req.params.id).then(result => {
+        if (result === null) {
+            res.status(404).send(helper.formatResponse(false, "Post not found!", null))
+            return;
+        }
+        //send back response
+        res.status(200).send(helper.formatResponse(true, "Your Response is marked!", result));
+    }).catch((err) => {
+        // There are errors. 
+        res.status(400).send(helper.formatResponse(false, "Failed to mark response!", err))
+        return next(err);
+    });
+}
+
 // Handle Fetching of post details on GET.
 exports.post_details_get = (req, res, next) => {
     PostService.getPostDetails(req.params.id).then(result => {

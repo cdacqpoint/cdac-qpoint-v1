@@ -134,7 +134,7 @@ exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, cate
     }
 
     //offset
-    if (typeof skip !== "undefined" && skip !== null && skip !== "") {
+    if (typeof offset !== "undefined" && offset !== null && offset !== "") {
         skip = parseInt(offset);
     }
 

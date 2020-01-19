@@ -4,6 +4,22 @@ const PostModel = require("../models/postModel");
 const { body, validationResult } = require('express-validator');
 const mailer = require('../helpers/mailer')
 
+// Handle Fetching of posts on GET.
+exports.fetch_comments_get = (req, res, next) => {
+    //Only if post variable is present all this makes sense...
+    if (typeof req.query.post !== "undefined" && req.query.post !== null && req.query.post !== "") {
+        CommentService.fetchCommentsMaster(req.query).then(result => {
+            //Everything went smooth :)
+            res.status(200).send(helper.formatResponse(true, "Fetched All comments!", result));
+        }).catch(error => {
+            // There are errors
+            res.status(500).send(helper.formatResponse(false, "Oops something went wrong!!", error));
+        })
+    } else {
+        // There are errors
+        res.status(400).send(helper.formatResponse(false, "Post parameter is missing!", null));
+    }
+}
 
 // Handle Comment create on POST.
 exports.comment_create_post = [

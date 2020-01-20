@@ -31,6 +31,7 @@ class ViewQuestion extends React.Component {
         super(props);
         this.getQuestionDetail = this.getQuestionDetail.bind(this);
         this.getComments = this.getComments.bind(this);
+        this.setData = this.setData.bind(this);
         this.loadData = this.loadData.bind(this);
         this.state = {
             id: null,
@@ -87,18 +88,46 @@ class ViewQuestion extends React.Component {
      */
     getComments() {
         const comments = CommentStore.getComments();
-        console.log("comments",comments)
+        console.log("comments", comments)
         this.setState({
             comments: comments,
             commentsCount: CommentStore.getTotalCount(),
         });
     }
 
+    /**
+     *
+     * Set All data required
+     * @memberof ViewQuestion
+     */
+    setData() {
+        console.log("im here setdata")
+        const details = PostStore.getQuestionDetails();
+        const comments = CommentStore.getComments();
+        console.log("comments", comments)
+        if (details === null) {
+           this.props.history.push('/questions')
+        } else {
+            this.setState({
+                id: PostStore._getSelectedQuestionId(),
+                details: details,
+                comments: comments,
+                commentsCount: CommentStore.getTotalCount(),
+            });
+        }
+    }
+
+    /**
+     *
+     * Load All data
+     * @param {*} id
+     * @memberof ViewQuestion
+     */
     loadData(id) {
+        console.log('loadData :)')
         ViewQuestionActions.fetchQuestionDetails(id);
         ViewQuestionActions.fetchComments(id);
-        this.getQuestionDetail();
-        this.getComments();
+        this.setData();
     }
 
     /**
@@ -109,10 +138,10 @@ class ViewQuestion extends React.Component {
     componentDidMount() {
         //Mount with service call
         const { id } = this.props.match.params; //useParams();
-        console.log("inside component Did mount",id)
+        console.log("inside component Did mount", id)
         this.loadData(id);
-        PostStore.addChangeListener(this.getQuestionDetail) // Sai krishnan
-        CommentStore.addChangeListener(this.getComments) // Sai krishnan
+        PostStore.addChangeListener(this.setData) // Sai krishnan
+        CommentStore.addChangeListener(this.setData) // Sai krishnan
         const relatedQuestionsDetails = [
             {
                 title: "Difference between npx and npm?",
@@ -193,8 +222,8 @@ class ViewQuestion extends React.Component {
      * @memberof ViewQuestion
      */
     componentWillUnmount() {
-        PostStore.removeChangeListener(this.getQuestionDetail) // Sai krishnan
-        CommentStore.removeChangeListener(this.getComments) // Sai krishnan
+        PostStore.removeChangeListener(this.setData) // Sai krishnan
+        CommentStore.removeChangeListener(this.setData) // Sai krishnan
     }
 
     /**
@@ -205,7 +234,7 @@ class ViewQuestion extends React.Component {
      */
     render() {
         const details = this.state.details;
-        console.log("state",this.state);
+        console.log("state", this.state);
         return (
             <Container fluid className="main-content-container px-4 pb-4">
                 {/* Page Header */}

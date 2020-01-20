@@ -5,11 +5,23 @@ import Api from "../_dummyApis/comments.API";
 
 let _store = {
     comments: [],
+    postId:"",
     totalCount: 0,
     filter: 'latest',
     limit: 10,
     page: 0
 };
+
+/**
+ *Fetch Comments
+ *
+ */
+function fetchApi() {
+    let data = Api.fetchComments({ postId: _store.postId, filter: _store.filter, limit: _store.limit, offset: _store.page })
+    console.log(data)
+    _store.comments = data.comments;
+    _store.totalCount = data.comments_count;
+}
 
 /**
  * Comment Store
@@ -21,7 +33,6 @@ class CommentStore extends EventEmitter {
     constructor() {
         super();
         this.isLoading = false;
-        this._postId = "";
         this.hasError = false;
         this.error = null;
         this.registerToActions = this.registerToActions.bind(this);
@@ -29,6 +40,7 @@ class CommentStore extends EventEmitter {
     }
 
     getComments() {
+        fetchApi();
         return _store.comments;
     }
 
@@ -50,11 +62,7 @@ class CommentStore extends EventEmitter {
 
     fetchComments(postId) {
         console.log("inside fetch id", postId)
-        this._postId = postId;
-        let data = Api.fetchComments({ postId, filter: _store.filter, limit: _store.limit, offset: _store.page })
-        console.log(data)
-        _store.comments = data.comments;
-        _store.totalCount = data.comments_count;
+        _store.postId = postId;
         this.emit(Constants.CHANGE);
     }
 
@@ -66,8 +74,10 @@ class CommentStore extends EventEmitter {
         this.emit(Constants.CHANGE);
     }
 
-    addComment(data) {
-        let response = Api.createComment(data)
+    addComment(desc) {
+        console.log(desc)
+        let response = Api.createComment({ desc, postId: _store.postId })
+        console.log("response", response);
         if (response.status === false) {
             this.hasError = true;
             this.error = response.data;
@@ -101,6 +111,7 @@ class CommentStore extends EventEmitter {
                 this.fetchComments(payload.postId);
                 break;
             case Constants.ADD_COMMENT:
+                console.log("payload",payload)
                 this.addComment(payload.data);
                 break;
             case Constants.CHANGE_COMMENTS_PER_PAGE:

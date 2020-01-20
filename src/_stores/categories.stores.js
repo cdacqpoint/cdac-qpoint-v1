@@ -5,7 +5,7 @@ import { CategoriesAPI } from "../_dummyApis/categoriesAPI";
 
 let _store = {
 
-    categories: CategoriesAPI.fetchCategories()
+    categories: CategoriesAPI.fetchCategories(),
 };
 
 class CategoryStore extends EventEmitter {
@@ -15,7 +15,7 @@ class CategoryStore extends EventEmitter {
         this.dispatchToken = Dispatcher.register(this.registerToActions.bind(this));
     }
 
-    getTags() {
+    getCategories() {
         return _store.categories;
     }
 
@@ -33,6 +33,7 @@ class CategoryStore extends EventEmitter {
         switch (payload.actionType) {
             case Constants.FETCH_CATEGORIES:
                 _store.categories=CategoriesAPI.fetchCategories();
+                this.emit(Constants.CHANGE);
                 break;
             default:
 

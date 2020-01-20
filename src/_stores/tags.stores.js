@@ -5,7 +5,7 @@ import { TagsAPI } from "../_dummyApis/tags.API";
 
 let _store = {
 
-    tags: TagsAPI.fetchTags()
+    tags: TagsAPI.fetchTags(),
 };
 
 class TagStore extends EventEmitter {
@@ -33,6 +33,7 @@ class TagStore extends EventEmitter {
         switch (payload.actionType) {
             case Constants.FETCH_COURSE_TAGS:
                 _store.tags = TagsAPI.fetchTags();
+                this.emit(Constants.CHANGE);
                 break;
             default:
 

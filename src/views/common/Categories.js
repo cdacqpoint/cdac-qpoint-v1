@@ -6,6 +6,8 @@ import {
 } from "shards-react";
 
 import PageTitle from "../../components/common/PageTitle";
+import { CategoryStore } from "../../_stores";
+import { CategoriesAction } from "../../_actions/categories.action"
 
 /**
  * 
@@ -16,14 +18,25 @@ import PageTitle from "../../components/common/PageTitle";
 class Categories extends React.Component {
     constructor(props) {
         super(props);
+        this.getAllCategories = this.getAllCategories.bind(this);
         this.state = {
             filterByCategory: "",
             CategoriesList: []
         }
     }
 
-    componentDidMount() {
+    getAllCategories = () => {
+        CategoriesAction.fetchCategories();
+        console.log(CategoriesAction.fetchCategories());
+        const categories = CategoryStore.getCategories();
+        console.log(categories)
         this.setState({
+            CategoriesList: categories,
+        });
+    }
+
+    componentDidMount() {
+     /*   this.setState({
             CategoriesList: [
                 {
                     name: "JAVA",
@@ -98,9 +111,15 @@ class Categories extends React.Component {
                     url: "../categories/os/questions",
                 },
             ]
-        })
+        })*/
+        this.getAllCategories()
+        CategoryStore.addChangeListener(this.getAllCategories)
     }
 
+    componentWillUnmount() {
+        CategoryStore.removeChangeListener(this.getAllCategories) //dhiraj chordiya
+    }
+    
     handleChange = (e) => {
         this.setState({
             filterByCategory: e.target.value
@@ -166,7 +185,7 @@ class Categories extends React.Component {
                 <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-end">
                         <li className="page-item disabled">
-                            <a className="page-link" href={defaultUrl} tabindex="-1" aria-disabled="true">Previous</a>
+                            <a className="page-link" href={defaultUrl} tabIndex="-1" aria-disabled="true">Previous</a>
                         </li>
                         <li className="page-item">
                             <a className="page-link" href={defaultUrl}>1</a>

@@ -1,7 +1,7 @@
 import { random } from "../_helpers/random";
 export default {
     init: () => {
-        localStorage.setItem('tags', JSON.stringify([
+        localStorage.setItem('categories', JSON.stringify([
             {
                 _id: random(25),
                 name: "JAVA",
@@ -122,6 +122,6 @@ export default {
                 weekCount: 700
             },
             
-        ]))
+        ]));
     }
 }

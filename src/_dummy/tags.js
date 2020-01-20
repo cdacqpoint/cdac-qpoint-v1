@@ -101,6 +101,6 @@ export default {
                 todaysCount: 4,
                 weekCount: 700
             },
-        ]))
+        ]));
     }
 }

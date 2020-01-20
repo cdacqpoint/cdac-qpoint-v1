@@ -158,6 +158,7 @@ class PostStore extends EventEmitter {
     }
 
     fetchQuestionDetails(id) {
+        console.log("id",id)
         //post api willbe here
         const questionDetail = PostsAPI.getQuestionDetails(id);
         if (questionDetail === null) {

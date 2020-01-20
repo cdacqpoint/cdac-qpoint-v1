@@ -12,9 +12,8 @@ import QuestionDetails from "../../components/view-question/QuestionDetails";
 import Sidebar from "../../components/view-question/Sidebar";
 import Comments from "../../components/view-question/Comments";
 import CommentForm from "../../components/view-question/CommentForm";
-import { PostStore } from "../../_stores";
+import { PostStore, CommentStore } from "../../_stores";
 import { ViewQuestionActions } from "../../_actions/view_question.actions";
-import postStores from "../../_stores/post.stores";
 import {
     withRouter
 } from 'react-router-dom'
@@ -31,6 +30,7 @@ class ViewQuestion extends React.Component {
     constructor(props) {
         super(props);
         this.getQuestionDetail = this.getQuestionDetail.bind(this);
+        this.getComments = this.getComments.bind(this);
         this.loadData = this.loadData.bind(this);
         this.state = {
             id: null,
@@ -57,6 +57,7 @@ class ViewQuestion extends React.Component {
             showMoreRelatedUrl: "",
             showMoreHotQuestionsUrl: "",
             comments: [],
+            commentsCount: 0,
             relatedQuestions: [],
             hotQuestions: []
         }
@@ -69,20 +70,35 @@ class ViewQuestion extends React.Component {
      */
     getQuestionDetail() {
         const details = PostStore.getQuestionDetails();
-        console.log(details)
         if (details === null) {
-            this.props.history.push('/questions')
+           // this.props.history.push('/questions')
         } else {
             this.setState({
-                id: postStores._getSelectedQuestionId(),
+                id: PostStore._getSelectedQuestionId(),
                 details: details,
             });
         }
     }
 
-    loadData(id){
+    /**
+     *
+     * Get All Comments
+     * @memberof ViewQuestion
+     */
+    getComments() {
+        const comments = CommentStore.getComments();
+        console.log("comments",comments)
+        this.setState({
+            comments: comments,
+            commentsCount: CommentStore.getTotalCount(),
+        });
+    }
+
+    loadData(id) {
         ViewQuestionActions.fetchQuestionDetails(id);
+        ViewQuestionActions.fetchComments(id);
         this.getQuestionDetail();
+        this.getComments();
     }
 
     /**
@@ -93,22 +109,10 @@ class ViewQuestion extends React.Component {
     componentDidMount() {
         //Mount with service call
         const { id } = this.props.match.params; //useParams();
+        console.log("inside component Did mount",id)
         this.loadData(id);
         PostStore.addChangeListener(this.getQuestionDetail) // Sai krishnan
-        const commentDetails = [
-            {
-                commentId: "12s3vc4rqrf34",
-                commentDesc: " <p>If you've previously installed create-react-app globally via npm install -g create-react-app, we recommend you uninstall the package using npm uninstall -g create-react-app to ensure that npx always uses the latest version.</p><p>Use either one of the below commands:</p><ul><li>npx create-react-app my-app</li><li>npm init react-app my-app</li><li>yarn create react-app my-app</li></ul>",
-                commentedTimeAgo: "2 days ago",
-                upvotesCount: 10,
-                upvoteUrl: `vote/12s3vc4rqrf34/comment`,
-                editUrl: "#",
-                dateCreated: "2 Jan 2020",
-                name: "Anonymous User",
-                avatarUrl: require("../../images/avatars/noimage.png"),
-                userUpvoted: false
-            },
-        ];//servicecall.getComments(id).data;
+        CommentStore.addChangeListener(this.getComments) // Sai krishnan
         const relatedQuestionsDetails = [
             {
                 title: "Difference between npx and npm?",
@@ -164,7 +168,6 @@ class ViewQuestion extends React.Component {
             },
         ]
         this.setState({
-            comments: commentDetails,
             relatedQuestions: relatedQuestionsDetails,
             hotQuestions: hotQuestionsDetails,
             showMoreRelatedUrl: "#",
@@ -191,6 +194,7 @@ class ViewQuestion extends React.Component {
      */
     componentWillUnmount() {
         PostStore.removeChangeListener(this.getQuestionDetail) // Sai krishnan
+        CommentStore.removeChangeListener(this.getComments) // Sai krishnan
     }
 
     /**
@@ -201,6 +205,7 @@ class ViewQuestion extends React.Component {
      */
     render() {
         const details = this.state.details;
+        console.log("state",this.state);
         return (
             <Container fluid className="main-content-container px-4 pb-4">
                 {/* Page Header */}
@@ -210,7 +215,7 @@ class ViewQuestion extends React.Component {
                 <Row noGutters>
                     <Col lg="8" sm="12" className="main-bar" role="main">
                         <QuestionDetails details={details} />
-                        <Comments answerCount={details.answerCount} answers={this.state.comments} />
+                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} />
                         <CommentForm />
                     </Col>
                     <Col lg="4" sm="12" className="side-bar" role="complementary">

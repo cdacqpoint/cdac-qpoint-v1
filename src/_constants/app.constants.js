@@ -34,4 +34,7 @@ export default {
     EDIT_COMMENT: "EDIT_COMMENT",//Edit comment
     PAGENATE_COMMENT: "PAGENATE_COMMENT",//PAgnate comment
     CHANGE_COMMENTS_PER_PAGE: "CHANGE_COMMENTS_PER_PAGE",//Change comments per page limit
+
+    UPVOTE_POST: "UPVOTE_POST",//Upvote Post
+    UPVOTE_COMMENT: "UPVOTE_COMMENT",//Upvote Comment
 };

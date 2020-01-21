@@ -106,6 +106,7 @@ class QuestionForm extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.resetForm = this.resetForm.bind(this);
     this.attachments = React.createRef();
     this.state = {
       showNameEmail: false,
@@ -166,6 +167,7 @@ class QuestionForm extends React.Component {
       console.group('Post Submitted Changed');
       console.log(PostStore.hasError);
       console.log(PostStore.error);
+      this.resetForm();
       alert("Question added successfully!");
     } catch (error) {
       alert("Oops Someyhing went wrong!");
@@ -180,6 +182,17 @@ class QuestionForm extends React.Component {
       name: "",
     })
     );
+  }
+
+  resetForm = () => {
+    this.setState({
+      title: "",
+      description: "",
+      tags: 1,
+      category: [],
+      name: "",
+      email: "",
+    });
   }
 
   handleInputChange(event) {

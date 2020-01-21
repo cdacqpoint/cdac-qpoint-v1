@@ -70,7 +70,7 @@ const QuestionDetails = (props) => {
                     {renderHTML(details.desc)}
                 </div>
                 <div className="post-tags text-sm-left">
-                    <a href={details.tagUrl} className="post-tag badge badge-pill badge-primary" title="DAC" rel="Course tag">{details.tag}</a>
+                    <a href={details.tagUrl} className="post-tag badge badge-pill badge-primary" title={details.tag} rel="Course tag">{details.tag}</a>
 
                     {details.category.map((cat, idx) => (
                         <a href={cat.url} className="post-category badge badge-pill badge-info mx-1" title="java" rel="category" key={idx}>{cat.name}</a>

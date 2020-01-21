@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import Autosuggest from 'react-autosuggest';
 import { CommonActions } from '../../_actions';
 import PostStore from '../../_stores/post.stores';
+import "../../assets/react-autosuggest.css";
 
 const renderInputComponent = inputProps => (
     <InputGroup seamless className="ml-3 p-10 w-100">

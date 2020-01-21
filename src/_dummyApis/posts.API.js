@@ -94,7 +94,7 @@ export const PostsAPI = {
             desc: selectedQuestion.desc,
             hasImage: false,
             image: "https://picsum.photos/1920/1080",
-            tag: "DAC",
+            tag: selectedQuestion.tag,
             tagUrl: "/tagged/DAC/questions",
             category: [
                 {

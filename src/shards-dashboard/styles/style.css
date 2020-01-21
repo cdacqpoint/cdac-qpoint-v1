@@ -60,3 +60,6 @@
 .post-text{
     padding: 4px;
 }
+.iampointer{
+    cursor: pointer;
+}

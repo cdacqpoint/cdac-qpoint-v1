@@ -18,7 +18,6 @@ export default class Comments extends React.Component {
             "p-2",
             this.props.className,
         );
-        console.log(this.props)
         return (
             <div className={classes} {...this.props.attrs}>
                 <AnswerHeader answerCount={this.props.answerCount} />

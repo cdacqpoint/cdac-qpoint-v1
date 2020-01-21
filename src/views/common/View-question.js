@@ -33,7 +33,8 @@ class ViewQuestion extends React.Component {
         this.getComments = this.getComments.bind(this);
         this.setData = this.setData.bind(this);
         this.loadData = this.loadData.bind(this);
-        this.handleUpvotes = this.handleUpvotes.bind(this);
+        this.handleCommentUpvotes = this.handleCommentUpvotes.bind(this);
+        this.handleQuestionUpvotes = this.handleQuestionUpvotes.bind(this);
         this.state = {
             id: null,
             details: {
@@ -89,7 +90,6 @@ class ViewQuestion extends React.Component {
      */
     getComments() {
         const comments = CommentStore.getComments();
-        console.log("comments", comments)
         this.setState({
             comments: comments,
             commentsCount: CommentStore.getTotalCount(),
@@ -102,10 +102,8 @@ class ViewQuestion extends React.Component {
      * @memberof ViewQuestion
      */
     setData() {
-        console.log("im here setdata")
         const details = PostStore.getQuestionDetails();
         const comments = CommentStore.getComments();
-        console.log("comments", comments)
         if (details === null) {
             this.props.history.push('/questions')
         } else {
@@ -125,7 +123,6 @@ class ViewQuestion extends React.Component {
      * @memberof ViewQuestion
      */
     loadData(id) {
-        console.log('loadData :)')
         ViewQuestionActions.fetchQuestionDetails(id);
         ViewQuestionActions.fetchComments(id);
         this.setData();
@@ -139,7 +136,6 @@ class ViewQuestion extends React.Component {
     componentDidMount() {
         //Mount with service call
         const { id } = this.props.match.params; //useParams();
-        console.log("inside component Did mount", id)
         this.loadData(id);
         PostStore.addChangeListener(this.setData) // Sai krishnan
         CommentStore.addChangeListener(this.setData) // Sai krishnan
@@ -233,8 +229,18 @@ class ViewQuestion extends React.Component {
      * @param {*} commentId
      * @memberof ViewQuestion
      */
-    handleUpvotes(commentId) {
+    handleCommentUpvotes(commentId) {
         CommentStore.upvoteComment(commentId)
+    }
+
+    /**
+     *
+     * @author Sai krishnan
+     * @param {*} commentId
+     * @memberof ViewQuestion
+     */
+    handleQuestionUpvotes(commentId) {
+        ViewQuestionActions.upvotePost(commentId)
     }
 
     /**
@@ -245,7 +251,6 @@ class ViewQuestion extends React.Component {
      */
     render() {
         const details = this.state.details;
-        console.log("state", this.state);
         return (
             <Container fluid className="main-content-container px-4 pb-4">
                 {/* Page Header */}
@@ -254,8 +259,8 @@ class ViewQuestion extends React.Component {
                 </Row>
                 <Row noGutters>
                     <Col lg="8" sm="12" className="main-bar" role="main">
-                        <QuestionDetails details={details} />
-                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} handleUpvotes={this.handleUpvotes} />
+                        <QuestionDetails details={details} handleUpvotes={this.handleQuestionUpvotes}/>
+                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} handleUpvotes={this.handleCommentUpvotes} />
                         <CommentForm />
                     </Col>
                     <Col lg="4" sm="12" className="side-bar" role="complementary">

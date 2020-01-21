@@ -10,7 +10,8 @@ const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInner
  * @param {*} props
  * @author Sai Krishnan S
  */
-const QuestionDetails = ({ details, className, ...attrs }) => {
+const QuestionDetails = (props) => {
+    const { details, className } = props; 
     const classes = classNames(
         "question",
         "d-flex",
@@ -23,15 +24,15 @@ const QuestionDetails = ({ details, className, ...attrs }) => {
         details.userUpvoted ? "text-danger animated pulse infinite" : "",
     );
     return (
-        <div className={classes} {...attrs}>
+        <div className={classes}>
             {/*  Upvotes Count */}
             <div className="p-2 flex-shrink-1 vote-cell align-self-center">
                 <div className="text-center">
                     <div className="px-2">{details.upvotes}</div>
                     <div>
-                        <a href={details.upvoteUrl} className="text-muted" title="This question shows research effort; it is useful and clear">
+                        <span className="text-muted iampointer" title="This question shows research effort; it is useful and clear" onClick={()=>{props.handleUpvotes(details._id)}}>
                             <i className={upvoteClasses}></i>
-                        </a>
+                        </span>
                     </div>
                 </div>
             </div>

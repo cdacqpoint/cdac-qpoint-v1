@@ -18,7 +18,6 @@ let _store = {
  */
 function fetchApi() {
     let data = Api.fetchComments({ postId: _store.postId, filter: _store.filter, limit: _store.limit, offset: _store.page })
-    console.log(data)
     _store.comments = data.comments;
     _store.totalCount = data.comments_count;
 }
@@ -61,7 +60,6 @@ class CommentStore extends EventEmitter {
     }
 
     fetchComments(postId) {
-        console.log("inside fetch id", postId)
         _store.postId = postId;
         this.emit(Constants.CHANGE);
     }
@@ -74,16 +72,13 @@ class CommentStore extends EventEmitter {
                 this.error = response.data;
             }
             upvoted_comments.push(id);
-            console.log('added upvoted',upvoted_comments);
             localStorage.setItem('upvoted_comments', JSON.stringify(upvoted_comments));
             this.emit(Constants.CHANGE);
         }
     }
 
     addComment(desc) {
-        console.log(desc)
         let response = Api.createComment({ desc, postId: _store.postId })
-        console.log("response", response);
         if (response.status === false) {
             this.hasError = true;
             this.error = response.data;
@@ -117,7 +112,6 @@ class CommentStore extends EventEmitter {
                 this.fetchComments(payload.postId);
                 break;
             case Constants.ADD_COMMENT:
-                console.log("payload", payload)
                 this.addComment(payload.data);
                 break;
             case Constants.CHANGE_COMMENTS_PER_PAGE:

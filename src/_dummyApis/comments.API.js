@@ -6,7 +6,6 @@ let AllComments = [];
 const fetchComments = ({ postId, filter, limit, offset }) => {
     AllComments = JSON.parse(localStorage.getItem('comments')) || [];
     let upvoted_comments = JSON.parse(localStorage.getItem('upvoted_comments')) || [];
-    console.log("im in fetchcomments",AllComments)
     let comments = AllComments.filter(comment => comment.post === postId);
     comments = comments.map(comment => {
         return { ...comment, upvoteUrl: "#", commentedTimeAgo: moment(comment.createdAt).startOf('hour').fromNow(), editUrl: "#", dateCreated: moment(comment.createdAt).format('MMMM Do YYYY'), name: "Anonymous User", avatarUrl: require("../images/avatars/noimage.png"), userUpvoted: upvoted_comments.includes(comment._id) };
@@ -24,7 +23,6 @@ const createComment = ({ postId, desc }) => {
         createdAt: moment().format(),
         modifiedAt: moment().format()
     });
-    console.log("All Comments",AllComments)
     localStorage.setItem('comments', JSON.stringify(AllComments));
     return { status: true, message: "Commented successfull", data: null };
 }
@@ -32,7 +30,6 @@ const createComment = ({ postId, desc }) => {
 
 const updateUpvote = (id) => {
     AllComments.map((comment) => {
-        console.log("Ok macha im in",id)
         if (comment._id === id) {
            
             ++comment['upvotes'];

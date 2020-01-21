@@ -5,7 +5,7 @@ import Api from "../_dummyApis/comments.API";
 
 let _store = {
     comments: [],
-    postId:"",
+    postId: "",
     totalCount: 0,
     filter: 'latest',
     limit: 10,
@@ -67,11 +67,17 @@ class CommentStore extends EventEmitter {
     }
 
     upvoteComment(id) {
-        let response = Api.updateUpvote(id)
-        if (response.status === false) {
-            this.error = response.data;
+        let upvoted_comments = JSON.parse(localStorage.getItem('upvoted_comments')) || [];
+        if (!upvoted_comments.includes(id)) {
+            let response = Api.updateUpvote(id)
+            if (response.status === false) {
+                this.error = response.data;
+            }
+            upvoted_comments.push(id);
+            console.log('added upvoted',upvoted_comments);
+            localStorage.setItem('upvoted_comments', JSON.stringify(upvoted_comments));
+            this.emit(Constants.CHANGE);
         }
-        this.emit(Constants.CHANGE);
     }
 
     addComment(desc) {
@@ -111,7 +117,7 @@ class CommentStore extends EventEmitter {
                 this.fetchComments(payload.postId);
                 break;
             case Constants.ADD_COMMENT:
-                console.log("payload",payload)
+                console.log("payload", payload)
                 this.addComment(payload.data);
                 break;
             case Constants.CHANGE_COMMENTS_PER_PAGE:

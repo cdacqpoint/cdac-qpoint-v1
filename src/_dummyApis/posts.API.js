@@ -126,5 +126,17 @@ export const PostsAPI = {
             editUrl: "#",
             userUpvoted: false
         }
+    },
+    //Upvotes
+    updateUpvote: ({ id }) => {
+        let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+        allQuestions.map((comment) => {
+            if (comment._id === id) {
+                ++comment['upvotes'];
+            }
+            return comment;
+        })
+        localStorage.setItem('questions', JSON.stringify(allQuestions));
+        return { status: true, message: "Upvoted successfull", data: null };
     }
 }

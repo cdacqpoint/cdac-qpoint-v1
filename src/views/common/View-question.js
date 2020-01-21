@@ -33,6 +33,7 @@ class ViewQuestion extends React.Component {
         this.getComments = this.getComments.bind(this);
         this.setData = this.setData.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.handleUpvotes = this.handleUpvotes.bind(this);
         this.state = {
             id: null,
             details: {
@@ -72,7 +73,7 @@ class ViewQuestion extends React.Component {
     getQuestionDetail() {
         const details = PostStore.getQuestionDetails();
         if (details === null) {
-           // this.props.history.push('/questions')
+            // this.props.history.push('/questions')
         } else {
             this.setState({
                 id: PostStore._getSelectedQuestionId(),
@@ -106,7 +107,7 @@ class ViewQuestion extends React.Component {
         const comments = CommentStore.getComments();
         console.log("comments", comments)
         if (details === null) {
-           this.props.history.push('/questions')
+            this.props.history.push('/questions')
         } else {
             this.setState({
                 id: PostStore._getSelectedQuestionId(),
@@ -227,6 +228,16 @@ class ViewQuestion extends React.Component {
     }
 
     /**
+     *
+     * @author Sai krishnan
+     * @param {*} commentId
+     * @memberof ViewQuestion
+     */
+    handleUpvotes(commentId) {
+        CommentStore.upvoteComment(commentId)
+    }
+
+    /**
      * Render Question View 
      *
      * @returns
@@ -244,7 +255,7 @@ class ViewQuestion extends React.Component {
                 <Row noGutters>
                     <Col lg="8" sm="12" className="main-bar" role="main">
                         <QuestionDetails details={details} />
-                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} />
+                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} handleUpvotes={this.handleUpvotes} />
                         <CommentForm />
                     </Col>
                     <Col lg="4" sm="12" className="side-bar" role="complementary">

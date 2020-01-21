@@ -118,8 +118,8 @@ const CommentItem = (data) => {
             </div>
             <div className="answer-menu p-2 clearfix">
                 <div className="float-left">
-                    <a href={details.editUrl} className="text-muted">
-                        <i className="material-icons">edit</i>edit</a>
+                    {/* <a href={details.editUrl} className="text-muted">
+                        <i className="material-icons">edit</i>edit</a> */}
                 </div>
                 <div className="float-right ml-auto">
                     <div className="media p-2">

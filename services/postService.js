@@ -5,6 +5,7 @@ const async = require("async")
 const mongoose = require("mongoose")
 const categoryService = require("./categoryService")
 const CourseTagService = require("./courseTagService")
+const helper = require("../helpers")
 
 
 /**
@@ -122,7 +123,7 @@ exports.getPostCountTodayByCourseTag = async (courseTag) => {
  * @param {callback}[callback=null]
  * @returns Promise
  */
-exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {
+exports.postFetchMaster = async ({ limit, offset, keyword, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {
     let conditions = {};
     let sortBy = {};
     let skip = 0;
@@ -136,6 +137,11 @@ exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, cate
     //offset
     if (typeof offset !== "undefined" && offset !== null && offset !== "") {
         skip = parseInt(offset);
+    }
+
+    //keyword search
+    if (typeof keyword !== "undefined" && keyword !== null && keyword !== "") {
+        conditions = { ...conditions, title: new RegExp('^.*' + helper.escapeRegexCharacters(keyword) + '.*$', 'i') }
     }
 
     //offset

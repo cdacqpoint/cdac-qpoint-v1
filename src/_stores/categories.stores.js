@@ -16,6 +16,7 @@ class CategoryStore extends EventEmitter {
     }
 
     getCategories() {
+        console.log(_store.categories);
         return _store.categories;
     }
 

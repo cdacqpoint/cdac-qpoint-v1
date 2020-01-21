@@ -18,16 +18,23 @@ export default class Comments extends React.Component {
             "p-2",
             this.props.className,
         );
+        console.log(this.props)
         return (
             <div className={classes} {...this.props.attrs}>
                 <AnswerHeader answerCount={this.props.answerCount} />
-                <AnswerPagination />
-                {this.props.answers.map((comment, idx) => (
-                    <div key={idx}>
-                        <CommentItem details={comment} />
-                        <hr />
-                    </div>
-                ))}
+                {typeof this.props.answerCount !== "undefined" && this.props.answerCount !== 0 && <>
+                    <AnswerPagination />
+                    {this.props.answers.map((comment, idx) => (
+                        <div key={idx}>
+                            <CommentItem details={comment} />
+                            <hr />
+                        </div>
+                    ))}
+                </>}
+                {this.props.answerCount === 0 && <div className="no-content text-muted text-center">
+                    <h4><i className="material-icons">sentiment_dissatisfied</i> No answers yet!</h4>
+                </div>}
+
             </div>
         );
     }
@@ -83,7 +90,7 @@ const AnswerHeader = ({ answerCount, className, ...attrs }) => {
 const CommentItem = ({ details, className, ...attrs }) => {
     const classes = classNames(
         "answer-body",
-        "d-flex",
+        "row",
         "p-4",
         className,
     );
@@ -95,9 +102,9 @@ const CommentItem = ({ details, className, ...attrs }) => {
     return (
         <>
             <div className={classes} {...attrs}>
-                <div className="p-2 flex-shrink-1 vote-cell align-self-center">
+                <div className="p-2 col-2 vote-cell align-self-center">
                     <div className="text-center">
-                        <div className="px-2">{details.upvotesCount}</div>
+                        <div className="px-2">{details.upvotes}</div>
                         <div>
                             <a href={details.upvoteUrl} className="text-muted" title="This question shows research effort; it is useful and clear">
                                 <i className={upvoteClasses}></i>
@@ -105,8 +112,8 @@ const CommentItem = ({ details, className, ...attrs }) => {
                         </div>
                     </div>
                 </div>
-                <div className="p-2 answer-post flex-grow-1">
-                    {renderHTML(details.commentDesc)}
+                <div className="p-3 answer-post col-10">
+                    {renderHTML(details.desc)}
                 </div>
             </div>
             <div className="answer-menu p-2 clearfix">

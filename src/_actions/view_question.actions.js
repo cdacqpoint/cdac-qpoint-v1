@@ -14,15 +14,15 @@ export const ViewQuestionActions = {
             questionId: questionId,
         })
     },
+    
     // Fetch variables
-    fetchComments: ({ questionId, limit, page }) => {
+    fetchComments: (postId) => {
         Dispatcher.dispatch({
             actionType: Constants.FETCH_COMMENTS,
-            questionId: questionId,
-            limit: limit,
-            page: page
+            postId: postId,
         })
     },
+
     // Add variables
     addComments: (data) => {
         Dispatcher.dispatch({
@@ -30,6 +30,7 @@ export const ViewQuestionActions = {
             data: data,
         })
     },
+
     // Edit variables
     editComments: (_id, data) => {
         Dispatcher.dispatch({
@@ -49,20 +50,36 @@ export const ViewQuestionActions = {
     },
 
     //Paginate Comments
-    paginateComments: ({ question_id, page }) => {
+    paginateComments: (page) => {
         Dispatcher.dispatch({
             actionType: Constants.PAGENATE_COMMENT,
-            question_id: question_id,
             page: page,
         })
     },
 
     //Change Page Limit
-    changeCommentsPerPageLimit: ({ question_id, limit }) => {
+    changeCommentsPerPageLimit: (limit) => {
         Dispatcher.dispatch({
             actionType: Constants.CHANGE_COMMENTS_PER_PAGE,
-            question_id: question_id,
             limit: limit,
         })
     },
+
+    //Upvote Post
+    upvotePost: (_id) => {
+        Dispatcher.dispatch({
+            actionType: Constants.UPVOTE_POST,
+            id: _id,
+        })
+    },
+
+    //Upvote Comment
+    upvoteComment: (_id) => {
+        Dispatcher.dispatch({
+            actionType: Constants.UPVOTE_COMMENT,
+            id: _id,
+        })
+    }
 }
+
+window.ViewQuestionActions = ViewQuestionActions;

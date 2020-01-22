@@ -113,7 +113,7 @@ class QuestionForm extends React.Component {
       DefaultTag: null,
       title: "",
       description: "",
-      tags: 1,
+      tags: "",
       category: [],
       name: "",
       email: "",
@@ -158,7 +158,7 @@ class QuestionForm extends React.Component {
   }
 
   handleSubmit(event) {
-   
+
     let { title, description, tags, category, name, email, showNameEmail } = this.state;
     const data = { title, description, category, tags, name, email, notify: showNameEmail }
     console.log(data)
@@ -185,10 +185,11 @@ class QuestionForm extends React.Component {
   }
 
   resetForm = () => {
+    console.log("reset form",this.state.TagList[0])
     this.setState({
       title: "",
       description: "",
-      tags: 1,
+      tags: this.state.TagList[0]._id || "",
       category: [],
       name: "",
       email: "",

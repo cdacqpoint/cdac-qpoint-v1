@@ -1,4 +1,5 @@
 import { random } from "../_helpers/random";
+import { TagsAPI } from "./tags.API";
 import Moment from "moment";
 
 function escapeRegexCharacters(str) {
@@ -22,6 +23,7 @@ export const PostsAPI = {
     fetchQuestions: (filter = "latest", page = 0, limit = 10, tag = null, category = null) => {
         let Questions = [];
         let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+        allQuestions = allQuestions.reverse();
         let last = limit * Math.ceil(page / limit);
         last = last > 0 ? last : limit;
         Questions = allQuestions.slice(page, last);
@@ -34,6 +36,11 @@ export const PostsAPI = {
         if (filter !== "" && filter !== "latest") {
             Questions.sort((a, b) => b.commentsCount > a.commentsCount);
         }
+        Questions = Questions.map((ques) => {
+            ques['tag'] = TagsAPI.getTagNameById(ques['tag']) || "DAC";
+            ques['author'] = "Anonymous User";
+            return ques;
+        })
         return { status: true, message: "", data: Questions };
     },
     /**
@@ -51,6 +58,7 @@ export const PostsAPI = {
             category: data.category,
             tag: data.tags,
             email: data.email,
+            upvotes:0,
             author: data.name,
             authorAvatar: "../../images/avatars/noimage.png",
             commentsCount: 5,
@@ -94,7 +102,7 @@ export const PostsAPI = {
             desc: selectedQuestion.desc,
             hasImage: false,
             image: "https://picsum.photos/1920/1080",
-            tag: selectedQuestion.tag,
+            tag: TagsAPI.getTagNameById(selectedQuestion.tag),
             tagUrl: "/tagged/DAC/questions",
             category: [
                 {

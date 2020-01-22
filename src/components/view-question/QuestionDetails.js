@@ -2,6 +2,17 @@ import React from "react";
 import classNames from "classnames";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PropTypes from "prop-types";
+import {
+    LinkedinShareButton,
+    LinkedinIcon,
+    EmailShareButton,
+    EmailIcon,
+    WhatsappShareButton,
+    WhatsappIcon,
+    TwitterShareButton,
+    TwitterIcon,
+} from "react-share";
+import "../../shards-dashboard/styles/react-share.css";
 
 const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
 
@@ -10,28 +21,30 @@ const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInner
  * @param {*} props
  * @author Sai Krishnan S
  */
-const QuestionDetails = ({ details, className, ...attrs }) => {
+const QuestionDetails = (props) => {
+    const { details, className } = props;
     const classes = classNames(
         "question",
         "d-flex",
         "p-2",
         className,
     );
+    const shareUrl = "http://localhost";
     const upvoteClasses = classNames(
         "fa fa-heart fa-3x",
         "align-self-center",
         details.userUpvoted ? "text-danger animated pulse infinite" : "",
     );
     return (
-        <div className={classes} {...attrs}>
+        <div className={classes}>
             {/*  Upvotes Count */}
             <div className="p-2 flex-shrink-1 vote-cell align-self-center">
                 <div className="text-center">
                     <div className="px-2">{details.upvotes}</div>
                     <div>
-                        <a href={details.upvoteUrl} className="text-muted" title="This question shows research effort; it is useful and clear">
+                        <span className="text-muted iampointer" title="This question shows research effort; it is useful and clear" onClick={() => { props.handleUpvotes(details._id) }}>
                             <i className={upvoteClasses}></i>
-                        </a>
+                        </span>
                     </div>
                 </div>
             </div>
@@ -57,7 +70,7 @@ const QuestionDetails = ({ details, className, ...attrs }) => {
                     {renderHTML(details.desc)}
                 </div>
                 <div className="post-tags text-sm-left">
-                    <a href={details.tagUrl} className="post-tag badge badge-pill badge-primary" title="DAC" rel="Course tag">{details.tag}</a>
+                    <a href={details.tagUrl} className="post-tag badge badge-pill badge-primary" title={details.tag} rel="Course tag">{details.tag}</a>
 
                     {details.category.map((cat, idx) => (
                         <a href={cat.url} className="post-category badge badge-pill badge-info mx-1" title="java" rel="category" key={idx}>{cat.name}</a>
@@ -66,9 +79,30 @@ const QuestionDetails = ({ details, className, ...attrs }) => {
                 </div>
                 <div className="post-menu py-4 clearfix">
                     <div className="float-left">
-                        <a href={details.editUrl} className="text-muted">
-                            <i className="material-icons">edit</i>edit
-                        </a>
+                        <TwitterShareButton
+                            url={shareUrl}
+                            title={details.title}
+                            className="Demo__some-network__share-button px-1"
+                        >
+                            <TwitterIcon size={32} round />
+                        </TwitterShareButton>
+
+                        <LinkedinShareButton url={shareUrl} className="Demo__some-network__share-button px-1">
+                            <LinkedinIcon size={32} round />
+                        </LinkedinShareButton>
+
+                        <EmailShareButton url={shareUrl} subject={details.title} body={details.desc} className=" px-1">
+                            <EmailIcon size={32} round={true} />
+                        </EmailShareButton>
+
+                        <WhatsappShareButton
+                            url={shareUrl}
+                            title={details.title}
+                            separator=":: "
+                            className="Demo__some-network__share-button  px-1"
+                        >
+                            <WhatsappIcon size={32} round />
+                        </WhatsappShareButton>
                     </div>
                     <div className="float-right ml-auto">
                         <div className="media p-2">

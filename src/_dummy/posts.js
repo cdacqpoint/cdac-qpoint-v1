@@ -12,7 +12,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -30,7 +30,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -48,7 +48,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -66,7 +66,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -84,7 +84,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -102,7 +102,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -120,7 +120,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -138,7 +138,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -156,7 +156,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -174,7 +174,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -192,7 +192,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -210,7 +210,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -228,7 +228,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -246,7 +246,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -264,7 +264,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -282,7 +282,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -300,7 +300,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -318,7 +318,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -336,7 +336,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -354,7 +354,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -372,7 +372,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -390,7 +390,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -408,7 +408,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -426,7 +426,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -444,7 +444,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -462,7 +462,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -480,7 +480,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -498,7 +498,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -516,7 +516,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -534,7 +534,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -552,7 +552,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -570,7 +570,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -588,7 +588,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -606,7 +606,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -624,7 +624,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -642,7 +642,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,
@@ -660,7 +660,7 @@ export default {
                     'refelection'
                 ],
                 tag: 'DAC',
-                email: '',
+                email:'',upvotes:300,
                 author: 'Anonymous',
                 authorAvatar: "../../images/avatars/noimage.png",
                 commentsCount: 5,

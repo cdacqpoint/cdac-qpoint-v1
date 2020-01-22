@@ -15,6 +15,16 @@ let _store = {
     page: 0
 };
 
+function fetchSingleQuestion(id) {
+    const questionDetail = PostsAPI.getQuestionDetails(_store._selectedQuestionId);
+    if (questionDetail === null) {
+        PostStore.isLoading = false;
+        PostStore.hasError = true;
+        PostStore.error = "No Question found!";
+    }
+    _store.selectedQuestionDetails = questionDetail;
+}
+
 class PostStore extends EventEmitter {
     constructor() {
         super();
@@ -72,6 +82,7 @@ class PostStore extends EventEmitter {
     }
 
     getQuestionDetails() {
+        fetchSingleQuestion();
         //Get Question Details
         return _store.selectedQuestionDetails;
     }
@@ -107,7 +118,6 @@ class PostStore extends EventEmitter {
         this.isLoading = true;
         page = page === 1 ? 0 : page;
         _store.page = page;
-        console.log("Im In")
         this.emit(Constants.CHANGE);
     }
 
@@ -120,7 +130,6 @@ class PostStore extends EventEmitter {
     }
 
     fetchQuestions() {
-        console.log("Store", _store)
         let { filter, category, tag, limit, page } = _store;
         let response = PostsAPI.fetchQuestions(filter, page, limit, tag, category)
         if (response.status === true) {
@@ -158,16 +167,8 @@ class PostStore extends EventEmitter {
     }
 
     fetchQuestionDetails(id) {
-        console.log("id",id)
-        //post api willbe here
-        const questionDetail = PostsAPI.getQuestionDetails(id);
-        if (questionDetail === null) {
-            this.isLoading = false;
-            this.hasError = true;
-            this.error = "No Question found!";
-        }
         _store._selectedQuestionId = id;
-        _store.selectedQuestionDetails = questionDetail;
+        //post api willbe here
         this.emit(Constants.CHANGE);
     }
 
@@ -181,6 +182,19 @@ class PostStore extends EventEmitter {
         console.log("Post store listeners:", this.listenerCount(Constants.CHANGE))
     }
 
+    upvoteQuestion(id) {
+        let upvoted_questions = JSON.parse(localStorage.getItem('upvoted_questions')) || [];
+        if (!upvoted_questions.includes(id)) {
+            let response = PostsAPI.updateUpvote(id)
+            if (response.status === false) {
+                this.error = response.data;
+            }
+            upvoted_questions.push(id);
+            localStorage.setItem('upvoted_questions', JSON.stringify(upvoted_questions));
+            this.emit(Constants.CHANGE);
+        }
+    }
+
     registerToActions(payload) {
         switch (payload.actionType) {
             case Constants.FETCH_QUESTIONS:
@@ -188,6 +202,9 @@ class PostStore extends EventEmitter {
                 break;
             case Constants.FETCH_QUESTION_DETAILS:
                 this.fetchQuestionDetails(payload.questionId);
+                break;
+            case Constants.UPVOTE_POST:
+                this.upvoteQuestion(payload.id);
                 break;
             case Constants.CREATE_QUESTION:
                 this.createPost(payload.data);
@@ -220,7 +237,6 @@ class PostStore extends EventEmitter {
                 this.emit(Constants.CHANGE);
                 break;
             case Constants.SEARCH_QUESTIONS:
-                console.log(payload.keyword, PostsAPI.searchQuestions(payload.keyword))
                 this.isLoading = false;
                 _store.searchedQuestions = PostsAPI.searchQuestions(payload.keyword);
                 this.emit(Constants.CHANGE);

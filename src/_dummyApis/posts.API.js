@@ -24,7 +24,6 @@ export const PostsAPI = {
         let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
         let last = limit * Math.ceil(page / limit);
         last = last > 0 ? last : limit;
-        console.log("page,last", page, last)
         Questions = allQuestions.slice(page, last);
         if (tag !== null && tag !== "") {
             Questions.filter(ques => ques.tags === tag);
@@ -35,7 +34,6 @@ export const PostsAPI = {
         if (filter !== "" && filter !== "latest") {
             Questions.sort((a, b) => b.commentsCount > a.commentsCount);
         }
-        console.log("inside API", Questions)
         return { status: true, message: "", data: Questions };
     },
     /**
@@ -88,6 +86,7 @@ export const PostsAPI = {
     getQuestionDetails: (qid) => {
         let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
         const questions = allQuestions.filter(question => question._id === qid);
+        let upvoted_questions = JSON.parse(localStorage.getItem('upvoted_questions')) || [];
         let selectedQuestion = questions[0] || {};
         return typeof selectedQuestion._id === 'undefined' ? null : {
             _id: selectedQuestion._id || "",
@@ -95,7 +94,7 @@ export const PostsAPI = {
             desc: selectedQuestion.desc,
             hasImage: false,
             image: "https://picsum.photos/1920/1080",
-            tag: "DAC",
+            tag: selectedQuestion.tag,
             tagUrl: "/tagged/DAC/questions",
             category: [
                 {
@@ -118,13 +117,25 @@ export const PostsAPI = {
             dateCreated: "1 Jan 2020",
             activeTimeAgo: "2 days ago",
             askedTimeAgo: "2 days ago",
-            upvotes: 300,
+            upvotes: selectedQuestion.upvotes,
             upvoteUrl: `vote/${qid}/question`,
             name: "Anonymous User",
             avatarUrl: require("../images/avatars/noimage.png"),
             answerCount: 23,
             editUrl: "#",
-            userUpvoted: false
+            userUpvoted: upvoted_questions.includes(selectedQuestion._id)
         }
+    },
+    //Upvotes
+    updateUpvote: (id) => {
+        let allQuestions = JSON.parse(localStorage.getItem('questions')) || [];
+        allQuestions.map((comment) => {
+            if (comment._id === id) {
+                comment['upvotes']++;
+            }
+            return comment;
+        })
+        localStorage.setItem('questions', JSON.stringify(allQuestions));
+        return { status: true, message: "Upvoted successfull", data: null };
     }
 }

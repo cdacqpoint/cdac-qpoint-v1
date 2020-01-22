@@ -5,8 +5,6 @@ import { Redirect } from "react-router-dom";
 import { DefaultLayout } from "./layouts";
 
 // Route Views
-import BlogOverview from "./views/BlogOverview";
-import UserProfileLite from "./views/UserProfileLite";
 import Question from "./views/common/Dashboard";
 import ViewQuestion from "./views/common/View-question";
 import AddQuestion from "./views/common/Add-question";
@@ -33,16 +31,6 @@ export default [
     component: ViewQuestion
   },
   {
-    path: "/blog-overview",
-    layout: DefaultLayout,
-    component: BlogOverview
-  },
-  {
-    path: "/user-profile-lite",
-    layout: DefaultLayout,
-    component: UserProfileLite
-  },
-  {
     path: "/add-new-post",
     layout: DefaultLayout,
     component: AddQuestion
@@ -53,7 +41,7 @@ export default [
     component: Errors
   },
   {
-    path: "/components-overview",
+    path: "/categories",
     layout: DefaultLayout,
     component: Categories
   },

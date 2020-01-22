@@ -18,7 +18,6 @@ export default class Comments extends React.Component {
             "p-2",
             this.props.className,
         );
-        console.log(this.props)
         return (
             <div className={classes} {...this.props.attrs}>
                 <AnswerHeader answerCount={this.props.answerCount} />
@@ -26,7 +25,7 @@ export default class Comments extends React.Component {
                     <AnswerPagination />
                     {this.props.answers.map((comment, idx) => (
                         <div key={idx}>
-                            <CommentItem details={comment} />
+                            <CommentItem details={comment} handleUpvotes={this.props.handleUpvotes}/>
                             <hr />
                         </div>
                     ))}
@@ -87,7 +86,8 @@ const AnswerHeader = ({ answerCount, className, ...attrs }) => {
  * @author Sai Krishnan S
  * @param {*} param0 
  */
-const CommentItem = ({ details, className, ...attrs }) => {
+const CommentItem = (data) => {
+    const { details, className } = data;
     const classes = classNames(
         "answer-body",
         "row",
@@ -101,14 +101,14 @@ const CommentItem = ({ details, className, ...attrs }) => {
     );
     return (
         <>
-            <div className={classes} {...attrs}>
+            <div className={classes}>
                 <div className="p-2 col-2 vote-cell align-self-center">
                     <div className="text-center">
                         <div className="px-2">{details.upvotes}</div>
                         <div>
-                            <a href={details.upvoteUrl} className="text-muted" title="This question shows research effort; it is useful and clear">
+                            <span onClick={()=>{data.handleUpvotes(details._id)}} className="text-muted" title="This question shows research effort; it is useful and clear">
                                 <i className={upvoteClasses}></i>
-                            </a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -118,8 +118,8 @@ const CommentItem = ({ details, className, ...attrs }) => {
             </div>
             <div className="answer-menu p-2 clearfix">
                 <div className="float-left">
-                    <a href={details.editUrl} className="text-muted">
-                        <i className="material-icons">edit</i>edit</a>
+                    {/* <a href={details.editUrl} className="text-muted">
+                        <i className="material-icons">edit</i>edit</a> */}
                 </div>
                 <div className="float-right ml-auto">
                     <div className="media p-2">

@@ -2,8 +2,40 @@ const Post = require("../models/postModel")
 
 const moment = require('moment');
 const async = require("async")
+const mongoose = require("mongoose")
 const categoryService = require("./categoryService")
 const CourseTagService = require("./courseTagService")
+const helper = require("../helpers")
+
+
+/**
+ * Increment Upvotes...
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {string} {_id}
+ * @returns Promise
+ */
+exports.incrementUpvotes = async (_id) => {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+        return null;
+    return Post.findOneAndUpdate({ _id }, { $inc: { upvotes: 1 } }, {
+        new: true
+    })
+}
+
+/**
+ * Get Post Details
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {string} [_id]
+ * @param {string} [details="_id title desc courseTag categories status visibility upvotes attachments modifiedAt publishedOn name email"]
+ * @returns
+ */
+exports.getPostDetails = async (_id, details = "_id title desc courseTag categories status visibility upvotes attachments modifiedAt publishedOn name email") => {
+    if (!mongoose.Types.ObjectId.isValid(_id))
+        return null;
+    return Post.findById(_id, details)
+        .populate('categories', '_id name')
+        .populate('courseTag', '_id name').exec()
+}
 
 /**
  * Create Post
@@ -121,12 +153,12 @@ exports.getPostCountTodayByCategory = async (category) => {
 /**
  * Master function for all fetch operations on Post.
  * @author Sai Krishnan S <xicoder96@github.com>
- * @param {*} data
- * @param {boolean} active
- * @param {callback} callback
+ * @param {*} { limit, offset,keyword, relatedQuesId, courseTag, category, titleOnly, sort }
+ * @param {boolean} [active=true]
+ * @param {callback}[callback=null]
  * @returns Promise
  */
-exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {
+exports.postFetchMaster = async ({ limit, offset, keyword, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {
     let conditions = {};
     let sortBy = {};
     let skip = 0;
@@ -138,8 +170,13 @@ exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, cate
     }
 
     //offset
-    if (typeof skip !== "undefined" && skip !== null && skip !== "") {
+    if (typeof offset !== "undefined" && offset !== null && offset !== "") {
         skip = parseInt(offset);
+    }
+
+    //keyword search
+    if (typeof keyword !== "undefined" && keyword !== null && keyword !== "") {
+        conditions = { ...conditions, title: new RegExp('^.*' + helper.escapeRegexCharacters(keyword) + '.*$', 'i') }
     }
 
     //offset

@@ -38,7 +38,7 @@ export const PostsAPI = {
         }
         Questions = Questions.map((ques) => {
             ques['tag'] = TagsAPI.getTagNameById(ques['tag']) || "DAC";
-            ques['author'] = "Anonymous User";
+            ques['author'] = "Anonymous";
             return ques;
         })
         return { status: true, message: "", data: Questions };

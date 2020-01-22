@@ -33,9 +33,9 @@ const Post = ({ post }) => {
                     <Badge pill className="card-post__category bg-primary ml-1">
                         {post.tag}
                     </Badge>
-                    {post.category.map((cat, index) => (
-                        <a href={defaultUrl} className="category-link d-none d-md-inline-block" key={index}>{cat}</a>
-                    ))}
+                    {/* {post.category.map((cat, index) => (
+                        <Link to={`categories`} className="category-link d-none d-md-inline-block" key={index}>{cat}</Link>
+                    ))} */}
                     <Button pill theme="white" tag={Link} to={`question/${post._id}`}>
                         <span className="nav-link-icon__wrapper">
                             <i className="fas fa-comment"></i>

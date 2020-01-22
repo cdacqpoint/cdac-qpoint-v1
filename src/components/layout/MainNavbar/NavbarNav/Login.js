@@ -12,7 +12,7 @@ export default class LoginNav extends React.Component {
             <NavItem className="nav-item border-right">
                 <NavLink
                     className="nav-link text-nowrap px-4 link-button"
-                    tag={Link} to="user-profile">
+                    tag={Link} to="login">
                     <i className="material-icons mr-2">input</i>
                     <span className="d-none d-md-inline-block">Log in</span>
                 </NavLink>

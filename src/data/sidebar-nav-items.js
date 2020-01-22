@@ -19,7 +19,7 @@ export default function() {
     {
       title: "Categories",
       htmlBefore: '<i class="material-icons">view_module</i>',
-      to: "/components-overview",
+      to: "/categories",
     }
   ];
 }

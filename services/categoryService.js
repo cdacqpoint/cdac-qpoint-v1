@@ -3,6 +3,7 @@ const Category = require("../models/categoryModel")
 const moment = require('moment');
 const async = require("async")
 const Post = require("../models/postModel")
+const helper = require("../helpers")
 
 /**
  * Get Category From Name
@@ -133,7 +134,7 @@ async function categoryFetch({ limit, offset, keyword, sort }, callback = null) 
                 sortBy = { ...sortBy, publishedOn: 'desc' }
                 break;
             case "alphabetical":
-                sortBy = { ...sortBy, name: 'desc' }
+                sortBy = { ...sortBy, name: 'asc' }
                 break;
             case "numberOfPosts":
                 sortBy = { ...sortBy, posts: 'desc' }
@@ -146,7 +147,7 @@ async function categoryFetch({ limit, offset, keyword, sort }, callback = null) 
 
     //keyword search
     if (typeof keyword !== "undefined" && keyword !== null && keyword !== "") {
-        conditions = { ...conditions, title: new RegExp('^.*' + helper.escapeRegexCharacters(keyword) + '.*$', 'i') }
+        conditions = { ...conditions, name: new RegExp('^.*' + helper.escapeRegexCharacters(keyword) + '.*$', 'i') }
     }
     //Return back a promise
     return async.parallel({

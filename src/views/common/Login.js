@@ -16,10 +16,19 @@ export default class Login extends Component{
        this.handleChange=this.handleChange.bind(this);
        this.handleInputChange=this.handleInputChange.bind(this);
        this.handleClick=this.handleClick.bind(this);
+       this.resetForm = this.resetForm.bind(this);
+    }
+
+    resetForm = () => {
+        this.setState({ designation:"Student",
+        email:"",
+        password:"",
+        loginerrors:"" });
     }
 
     handleClick = () =>{
         alert("login successfull!!!");
+        this.resetForm();
     }
     handleInputChange(event) {
         const target = event.target;

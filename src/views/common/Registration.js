@@ -19,9 +19,23 @@ export default class Registration extends Component{
        this.handleChange=this.handleChange.bind(this);
        this.handleInputChange=this.handleInputChange.bind(this);
        this.handleClick=this.handleClick.bind(this);
+       this.resetForm = this.resetForm.bind(this);
     }
+    
+    resetForm = () => {
+        this.setState({ firstname:"",
+        lastname:"",
+        coursename:"DAC",
+        designation:"Student",
+        email:"",
+        password:"",
+        passwordconfirm:"",
+        registrationerrors:""});
+    }
+    
     handleClick = () =>{
         alert("Registration Done Successfully !!");
+        this.resetForm();
     }
 
     handleInputChange(event) {

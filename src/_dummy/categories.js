@@ -44,7 +44,7 @@ export default {
             },
             {
                 _id: random(25),
-                nname: "C#",
+                name: "C#",
                 url: "../categories/c#/questions",
                 totalCount: 10,
                 todaysCount: 0,

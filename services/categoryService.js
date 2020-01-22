@@ -4,22 +4,50 @@ const moment = require('moment');
 const async = require("async")
 const Post = require("../models/postModel")
 
+/**
+ * Get Category From Name
+ * @author Alisha Bilquis 
+ * @param {*} name
+ * @returns
+ */
 async function getCategoryFromName(name) {
     return await Category.findOne({ name: name })
-    
+
 }
 
+/**
+ * Get Categories With Name In
+ * @author Alisha Bilquis
+ * @param {*} name
+ * @returns
+ */
 async function getCategoriesWithNameIn(name) {
     return await Category.find({ name: { $in: name } })
 }
-exports.isNameUnique = async (name) => {
+
+/**
+ *
+ * Check if Name is unique or not
+ * @author Alisha Bilquis
+ * @param {*} name
+ * @returns
+ */
+async function isNameUnique(name) {
     return await Category.findOne({ name: name }).then(category => {
         if (category) {
             return Promise.reject('Duplicate Question');
         }
     });
 }
-exports.createCategory = async(details) =>{
+
+/**
+ *
+ * Create Category
+ * @author Alisha Bilquis
+ * @param {*} details
+ * @returns
+ */
+async function createCategory(details) {
     const catData = {
         name: details.name,
         desc: details.desc,
@@ -31,7 +59,12 @@ exports.createCategory = async(details) =>{
 }
 
 
-
+/**
+ * Create Categories In Bulk
+ * @author Sai krishnan S<xicoder96@github.com>
+ * @param {*} categories
+ * @returns
+ */
 async function createCategoryInBulk(categories) {
     catArray = []
     categories.map((name) => {
@@ -41,7 +74,13 @@ async function createCategoryInBulk(categories) {
     return catArray;
 }
 
-exports.getAllOrCreate=async(categories)=> {
+/**
+ * Get All Or Create Category
+ * @author Sai Krishnan S <xicoder96@github.com>
+ * @param {*} categories
+ * @returns
+ */
+async function getAllOrCreate(categories) {
     let catArray = [];
     for (var i = 0; i < categories.length; i++) {
         let category = await getCategoryFromName(categories[i]);
@@ -50,21 +89,33 @@ exports.getAllOrCreate=async(categories)=> {
         }
         catArray.push(category._id);
     }
-    console.log(catArray);
     return catArray;
 
 }
-exports.getAll =async(callback)=> {
-    
+
+/**
+ *
+ * @author Alisha bilquis
+ * @param {*} callback
+ */
+async function getAll(callback) {
     Category.find({ "status": true }).
         exec(callback);
 }
-exports.categoryFetch = async ({ limit, offset,keyword, sort } ,callback = null) => {
+
+/**
+ * Master function for fetching all the categories
+ * @author Alisha bilquis
+ * @param {*} { limit, offset, keyword, sort }
+ * @param {*} [callback=null]
+ * @returns
+ */
+async function categoryFetch({ limit, offset, keyword, sort }, callback = null) {
     let conditions = {};
     let sortBy = {};
     let skip = 0;
     let limitDoc = 13;
-    
+
     //offset
     if (typeof skip !== "undefined" && skip !== null && skip !== "") {
         skip = parseInt(offset);
@@ -85,32 +136,43 @@ exports.categoryFetch = async ({ limit, offset,keyword, sort } ,callback = null)
                 sortBy = { ...sortBy, name: 'desc' }
                 break;
             case "numberOfPosts":
-                    sortBy = { ...sortBy, posts: 'desc' }
-                    break;
+                sortBy = { ...sortBy, posts: 'desc' }
+                break;
             default:
                 sortBy = { ...sortBy, publishedOn: 'desc' }
                 break;
         }
     }
 
-     //keyword search
-     if (typeof keyword !== "undefined" && keyword !== null && keyword !== "") {
+    //keyword search
+    if (typeof keyword !== "undefined" && keyword !== null && keyword !== "") {
         conditions = { ...conditions, title: new RegExp('^.*' + helper.escapeRegexCharacters(keyword) + '.*$', 'i') }
-     }
+    }
     //Return back a promise
     return async.parallel({
         categories_count: function (callback) {
             Category.countDocuments(conditions, callback);
         },
         categories: function (callback) {
-                //With all details
-                let details = "name desc status";
-                Category.find(conditions, details)
-                    .populate({ 
-                        path: 'posts',
-                        select: '_id name'
-                    }).skip(skip).limit(limitDoc).sort(sortBy).exec(callback);
+            //With all details
+            let details = "name desc status";
+            Category.find(conditions, details)
+                .populate({
+                    path: 'posts',
+                    select: '_id name'
+                }).skip(skip).limit(limitDoc).sort(sortBy).exec(callback);
         },
-        
+
     }, callback);
+}
+
+module.exports = {
+    categoryFetch,
+    getAll,
+    getAllOrCreate,
+    createCategoryInBulk,
+    createCategory,
+    isNameUnique,
+    getCategoriesWithNameIn,
+    getCategoryFromName
 }

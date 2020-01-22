@@ -78,6 +78,7 @@ export default {
                 _id: random(25),
                 name: "CSS",
                 url: "../categories/css/questions",
+                totalCount: 105,
                 todaysCount: 0,
                 weekCount: 0
             },

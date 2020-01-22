@@ -121,6 +121,12 @@ postSchema.post('save', async function (doc) {
     })
 });
 
+postSchema.virtual('categoriesCount', {
+    ref: 'Category', // The model to use
+    localField: 'name', // Find people where `localField`
+    foreignField: 'posts', // is equal to `foreignField`
+    count: true // And only get the number of docs
+});
 
 //Formatted Dates
 postSchema.virtual('scheduledToFormated').get(function () {

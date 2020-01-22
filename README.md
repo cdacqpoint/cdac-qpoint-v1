@@ -6,27 +6,50 @@ The CDAC-Qpoint API is organized around [REST](http://en.wikipedia.org/wiki/Repr
 The entire application is contained within the `.env` file. You can find a `.env.example` in the root directory, make a copy of the file and rename it as `.env` and change the configuration values.  
 
 ## Install
-``` 
+
+```command
    $ npm install
+    found 0 vulnerabilities
    $ npm run seeder
+    > cdac-qpoint-v1@1.0.0 seeder /path/to/server-qpoint-v1
+    > node ./seeders/dbSeeder
+
+
 ```
 
 ## Run the app
 
 On MacOS or Linux, run the app with this command:
-```    
+
+```command
     $ npm run serverstart
-````
-On Windows, use this command:
+    > cdac-qpoint-v1@1.0.0 serverstart /path/to/server-qpoint-v1
+    > DEBUG=cdac-qpoint-v1:* npm run devstart
+
+
+    > cdac-qpoint-v1@1.0.0 devstart /path/to/server-qpoint-v1
+    > nodemon ./bin/www
+
+    [nodemon] 2.0.2
+    [nodemon] to restart at any time, enter `rs`
+    [nodemon] watching dir(s): *.*
+    [nodemon] watching extensions: js,mjs,json
+    [nodemon] starting `node ./bin/www`
 ```
-   > set DEBUG=cdac-qpoint-v1:* 
+
+On Windows, use this command:
+
+```command
+   > set DEBUG=cdac-qpoint-v1:*
    > npm run devstart
 ```
 
 ## Run the tests
 
-```
+```command
    $ npm run test
+   > cdac-qpoint-v1@1.0.0 test /path/to/server-qpoint-v1
+   > mocha -timeout 10000
 ```
 
 # REST API
@@ -44,7 +67,7 @@ The REST API to the example app is described below.
 - limit: __number__
   - number of posts
   - default:10
-- offset:__number__ 
+- offset:__number__
   - skip number of posts
   - default:0
 - keyword:__string__
@@ -68,7 +91,7 @@ The REST API to the example app is described below.
 - sort:__string__  
   - Sorting Algorithm [`latest`,`top_rated`]
   - default:"latest"
- 
+
 ### Response
 
 ```JSON
@@ -116,6 +139,7 @@ The REST API to the example app is described below.
     }
 }
 ```
+
 ## Create a Post
 
 ### Request

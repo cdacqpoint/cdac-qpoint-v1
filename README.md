@@ -21,16 +21,7 @@ Each question posted can be upvoted, commented on (answered) and tagged with bra
         ```bash
             sudo apt install mongodb
         ```
-* Mocha
-    - Library to run tests
-        ```bash
-            npm install --global mocha
-        ```
-* Chai
-    - Assertion Library
-        ```bash
-            npm install chai
-        ```
+
 ## Where to begin?
 
 * Installing [Git](https://git-scm.com/)
@@ -57,6 +48,8 @@ Each question posted can be upvoted, commented on (answered) and tagged with bra
 * [React](https://reactjs.org/) - UI library used
 * [MongoDB](https://www.mongodb.com/) - NoSQL database program
 * [Mongoose](https://mongoosejs.com/) - Object data modeling(ODM) library
+* [Mocha](https://mochajs.org/) - Library to run tests
+* [Chai](https://www.chaijs.com/) - Assertion Library
 
 ## Proof Of Concepts
 
@@ -103,6 +96,7 @@ Each question posted can be upvoted, commented on (answered) and tagged with bra
 
 * [Front End](https://github.com/cdacqpoint/cdac-qpoint-v1/blob/front-end-branch/README.md)
 * [Back End](https://github.com/cdacqpoint/cdac-qpoint-v1/blob/back-end-branch/README.md)
+* [Proof Of Concepts](https://github.com/xicoder96/cdac-reconnect/blob/poc-branch/README.md)
 
 ## Authors
 * **Alisha Bilquis** - *DAC008* - [lia-bilquis](https://github.com/lia-bilquis)

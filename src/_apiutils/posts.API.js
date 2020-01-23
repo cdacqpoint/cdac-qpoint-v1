@@ -30,11 +30,22 @@ export const PostsAPI = {
 
     },
     totalQuestions: () => {
-
+        return null;
     },
 
-    searchQuestions: (value) => {
-
+    searchQuestions: async (value) => {
+        const data = await fetchQuestionsAPI({ limit: 5, offset: 0, keyword: value })
+            .then(response => {
+                const ServerResponse = response.data;
+                ServerResponse.data.posts = typeof ServerResponse.data.posts !== "undefined" ? ServerResponse.data.posts.map((question) => {
+                    question['askedTimeAgo'] = Moment(question['publishedOn']).startOf('hour').fromNow();
+                    question['activeTimeAgo'] = Moment(question['modifiedAt']).startOf('hour').fromNow();
+                    return question;
+                }) : [];
+                return ServerResponse.data.posts;
+            })
+            .catch(error => { console.log("searchQuestions API error", error); return [] });
+        return data;
     },
     //Get Question details
     getQuestionDetails: (qid) => {

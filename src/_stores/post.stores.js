@@ -193,6 +193,11 @@ class PostStore extends EventEmitter {
             this.emit(Constants.CHANGE);
         }
     }
+    async searchedQuestions(keyword) {
+        this.isLoading = false;
+        _store.searchedQuestions = PostsAPI.searchQuestions(keyword);
+        this.emit(Constants.CHANGE);
+    }
 
     registerToActions(payload) {
         switch (payload.actionType) {
@@ -236,9 +241,7 @@ class PostStore extends EventEmitter {
                 this.emit(Constants.CHANGE);
                 break;
             case Constants.SEARCH_QUESTIONS:
-                this.isLoading = false;
-                _store.searchedQuestions = PostsAPI.searchQuestions(payload.keyword);
-                this.emit(Constants.CHANGE);
+                this.searchedQuestions(payload.keyword);
                 break;
             default:
                 return _store;

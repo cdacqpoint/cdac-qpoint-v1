@@ -104,7 +104,8 @@ class ViewQuestion extends React.Component {
     async setData() {
         const details = await PostStore.getQuestionDetails();
         console.log(details)
-        const comments = CommentStore.getComments();
+        const comments = await CommentStore.getComments();
+        const commentsCount = await CommentStore.getTotalCount();
         const relatedQuestions = await PostStore.getRelatedQuestions();
         const hotQuestions = await PostStore.getHotQuestions();
         if (details === null) {
@@ -114,7 +115,7 @@ class ViewQuestion extends React.Component {
                 id: PostStore._getSelectedQuestionId(),
                 details: details,
                 comments: comments,
-                commentsCount: CommentStore.getTotalCount(),
+                commentsCount: commentsCount,
                 relatedQuestions: relatedQuestions,
                 hotQuestions: hotQuestions,
             });

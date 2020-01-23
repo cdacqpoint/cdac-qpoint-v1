@@ -7,7 +7,7 @@ const fetchComments = async (params) => {
         .then(response => {
             const ServerResponse = response.data;
             ServerResponse.data.comments = typeof ServerResponse.data.comments !== "undefined" ? ServerResponse.data.comments.map((comment) => {
-                return { ...comment, upvoteUrl: "#", commentedTimeAgo: moment(comment.createdAt).startOf('hour').fromNow(), editUrl: "#", dateCreated: moment(comment.createdAt).format('MMMM Do YYYY'), name: "Anonymous", avatarUrl: require("../images/avatars/noimage.png"), userUpvoted: upvoted_comments.includes(comment._id) };
+                return { ...comment, upvoteUrl: "#", commentedTimeAgo: moment(comment.createdAt).startOf('hour').fromNow(), editUrl: "#", dateCreated: moment(comment.createdAt).startOf('hour').fromNow(), name: "Anonymous", avatarUrl: require("../images/avatars/noimage.png"), userUpvoted: upvoted_comments.includes(comment._id) };
             }) : [];
             return ServerResponse.data;
         }).catch(error => { console.log("API error", error); return [] });

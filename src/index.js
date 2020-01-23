@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 import * as serviceWorker from './serviceWorker';
-import  DummyQpoint  from "./_dummy";
+//import  DummyQpoint  from "./_dummy";
 
 //Setup Dummy data for working
-DummyQpoint.init();
+//DummyQpoint.init();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -12,7 +12,7 @@ export const PostsAPI = {
             .then(response => {
                 const ServerResponse = response.data;
                 ServerResponse.data.posts = typeof ServerResponse.data.posts !== "undefined" ? ServerResponse.data.posts.map((question) => {
-                    question['authorAvatar'] = "";
+                    question['authorAvatar'] = require("../images/avatars/noimage.png");
                     question['author'] = "Anonymous";
                     question['date'] = Moment(question['publishedOn']).startOf('hour').fromNow();
                     return question;
@@ -48,12 +48,31 @@ export const PostsAPI = {
         return data;
     },
     //Get Question details
-    getQuestionDetails: (qid) => {
-
+    getQuestionDetails: async (qid) => {
+        let upvoted_questions = JSON.parse(localStorage.getItem('upvoted_questions')) || [];
+        const data = await API.get(`/post/${qid}`).then(response => {
+            const question = response.data.data;
+            question["dateCreated"] = Moment(question['publishedOn']).startOf('hour').fromNow();
+            question["name"] = "Anonymous";
+            question["avatarUrl"] = require("../images/avatars/noimage.png");
+            question["userUpvoted"] = upvoted_questions.includes(question._id);
+            question["hasImage"] = false;
+            return question;
+        })
+            .catch(error => { console.log("searchQuestions API error", error); return null });
+        return data;
     },
     //Upvotes
     updateUpvote: (id) => {
+        return API.get(`/post/${id}/upvote`).then(response => { return response.data; }).catch(error => { console.log("updateUpvote API error", error); return false; });
+    },
 
+    getRelatedQuestions: async (relatedQuesId) => {
+        return await fetchQuestionsAPI({ limit: 6, offset: 0, titleOnly: true, relatedQuesId,sort:"top_rated" })
+            .then(response => {
+                const ServerResponse = response.data;
+                return ServerResponse.data.posts;
+            }).catch(error => { console.log("getRelatedQuestions API error", error); return [] })
     }
 }
 

@@ -24,9 +24,9 @@ class Tags extends React.Component {
         }
     }
 
-    getAllTags = () => {
+    getAllTags = async () => {
         TagAction.fetchTags();
-        const tags = TagStore.getTags();
+        const tags = await TagStore.getTags();
         console.log(tags)
         this.setState({
             TagsList: tags,

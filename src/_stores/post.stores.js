@@ -15,14 +15,14 @@ let _store = {
     page: 0
 };
 
-function fetchSingleQuestion(id) {
-    const questionDetail = PostsAPI.getQuestionDetails(_store._selectedQuestionId);
+async function fetchSingleQuestion(id) {
+    const questionDetail = await PostsAPI.getQuestionDetails(id);
     if (questionDetail === null) {
         PostStore.isLoading = false;
         PostStore.hasError = true;
         PostStore.error = "No Question found!";
     }
-    _store.selectedQuestionDetails = questionDetail;
+    return questionDetail;
 }
 
 class PostStore extends EventEmitter {
@@ -81,8 +81,8 @@ class PostStore extends EventEmitter {
         return _store.limit;
     }
 
-    getQuestionDetails() {
-        fetchSingleQuestion();
+    async getQuestionDetails() {
+        _store.selectedQuestionDetails = await fetchSingleQuestion(_store._selectedQuestionId);
         //Get Question Details
         return _store.selectedQuestionDetails;
     }
@@ -165,7 +165,17 @@ class PostStore extends EventEmitter {
         }
     }
 
+    async getRelatedQuestions() {
+        let questions = [];
+        if (_store._selectedQuestionId !== "") {
+            questions = await PostsAPI.getRelatedQuestions(_store._selectedQuestionId);
+        }
+        console.log(questions);
+        return questions;
+    }
+
     fetchQuestionDetails(id) {
+        console.log(2, " => fetchQuestionDetails")
         _store._selectedQuestionId = id;
         //post api willbe here
         this.emit(Constants.CHANGE);
@@ -181,10 +191,10 @@ class PostStore extends EventEmitter {
         console.log("Post store listeners:", this.listenerCount(Constants.CHANGE))
     }
 
-    upvoteQuestion(id) {
+    async upvoteQuestion(id) {
         let upvoted_questions = JSON.parse(localStorage.getItem('upvoted_questions')) || [];
         if (!upvoted_questions.includes(id)) {
-            let response = PostsAPI.updateUpvote(id)
+            let response = await PostsAPI.updateUpvote(id)
             if (response.status === false) {
                 this.error = response.data;
             }

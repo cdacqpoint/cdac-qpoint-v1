@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { environment } from "../../_environment/environment";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import PropTypes from "prop-types";
 import {
@@ -29,7 +30,7 @@ const QuestionDetails = (props) => {
         "p-2",
         className,
     );
-    const shareUrl = "http://localhost";
+    const shareUrl = `${environment.apiUrl}/question/${details._id}`;
     const upvoteClasses = classNames(
         "fa fa-heart fa-3x",
         "align-self-center",
@@ -70,10 +71,10 @@ const QuestionDetails = (props) => {
                     {renderHTML(details.desc)}
                 </div>
                 <div className="post-tags text-sm-left">
-                    <a href={details.tagUrl} className="post-tag badge badge-pill badge-primary" title={details.tag} rel="Course tag">{details.tag}</a>
+                {typeof details.courseTag !== "undefined" && details.courseTag !== null && <span className="post-tag badge badge-pill badge-primary" title={details.courseTag.name} rel="Course tag">{details.courseTag.name}</span>}
 
-                    {details.category.map((cat, idx) => (
-                        <a href={cat.url} className="post-category badge badge-pill badge-info mx-1" title="java" rel="category" key={idx}>{cat.name}</a>
+                    {typeof details.categories !== "undefined" &&  details.categories.map((cat, idx) => (
+                        <span className="post-category badge badge-pill badge-info mx-1" title="java" rel="category" key={cat._id}>{cat.name}</span>
                     ))}
 
                 </div>

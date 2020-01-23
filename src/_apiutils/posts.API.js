@@ -11,10 +11,15 @@ export const PostsAPI = {
         const data = await fetchQuestionsAPI({ limit, offset, courseTag, category, sort })
             .then(response => {
                 const ServerResponse = response.data;
-                console.log(ServerResponse)
+                ServerResponse.data.posts = typeof ServerResponse.data.posts !== "undefined" ? ServerResponse.data.posts.map((question) => {
+                    question['authorAvatar'] = "";
+                    question['author'] = "Anonymous";
+                    question['date'] = Moment(question['publishedOn']).startOf('hour').fromNow();
+                    return question;
+                }) : [];
                 return ServerResponse;
             })
-            .catch(error => { console.log("API error", error);  return error.response.data});
+            .catch(error => { console.log("API error", error); return error.response.data });
         return data;
     },
     /**

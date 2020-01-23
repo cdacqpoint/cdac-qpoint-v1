@@ -17,7 +17,7 @@ import Post from "../../components/dashboard/Posts";
 import PostPagination from "../../components/dashboard/PostPagination";
 import TotalVarables from "../../components/dashboard/TotalVariables";
 import TagList from "../../components/dashboard/TagList";
-import { PostStore } from "../../_stores";
+import { PostStore, TagStore } from "../../_stores";
 import { DashboardActions } from "../../_actions/dashboard.actions";
 
 /**
@@ -30,6 +30,7 @@ class Question extends React.Component {
     constructor(props) {
         super(props);
         this.getPosts = this.getPosts.bind(this);
+        this.getTags = this.getTags.bind(this);
         this.pagenate = this.pagenate.bind(this);
         this.handleFilterChange = this.handleFilterChange.bind(this);
         this.handleLimitChange = this.handleLimitChange.bind(this);
@@ -42,44 +43,7 @@ class Question extends React.Component {
             currentPage: PostStore.getCurrentPage(),
             selectedTag: PostStore.getTag(),
             selectedFilter: PostStore.getFilter(),
-            taglists: [
-                {
-                    name: "DAC",
-                    post_count: 50,
-                    "url": "#"
-
-                },
-                {
-                    name: "DESD",
-                    post_count: 20,
-                    "url": "#"
-
-                },
-                {
-                    name: "DBDA",
-                    post_count: 2,
-                    "url": "#"
-
-                },
-                {
-                    name: "DIOT",
-                    post_count: 15,
-                    "url": "#"
-
-                },
-                {
-                    name: "DSSD",
-                    post_count: 60,
-                    "url": "#"
-
-                },
-                {
-                    name: "Others",
-                    post_count: 2,
-                    "url": "#"
-
-                }
-            ],
+            taglists: [],
             PostLists: []
         }
     }
@@ -97,6 +61,12 @@ class Question extends React.Component {
         });
     }
 
+    async getTags() {
+        this.setState({
+            taglists: await TagStore.getTags(),
+        });
+    }
+
     /**
      *
      *
@@ -105,7 +75,9 @@ class Question extends React.Component {
      */
     componentDidMount() {
         this.getPosts()
+        this.getTags()
         PostStore.addChangeListener(this.getPosts) // Sai krishnan
+        TagStore.addChangeListener(this.getTags) // Sai krishnan
     }
 
     /**
@@ -115,6 +87,7 @@ class Question extends React.Component {
      */
     componentWillUnmount() {
         PostStore.removeChangeListener(this.getPosts) // Sai krishnan
+        TagStore.removeChangeListener(this.getTags) // Sai krishnan
     }
 
     handleFilterChange(filter) {
@@ -181,7 +154,7 @@ class Question extends React.Component {
                         {this.state.PostLists.map((post) => (
                             <Post key={post._id} post={post} />
                         ))}
-                       {this.state.totalQuestions !== 0 && <PostPagination limit={this.state.questionsPerPage} total={this.state.totalQuestions} num={currentNum} pagenate={this.pagenate} />}
+                        {this.state.totalQuestions !== 0 && <PostPagination limit={this.state.questionsPerPage} total={this.state.totalQuestions} num={currentNum} pagenate={this.pagenate} />}
                     </Col>
                     {/* Brief Desc */}
                     <Col lg="4" md="4" sm="12" className="mb-4">
@@ -193,7 +166,7 @@ class Question extends React.Component {
                                 </div>
                                 <ListGroup flush>
                                     <ListGroupItem className="px-4 text-center">
-                                        <TagList title="Course tags" taglists={this.state.taglists} selected={this.state.selectedTag} handleClick={this.handleTagChange}/>
+                                        <TagList title="Course tags" taglists={this.state.taglists} selected={this.state.selectedTag} handleClick={this.handleTagChange} />
                                     </ListGroupItem>
                                     {/* <ListGroupItem className="px-4 text-center">
                                         <TagList title="Related Categories" taglists={this.state.taglists} />

@@ -1,7 +1,7 @@
 import Dispatcher from "../flux/dispatcher";
 import { EventEmitter } from 'events';
 import Constants from "../_constants/app.constants";
-import { TagsAPI } from "../_dummyApis/tags.API";
+import { TagsAPI } from "../_apiutils/tags.API";
 
 let _store = {
 

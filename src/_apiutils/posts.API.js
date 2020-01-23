@@ -52,11 +52,13 @@ export const PostsAPI = {
         let upvoted_questions = JSON.parse(localStorage.getItem('upvoted_questions')) || [];
         const data = await API.get(`/post/${qid}`).then(response => {
             const question = response.data.data;
-            question["dateCreated"] = Moment(question['publishedOn']).startOf('hour').fromNow();
+            question["dateCreated"] = Moment(question['publishedOn']).format('MMMM Do YYYY');
             question["name"] = "Anonymous";
             question["avatarUrl"] = require("../images/avatars/noimage.png");
             question["userUpvoted"] = upvoted_questions.includes(question._id);
             question["hasImage"] = false;
+            question["activeTimeAgo"] =  Moment(question['modifiedAt']).startOf('hour').fromNow();
+            question["askedTimeAgo"] =  Moment(question['publishedOn']).startOf('hour').fromNow();
             return question;
         })
             .catch(error => { console.log("searchQuestions API error", error); return null });
@@ -73,6 +75,14 @@ export const PostsAPI = {
                 const ServerResponse = response.data;
                 return ServerResponse.data.posts;
             }).catch(error => { console.log("getRelatedQuestions API error", error); return [] })
+    },
+
+    getHotQuestions: async () => {
+        return await fetchQuestionsAPI({ limit: 6, offset: 0, titleOnly: true,sort:"top_rated" })
+            .then(response => {
+                const ServerResponse = response.data;
+                return ServerResponse.data.posts;
+            }).catch(error => { console.log("getHotQuestions API error", error); return [] })
     }
 }
 

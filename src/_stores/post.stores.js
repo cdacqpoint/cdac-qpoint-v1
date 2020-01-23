@@ -132,7 +132,6 @@ class PostStore extends EventEmitter {
     async fetchQuestions() {
         let { filter, category, tag, limit, page } = _store;
         let response = await PostsAPI.fetchQuestions(filter, page, limit, tag, category)
-        console.log(response)
         if (typeof response.status !== "undefined" && response.status === true) {
             _store.posts = response.data.posts;
             this.totalQuestions = response.data.posts_count;
@@ -170,12 +169,18 @@ class PostStore extends EventEmitter {
         if (_store._selectedQuestionId !== "") {
             questions = await PostsAPI.getRelatedQuestions(_store._selectedQuestionId);
         }
-        console.log(questions);
+        return questions;
+    }
+
+    async getHotQuestions() {
+        let questions = [];
+        if (_store._selectedQuestionId !== "") {
+            questions = await PostsAPI.getHotQuestions();
+        }
         return questions;
     }
 
     fetchQuestionDetails(id) {
-        console.log(2, " => fetchQuestionDetails")
         _store._selectedQuestionId = id;
         //post api willbe here
         this.emit(Constants.CHANGE);

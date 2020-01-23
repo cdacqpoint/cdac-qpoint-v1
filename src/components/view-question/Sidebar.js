@@ -31,9 +31,9 @@ const Sidebar = ({ title, className, questions, moreUrl, theme, ...attrs }) => {
                     </div>
                 ))}
 
-                <a href={moreUrl} className="text-muted float-right">Show More →</a>
+                {/* <a href={moreUrl} className="text-muted float-right">Show More →</a> */}
             </div>}
-            {questions.length === 0 &&  <div className="linked"><div className="no-content text-muted text-center"><h4><i className="material-icons">sentiment_dissatisfied</i> No questions yet!</h4></div></div>}
+            {questions.length === 0 &&  <div className="linked"><div className="no-content text-muted text-center"><h5><i className="material-icons">sentiment_dissatisfied</i> No questions yet!</h5></div></div>}
         </div>
     );
 }

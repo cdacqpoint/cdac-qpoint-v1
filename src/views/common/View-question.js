@@ -57,8 +57,8 @@ class ViewQuestion extends React.Component {
                 editUrl: "",
                 userUpvoted: false
             },
-            showMoreRelatedUrl: "",
-            showMoreHotQuestionsUrl: "",
+            showMoreRelatedUrl: "#",
+            showMoreHotQuestionsUrl: "#",
             comments: [],
             commentsCount: 0,
             relatedQuestions: [],
@@ -106,6 +106,7 @@ class ViewQuestion extends React.Component {
         console.log(details)
         const comments = CommentStore.getComments();
         const relatedQuestions = await PostStore.getRelatedQuestions();
+        const hotQuestions = await PostStore.getHotQuestions();
         if (details === null) {
             this.props.history.push('/questions')
         } else {
@@ -115,6 +116,7 @@ class ViewQuestion extends React.Component {
                 comments: comments,
                 commentsCount: CommentStore.getTotalCount(),
                 relatedQuestions: relatedQuestions,
+                hotQuestions: hotQuestions,
             });
         }
     }
@@ -142,38 +144,6 @@ class ViewQuestion extends React.Component {
         this.loadData(id);
         PostStore.addChangeListener(this.setData) // Sai krishnan
         CommentStore.addChangeListener(this.setData) // Sai krishnan
-        const hotQuestionsDetails = [
-            {
-                title: "Difference between npx and npm?",
-                voteCount: 125,
-                questionUrl: "#"
-            },
-            {
-                title: "Can't uninstall global npm packages after installing nvm.",
-                voteCount: 15,
-                questionUrl: "#"
-            },
-            {
-                title: "create-react-app: template not provided using create-react-app error/start script missing (even after removing globally installed create-react-app)",
-                voteCount: 35,
-                questionUrl: "#"
-            },
-            {
-                title: "Unable to import CSS module in a react app",
-                voteCount: 0,
-                questionUrl: "#"
-            },
-            {
-                title: "Difference between npx and npm?",
-                voteCount: 125,
-                questionUrl: "#"
-            },
-        ]
-        this.setState({
-            hotQuestions: hotQuestionsDetails,
-            showMoreRelatedUrl: "#",
-            showMoreHotQuestionsUrl: "#"
-        });
     }
 
     /**

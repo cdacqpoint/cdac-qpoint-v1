@@ -1,7 +1,7 @@
 import Dispatcher from "../flux/dispatcher";
 import { EventEmitter } from 'events';
 import Constants from "../_constants/app.constants";
-import { PostsAPI } from "../_dummyApis/posts.API";
+import { PostsAPI } from "../_apiutils/posts.API";
 
 let _store = {
     posts: [],
@@ -31,7 +31,7 @@ class PostStore extends EventEmitter {
         this.isLoading = false;
         this.hasError = false;
         this.error = null;
-        this.totalQuestions = PostsAPI.totalQuestions();
+        this.totalQuestions = 0;
         this.registerToActions = this.registerToActions.bind(this);
         this.dispatchToken = Dispatcher.register(this.registerToActions.bind(this));
     }
@@ -129,17 +129,16 @@ class PostStore extends EventEmitter {
         this.emit(Constants.CHANGE);
     }
 
-    fetchQuestions() {
+    async fetchQuestions() {
         let { filter, category, tag, limit, page } = _store;
-        let response = PostsAPI.fetchQuestions(filter, page, limit, tag, category)
-        if (response.status === true) {
-            this.isLoading = false;
-            this.hasError = false;
-            _store.posts = response.data;
+        let response = await PostsAPI.fetchQuestions(filter, page, limit, tag, category)
+        console.log(response)
+        if (typeof response.status !== "undefined" && response.status === true) {
+            _store.posts = response.data.posts;
+            this.totalQuestions = response.data.posts_count;
         } else {
-            this.isLoading = false;
-            this.hasError = true;
-            this.error = response.data;
+            _store.posts = [];
+            this.totalQuestions = 0;
         }
         return _store.posts;
     }

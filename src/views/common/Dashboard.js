@@ -35,7 +35,7 @@ class Question extends React.Component {
         this.handleLimitChange = this.handleLimitChange.bind(this);
         this.handleTagChange = this.handleTagChange.bind(this);
         this.state = {
-            totalQuestions: PostStore.totalQuestions,
+            totalQuestions: 0,
             totalMembers: 0,
             isLoading: false,
             questionsPerPage: PostStore.getPageLimit(),
@@ -90,9 +90,10 @@ class Question extends React.Component {
      * @author Sai Krishnan S
      * @memberof Question
      */
-    getPosts() {
+    async getPosts() {
         this.setState({
-            PostLists: PostStore.fetchQuestions(),
+            PostLists: await PostStore.fetchQuestions(),
+            totalQuestions: await PostStore.totalQuestions
         });
     }
 

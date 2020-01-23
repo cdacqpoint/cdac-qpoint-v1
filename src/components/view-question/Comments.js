@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import AnswerPagination from "./AnswerPagination";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const renderHTML = (rawHTML) => React.createElement("div", { dangerouslySetInnerHTML: { __html: rawHTML } });
@@ -22,7 +23,7 @@ export default class Comments extends React.Component {
             <div className={classes} {...this.props.attrs}>
                 <AnswerHeader answerCount={this.props.answerCount} />
                 {typeof this.props.answerCount !== "undefined" && this.props.answerCount !== 0 && <>
-                    <AnswerPagination />
+                    <AnswerPagination num={this.props.num} limit={this.props.limit} total={this.props.total} pagenate={this.props.pagenate} />
                     {this.props.answers.map((comment, idx) => (
                         <div key={idx}>
                             <CommentItem details={comment} handleUpvotes={this.props.handleUpvotes}/>
@@ -39,28 +40,7 @@ export default class Comments extends React.Component {
     }
 }
 
-const AnswerPagination = ({ className, ...attrs }) => {
-    const classes = classNames(
-        "answer-nav",
-        className,
-    );
-    return (
-        <div className={classes} {...attrs}>
-            <nav aria-label="Pagination for comments">
-                <ul className="pagination pagination-sm">
-                    <li className="page-item active" aria-current="page">
-                        <span className="page-link">
-                            1
-                    <span className="sr-only">(current)</span>
-                        </span>
-                    </li>
-                    <li className="page-item"><a className="page-link" href="/">2</a></li>
-                    <li className="page-item"><a className="page-link" href="/">3</a></li>
-                </ul>
-            </nav>
-        </div>
-    );
-}
+
 
 /**
  * 

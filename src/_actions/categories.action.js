@@ -6,6 +6,11 @@ export const CategoriesAction = {
         Dispatcher.dispatch({
             actionType: Constants.FETCH_CATEGORIES
         })
+    },
+    searchCategory:(keyword) =>{
+        Dispatcher.dispatch({
+            actionType: Constants.SEARCH_CATEGORIES,
+            keyword
+        })
     }
-
 }

@@ -21,17 +21,19 @@ class Categories extends React.Component {
         this.getAllCategories = this.getAllCategories.bind(this);
         this.state = {
             filterByCategory: "",
+            totalQuestions:0,
             CategoriesList: []
         }
     }
 
-    getAllCategories = () => {
-        CategoriesAction.fetchCategories();
-        console.log(CategoriesAction.fetchCategories());
-        const categories = CategoryStore.getCategories();
-        console.log(categories)
+    getAllCategories = async () => {
+        //CategoriesAction.fetchCategories();
+        const categories = await CategoryStore.getCategories();
+
+        //console.log(categories)
         this.setState({
             CategoriesList: categories,
+            totalQuestions: await CategoryStore.totalCategories
         });
     }
 
@@ -45,6 +47,9 @@ class Categories extends React.Component {
     }
     
     handleChange = (e) => {
+        //action comes here
+        CategoriesAction.searchCategory(e.target.value);
+        console.log("change");
         this.setState({
             filterByCategory: e.target.value
         })
@@ -53,14 +58,6 @@ class Categories extends React.Component {
     render() {
         //Filtered Categories
         let filteredCategories = this.state.CategoriesList;
-        //Search Categories
-        let SearchCategory = this.state.filterByCategory.toUpperCase().trim();
-        //Check whether the user entered string is alpha or not
-        let isAlpha = new RegExp(/^[A-Z]+$/i).test(SearchCategory)
-        if (SearchCategory !== "" && isAlpha === true)
-            filteredCategories = filteredCategories.filter(category =>{
-               return new RegExp('^.*' + SearchCategory.replace(/\*./g, '.*') + '.*$').test(category.name)
-            });
         const defaultUrl = "#";
         return (
             <Container fluid className="main-content-container px-4">

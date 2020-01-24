@@ -26,6 +26,8 @@ export default {
     PAGENATE_QUESTIONS: "PAGENATE_QUESTIONS",//Change pagenation    
     CREATE_QUESTION: "CREATE_QUESTION", // Create question
     SEARCH_QUESTIONS: "SEARCH_QUESTIONS",//Search Questions
+    SEARCH_CATEGORIES: "SEARCH_CATEGORIES",//Search categories
+
 
     FETCH_QUESTION_DETAILS: "FETCH_QUESTION_DETAILS",//Fetch single questions
     EDIT_QUESTION_DETAIL: "EDIT_QUESTION_DETAIL",//Edit Question Details

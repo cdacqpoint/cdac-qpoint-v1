@@ -31,15 +31,15 @@ const Post = ({ post }) => {
                 </div>
                 <div className="my-auto ml-auto">
                     <Badge pill className="card-post__category bg-primary ml-1">
-                        {post.tag}
+                        {post.courseTag.name}
                     </Badge>
-                    {/* {post.category.map((cat, index) => (
-                        <Link to={`categories`} className="category-link d-none d-md-inline-block" key={index}>{cat}</Link>
-                    ))} */}
+                    {post.categories.splice(0,2).map((cat) => (
+                        <Link to={`categories`} className="category-link d-none d-md-inline-block" key={cat._id}>{cat.name}</Link>
+                    ))} 
                     <Button pill theme="white" tag={Link} to={`question/${post._id}`}>
                         <span className="nav-link-icon__wrapper">
                             <i className="fas fa-comment"></i>
-                            <Badge pill className="ml-2">{post.commentsCount}</Badge>
+                            <Badge pill className="ml-2">{post.comments.length}</Badge>
                         </span>
                     </Button>
                 </div>

@@ -55,10 +55,10 @@ export default class SearchPost extends React.Component {
      * @author Sai Krishnan S
      * @memberof SearchPost
      */
-    getSearchedQuestions() {
+    async getSearchedQuestions() {
         this.setState({
             isLoading: false,
-            suggestions: PostStore.getSearchedQuestions(),
+            suggestions:await PostStore.getSearchedQuestions(),
         });
     }
 

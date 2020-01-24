@@ -33,6 +33,7 @@ class ViewQuestion extends React.Component {
         this.getComments = this.getComments.bind(this);
         this.setData = this.setData.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.pagenate = this.pagenate.bind(this);
         this.handleCommentUpvotes = this.handleCommentUpvotes.bind(this);
         this.handleQuestionUpvotes = this.handleQuestionUpvotes.bind(this);
         this.state = {
@@ -42,9 +43,9 @@ class ViewQuestion extends React.Component {
                 desc: "",
                 hasImage: true,
                 image: "",
-                tag: "",
+                courseTag: null,
                 tagUrl: "",
-                category: [],
+                categories: [],
                 dateCreated: "",
                 activeTimeAgo: "",
                 askedTimeAgo: "",
@@ -57,10 +58,12 @@ class ViewQuestion extends React.Component {
                 editUrl: "",
                 userUpvoted: false
             },
-            showMoreRelatedUrl: "",
-            showMoreHotQuestionsUrl: "",
+            showMoreRelatedUrl: "#",
+            showMoreHotQuestionsUrl: "#",
             comments: [],
             commentsCount: 0,
+            commentsPage: 0,
+            commentsLimit: 10,
             relatedQuestions: [],
             hotQuestions: []
         }
@@ -74,7 +77,7 @@ class ViewQuestion extends React.Component {
     getQuestionDetail() {
         const details = PostStore.getQuestionDetails();
         if (details === null) {
-            // this.props.history.push('/questions')
+            this.props.history.push('/questions')
         } else {
             this.setState({
                 id: PostStore._getSelectedQuestionId(),
@@ -93,6 +96,8 @@ class ViewQuestion extends React.Component {
         this.setState({
             comments: comments,
             commentsCount: CommentStore.getTotalCount(),
+            commentsPage:CommentStore.getPage(),
+            commentsLimit:CommentStore.getLimit()
         });
     }
 
@@ -101,9 +106,12 @@ class ViewQuestion extends React.Component {
      * Set All data required
      * @memberof ViewQuestion
      */
-    setData() {
-        const details = PostStore.getQuestionDetails();
-        const comments = CommentStore.getComments();
+    async setData() {
+        const details = await PostStore.getQuestionDetails();
+        const comments = await CommentStore.getComments();
+        const commentsCount = await CommentStore.getTotalCount();
+        const relatedQuestions = await PostStore.getRelatedQuestions();
+        const hotQuestions = await PostStore.getHotQuestions();
         if (details === null) {
             this.props.history.push('/questions')
         } else {
@@ -111,7 +119,11 @@ class ViewQuestion extends React.Component {
                 id: PostStore._getSelectedQuestionId(),
                 details: details,
                 comments: comments,
-                commentsCount: CommentStore.getTotalCount(),
+                commentsCount: commentsCount,
+                commentsPage:CommentStore.getPage(),
+                commentsLimit:CommentStore.getLimit(),
+                relatedQuestions: relatedQuestions,
+                hotQuestions: hotQuestions,
             });
         }
     }
@@ -139,66 +151,6 @@ class ViewQuestion extends React.Component {
         this.loadData(id);
         PostStore.addChangeListener(this.setData) // Sai krishnan
         CommentStore.addChangeListener(this.setData) // Sai krishnan
-        const relatedQuestionsDetails = [
-            {
-                title: "Difference between npx and npm?",
-                voteCount: 125,
-                questionUrl: "#"
-            },
-            {
-                title: "Can't uninstall global npm packages after installing nvm.",
-                voteCount: 15,
-                questionUrl: "#"
-            },
-            {
-                title: "create-react-app: template not provided using create-react-app error/start script missing (even after removing globally installed create-react-app)",
-                voteCount: 35,
-                questionUrl: "#"
-            },
-            {
-                title: "Unable to import CSS module in a react app",
-                voteCount: 0,
-                questionUrl: "#"
-            },
-            {
-                title: "Difference between npx and npm?",
-                voteCount: 125,
-                questionUrl: "#"
-            },
-        ]
-        const hotQuestionsDetails = [
-            {
-                title: "Difference between npx and npm?",
-                voteCount: 125,
-                questionUrl: "#"
-            },
-            {
-                title: "Can't uninstall global npm packages after installing nvm.",
-                voteCount: 15,
-                questionUrl: "#"
-            },
-            {
-                title: "create-react-app: template not provided using create-react-app error/start script missing (even after removing globally installed create-react-app)",
-                voteCount: 35,
-                questionUrl: "#"
-            },
-            {
-                title: "Unable to import CSS module in a react app",
-                voteCount: 0,
-                questionUrl: "#"
-            },
-            {
-                title: "Difference between npx and npm?",
-                voteCount: 125,
-                questionUrl: "#"
-            },
-        ]
-        this.setState({
-            relatedQuestions: relatedQuestionsDetails,
-            hotQuestions: hotQuestionsDetails,
-            showMoreRelatedUrl: "#",
-            showMoreHotQuestionsUrl: "#"
-        });
     }
 
     /**
@@ -243,6 +195,19 @@ class ViewQuestion extends React.Component {
         ViewQuestionActions.upvotePost(commentId)
     }
 
+    pagenate(number) {
+        //Paginate
+
+        let nextPage = this.state.commentsLimit * (number - 1) + 1;
+        console.log("nextPage in pagenate",nextPage)
+        ViewQuestionActions.paginateComments(nextPage);
+
+        this.setState({
+            currentPage: nextPage,
+        });
+    }
+
+
     /**
      * Render Question View 
      *
@@ -251,6 +216,11 @@ class ViewQuestion extends React.Component {
      */
     render() {
         const details = this.state.details;
+        let currentNum = Math.floor(this.state.commentsPage / this.state.commentsLimit);
+        currentNum++;
+        console.log("current num:", currentNum)
+        console.log("commentsPage", this.state.commentsPage)
+        console.log("commentsLimit", this.state.commentsLimit)
         return (
             <Container fluid className="main-content-container px-4 pb-4">
                 {/* Page Header */}
@@ -259,8 +229,10 @@ class ViewQuestion extends React.Component {
                 </Row>
                 <Row noGutters>
                     <Col lg="8" sm="12" className="main-bar" role="main">
-                        <QuestionDetails details={details} handleUpvotes={this.handleQuestionUpvotes}/>
-                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} handleUpvotes={this.handleCommentUpvotes} />
+                        <QuestionDetails details={details} handleUpvotes={this.handleQuestionUpvotes} />
+                        <Comments answerCount={this.state.commentsCount} answers={this.state.comments} handleUpvotes={this.handleCommentUpvotes}
+                            limit={this.state.commentsLimit} total={this.state.commentsCount} num={currentNum} pagenate={this.pagenate}
+                        />
                         <CommentForm />
                     </Col>
                     <Col lg="4" sm="12" className="side-bar" role="complementary">

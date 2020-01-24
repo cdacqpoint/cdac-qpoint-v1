@@ -1,7 +1,7 @@
 import Dispatcher from "../flux/dispatcher";
 import { EventEmitter } from 'events';
 import Constants from "../_constants/app.constants";
-import { PostsAPI } from "../_dummyApis/posts.API";
+import { PostsAPI } from "../_apiutils/posts.API";
 
 let _store = {
     posts: [],
@@ -15,14 +15,14 @@ let _store = {
     page: 0
 };
 
-function fetchSingleQuestion(id) {
-    const questionDetail = PostsAPI.getQuestionDetails(_store._selectedQuestionId);
+async function fetchSingleQuestion(id) {
+    const questionDetail = await PostsAPI.getQuestionDetails(id);
     if (questionDetail === null) {
         PostStore.isLoading = false;
         PostStore.hasError = true;
         PostStore.error = "No Question found!";
     }
-    _store.selectedQuestionDetails = questionDetail;
+    return questionDetail;
 }
 
 class PostStore extends EventEmitter {
@@ -31,7 +31,7 @@ class PostStore extends EventEmitter {
         this.isLoading = false;
         this.hasError = false;
         this.error = null;
-        this.totalQuestions = PostsAPI.totalQuestions();
+        this.totalQuestions = 0;
         this.registerToActions = this.registerToActions.bind(this);
         this.dispatchToken = Dispatcher.register(this.registerToActions.bind(this));
     }
@@ -81,8 +81,8 @@ class PostStore extends EventEmitter {
         return _store.limit;
     }
 
-    getQuestionDetails() {
-        fetchSingleQuestion();
+    async getQuestionDetails() {
+        _store.selectedQuestionDetails = await fetchSingleQuestion(_store._selectedQuestionId);
         //Get Question Details
         return _store.selectedQuestionDetails;
     }
@@ -129,17 +129,15 @@ class PostStore extends EventEmitter {
         this.emit(Constants.CHANGE);
     }
 
-    fetchQuestions() {
+    async fetchQuestions() {
         let { filter, category, tag, limit, page } = _store;
-        let response = PostsAPI.fetchQuestions(filter, page, limit, tag, category)
-        if (response.status === true) {
-            this.isLoading = false;
-            this.hasError = false;
-            _store.posts = response.data;
+        let response = await PostsAPI.fetchQuestions(filter, page, limit, tag, category)
+        if (typeof response.status !== "undefined" && response.status === true) {
+            _store.posts = response.data.posts;
+            this.totalQuestions = response.data.posts_count;
         } else {
-            this.isLoading = false;
-            this.hasError = true;
-            this.error = response.data;
+            _store.posts = [];
+            this.totalQuestions = 0;
         }
         return _store.posts;
     }
@@ -150,9 +148,13 @@ class PostStore extends EventEmitter {
      * @param {*} data
      * @memberof PostStore
      */
-    createPost(data) {
+    async createPost({ title, description, category, tags, name, email, notify: showNameEmail }) {
         try {
-            const response = PostsAPI.createQuestion(data)
+            const categories = category.map(cat => {
+                return cat.value;
+            })
+            const response = await PostsAPI.createQuestion({ title, desc: description, categories, courseTag: tags, name, email, notify: showNameEmail })
+            console.log(response)
             if (response.status === true) {
                 this.emit(Constants.CHANGE);
             } else {
@@ -164,6 +166,22 @@ class PostStore extends EventEmitter {
             console.log("Error On Post Creation:", error)
             throw error
         }
+    }
+
+    async getRelatedQuestions() {
+        let questions = [];
+        if (_store._selectedQuestionId !== "") {
+            questions = await PostsAPI.getRelatedQuestions(_store._selectedQuestionId);
+        }
+        return questions;
+    }
+
+    async getHotQuestions() {
+        let questions = [];
+        if (_store._selectedQuestionId !== "") {
+            questions = await PostsAPI.getHotQuestions();
+        }
+        return questions;
     }
 
     fetchQuestionDetails(id) {
@@ -182,10 +200,10 @@ class PostStore extends EventEmitter {
         console.log("Post store listeners:", this.listenerCount(Constants.CHANGE))
     }
 
-    upvoteQuestion(id) {
+    async upvoteQuestion(id) {
         let upvoted_questions = JSON.parse(localStorage.getItem('upvoted_questions')) || [];
         if (!upvoted_questions.includes(id)) {
-            let response = PostsAPI.updateUpvote(id)
+            let response = await PostsAPI.updateUpvote(id)
             if (response.status === false) {
                 this.error = response.data;
             }
@@ -193,6 +211,11 @@ class PostStore extends EventEmitter {
             localStorage.setItem('upvoted_questions', JSON.stringify(upvoted_questions));
             this.emit(Constants.CHANGE);
         }
+    }
+    async searchedQuestions(keyword) {
+        this.isLoading = false;
+        _store.searchedQuestions = PostsAPI.searchQuestions(keyword);
+        this.emit(Constants.CHANGE);
     }
 
     registerToActions(payload) {
@@ -237,9 +260,7 @@ class PostStore extends EventEmitter {
                 this.emit(Constants.CHANGE);
                 break;
             case Constants.SEARCH_QUESTIONS:
-                this.isLoading = false;
-                _store.searchedQuestions = PostsAPI.searchQuestions(payload.keyword);
-                this.emit(Constants.CHANGE);
+                this.searchedQuestions(payload.keyword);
                 break;
             default:
                 return _store;

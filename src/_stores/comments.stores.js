@@ -1,7 +1,7 @@
 import Dispatcher from "../flux/dispatcher";
 import { EventEmitter } from 'events';
 import Constants from "../_constants/app.constants";
-import Api from "../_dummyApis/comments.API";
+import Api from "../_apiutils/comments.API";
 
 let _store = {
     comments: [],
@@ -16,8 +16,8 @@ let _store = {
  *Fetch Comments
  *
  */
-function fetchApi() {
-    let data = Api.fetchComments({ postId: _store.postId, filter: _store.filter, limit: _store.limit, offset: _store.page })
+async function fetchApi() {
+    let data = await Api.fetchComments({ post: _store.postId, filter: _store.filter, limit: _store.limit, offset: _store.page })
     _store.comments = data.comments;
     _store.totalCount = data.comments_count;
 }
@@ -38,8 +38,8 @@ class CommentStore extends EventEmitter {
         this.dispatchToken = Dispatcher.register(this.registerToActions.bind(this));
     }
 
-    getComments() {
-        fetchApi();
+    async getComments() {
+        await fetchApi();
         return _store.comments;
     }
 
@@ -77,8 +77,9 @@ class CommentStore extends EventEmitter {
         }
     }
 
-    addComment(desc) {
-        let response = Api.createComment({ desc, postId: _store.postId })
+   async addComment(desc) {
+        let response = await Api.createComment({ desc, post: _store.postId })
+        console.log(response)
         if (response.status === false) {
             this.hasError = true;
             this.error = response.data;

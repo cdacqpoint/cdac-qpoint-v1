@@ -18,17 +18,17 @@
     
     }
     
-    form{
+    .form{
     display: flex;
     flex-direction: column;
     }
     
-    label{
+    .label{
     padding: 10px 0 0 15px;
     color:#000;
     }
     
-    input{
+    .input{
     margin-top: 10px;
     height: 40px;
     border-radius: 5px;
@@ -36,12 +36,12 @@
     padding-left: 10px;
     }
     
-    input:focus{
+    .input:focus{
     border: 2px solid blue;
     
     }
     
-    input::placeholder{
+    .input::placeholder{
     color:#000;
     }
     

@@ -5,6 +5,7 @@ const async = require("async")
 const mongoose = require("mongoose")
 const categoryService = require("./categoryService")
 const CourseTagService = require("./courseTagService")
+const helper = require("../helpers")
 
 
 /**
@@ -85,7 +86,14 @@ exports.isTitleUnique = async (title) => {
 exports.getPostCountByCourseTag = async (courseTag) => {
     return await Post.countDocuments({ courseTag: courseTag });
 }
-
+/**
+ * Get Post Grouped By Categories...
+ * @author Alisha Bilquis <lia-bilquis@github.com>
+ * @returns
+ */
+exports.getPostCountByCategory = async (category) => {
+    return await Post.countDocuments({ categories: category });
+}
 /**
  * Get Post Counts in this week By Course Tags...
  * @author Sai Krishnan S <xicoder96@github.com>
@@ -99,6 +107,21 @@ exports.getPostCountInWeekByCourseTag = async (courseTag) => {
         }
     });
 }
+/**
+ * Get Post Counts in this week By Category...
+ * @author Alisha (sue me)
+ * @param {*} category
+ * 
+ */
+
+exports.getPostCountInWeekByCategory = async (category) => {
+    return await Post.countDocuments({
+        categories: category, createdAt: {
+            $gte: moment().week(-1).toString()
+        }
+    });
+}
+
 
 /**
  * Get Post Counts today By Course Tags...
@@ -113,16 +136,29 @@ exports.getPostCountTodayByCourseTag = async (courseTag) => {
         }
     });
 }
+/**
+ * Get Post Counts today By Category...
+  * @author Alisha (sue me)
+ * @param {*} category
+ * @returns
+ */
+exports.getPostCountTodayByCategory = async (category) => {
+    return await Post.countDocuments({
+        categories: category, createdAt: {
+            $gte: moment().day(-1).toString()
+        }
+    });
+}
 
 /**
  * Master function for all fetch operations on Post.
  * @author Sai Krishnan S <xicoder96@github.com>
- * @param {*} { limit, offset, relatedQuesId, courseTag, category, titleOnly, sort }
+ * @param {*} { limit, offset,keyword, relatedQuesId, courseTag, category, titleOnly, sort }
  * @param {boolean} [active=true]
  * @param {callback}[callback=null]
  * @returns Promise
  */
-exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {
+exports.postFetchMaster = async ({ limit, offset, keyword, relatedQuesId, courseTag, category, titleOnly, sort }, active = true, callback = null) => {
     let conditions = {};
     let sortBy = {};
     let skip = 0;
@@ -134,8 +170,13 @@ exports.postFetchMaster = async ({ limit, offset, relatedQuesId, courseTag, cate
     }
 
     //offset
-    if (typeof skip !== "undefined" && skip !== null && skip !== "") {
+    if (typeof offset !== "undefined" && offset !== null && offset !== "") {
         skip = parseInt(offset);
+    }
+
+    //keyword search
+    if (typeof keyword !== "undefined" && keyword !== null && keyword !== "") {
+        conditions = { ...conditions, title: new RegExp('^.*' + helper.escapeRegexCharacters(keyword) + '.*$', 'i') }
     }
 
     //offset

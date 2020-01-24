@@ -17,11 +17,11 @@ let should = chai.should();
 chai.use(chaiHttp);//Our parent block,the place where we export app of express @return serverobject
 
 describe('Categories', () => {
-    describe('GET /api/v1/category', () => {
+    describe('GET /api/v1/categories', () => {
         //it => tells us what should be tested in this method
         it('it should GET all the Categories', (done) => {
             chai.request(server)
-                .get('/api/v1/category')
+                .get('/api/v1/categories')
                 .end((err, res) => {
                     (res).should.have.status(200);//check status of api
                     done();

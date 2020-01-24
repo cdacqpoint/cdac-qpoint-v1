@@ -16,33 +16,38 @@ let should = chai.should();
 
 chai.use(chaiHttp);//Our parent block,the place where we export app of express @return serverobject
 
-describe('PostbyID', () => {
-
-    describe('GET /api/v1/post/:id', async() => {
-        const tag = await Post.findOne({},'_id');
-        const url = `/api/v1/post/${tag._id}`;
+describe('Get Posts by ID', () => {
+    describe('GET /api/v1/post/:id', async () => {
+        const post = await Post.findOne({});
+        const url = `/api/v1/post/${post._id}`;
         //it => tells us what should be tested in this method
         it('it should GET post of given id', (done) => {
 
             chai.request(server)
                 .get(url)
                 .end((err, res) => {
-                    console.log(res.body);
                     (res).should.have.status(200);//check status of api
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('data');
+                    res.body.should.have.property('status').eql(true);
                     done();
                 });
         });
     });
 });
-describe('DeletebyID', () => {
-    describe('DELETE /api/v1/post/:id', () => {
+describe('Upvote Post by ID', () => {
+    describe('GET /api/v1/post/:id/upvote', async () => {
+        const post = await Post.findOne({});
+        const url = `/api/v1/post/${post._id}/upvote`;
         //it => tells us what should be tested in this method
         it('it should Delete given ID', (done) => {
             chai.request(server)
-                .get('/api/v1/post/:id')
+                .get(url)
                 .end((err, res) => {
-                    console.log(res.body);
                     (res).should.have.status(200);//check status of api
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('data');
+                    res.body.should.have.property('status').eql(true);
                     done();
                 });
         });

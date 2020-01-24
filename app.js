@@ -8,12 +8,16 @@ var logger = require('morgan');
 //Compression & helmet
 var compression = require('compression');
 var helmet = require('helmet');
+// For React to use
+var cors = require('cors');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var commentsRouter = require('./routes/comments');
 var postsRouter = require('./routes/posts');
 var tagsRouter = require('./routes/tags');
+var categoriesRouter = require('./routes/categories');
 
 var app = express();
 
@@ -22,6 +26,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(helmet());
+app.use(cors());
 app.use(compression()); // Compress all routes
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,6 +36,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use(urlPrefix, postsRouter);
 app.use(urlPrefix, tagsRouter);
+app.use(urlPrefix, categoriesRouter);
 app.use(urlPrefix, commentsRouter);
 
 //Configurations

@@ -17,11 +17,15 @@ let should = chai.should();
 chai.use(chaiHttp);//Our parent block,the place where we export app of express @return serverobject
 
 describe('PostbyID', () => {
-    describe('GET /api/v1/post/:id', () => {
+
+    describe('GET /api/v1/post/:id', async() => {
+        const tag = await Post.findOne({},'_id');
+        const url = `/api/v1/post/${tag._id}`;
         //it => tells us what should be tested in this method
         it('it should GET post of given id', (done) => {
+
             chai.request(server)
-                .get('/api/v1/post/:id')
+                .get(url)
                 .end((err, res) => {
                     console.log(res.body);
                     (res).should.have.status(200);//check status of api

@@ -148,9 +148,13 @@ class PostStore extends EventEmitter {
      * @param {*} data
      * @memberof PostStore
      */
-    createPost(data) {
+    async createPost({ title, description, category, tags, name, email, notify: showNameEmail }) {
         try {
-            const response = PostsAPI.createQuestion(data)
+            const categories = category.map(cat => {
+                return cat.value;
+            })
+            const response = await PostsAPI.createQuestion({ title, desc: description, categories, courseTag: tags, name, email, notify: showNameEmail })
+            console.log(response)
             if (response.status === true) {
                 this.emit(Constants.CHANGE);
             } else {

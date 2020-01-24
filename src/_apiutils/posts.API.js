@@ -27,7 +27,7 @@ export const PostsAPI = {
      * 
      */
     createQuestion: (data) => {
-
+        return API.post(`/post/create`, data).then(response => { return response.data; }).catch(error => { console.log("createQuestion API error", error); return error.response.data; });
     },
     totalQuestions: () => {
         return null;
@@ -57,8 +57,8 @@ export const PostsAPI = {
             question["avatarUrl"] = require("../images/avatars/noimage.png");
             question["userUpvoted"] = upvoted_questions.includes(question._id);
             question["hasImage"] = false;
-            question["activeTimeAgo"] =  Moment(question['modifiedAt']).startOf('hour').fromNow();
-            question["askedTimeAgo"] =  Moment(question['publishedOn']).startOf('hour').fromNow();
+            question["activeTimeAgo"] = Moment(question['modifiedAt']).startOf('hour').fromNow();
+            question["askedTimeAgo"] = Moment(question['publishedOn']).startOf('hour').fromNow();
             return question;
         })
             .catch(error => { console.log("searchQuestions API error", error); return null });
@@ -70,7 +70,7 @@ export const PostsAPI = {
     },
 
     getRelatedQuestions: async (relatedQuesId) => {
-        return await fetchQuestionsAPI({ limit: 6, offset: 0, titleOnly: true, relatedQuesId,sort:"top_rated" })
+        return await fetchQuestionsAPI({ limit: 6, offset: 0, titleOnly: true, relatedQuesId, sort: "top_rated" })
             .then(response => {
                 const ServerResponse = response.data;
                 return ServerResponse.data.posts;
@@ -78,7 +78,7 @@ export const PostsAPI = {
     },
 
     getHotQuestions: async () => {
-        return await fetchQuestionsAPI({ limit: 6, offset: 0, titleOnly: true,sort:"top_rated" })
+        return await fetchQuestionsAPI({ limit: 6, offset: 0, titleOnly: true, sort: "top_rated" })
             .then(response => {
                 const ServerResponse = response.data;
                 return ServerResponse.data.posts;

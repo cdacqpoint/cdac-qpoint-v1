@@ -128,11 +128,13 @@ class QuestionForm extends React.Component {
    * @author Sai Krishnan S
    * @memberof Question
    */
-  getTagList() {
-    const tagList = TagStore.getTags();
+  async getTagList() {
+    const tagList = await TagStore.getTags();
+    console.log(tagList[0].name)
     this.setState({
       TagList: tagList || [],
-      DefaultTag: tagList[0]._id || ""
+      DefaultTag: tagList[0].name || "",
+      tags:tagList[0].name || ""
     });
   }
 
@@ -185,11 +187,11 @@ class QuestionForm extends React.Component {
   }
 
   resetForm = () => {
-    console.log("reset form",this.state.TagList[0])
+    console.log("reset form", this.state.TagList[0])
     this.setState({
       title: "",
       description: "",
-      tags: this.state.TagList[0]._id || "",
+      tags: this.state.TagList[0].name || "",
       category: [],
       name: "",
       email: "",
@@ -241,8 +243,8 @@ class QuestionForm extends React.Component {
           {TagList.map((tag, idx) => (
             <Col lg="3" md="3" sm="12" key={idx}>
               <span>
-                <FormRadio value={tag._id} name="tag" defaultChecked={DefaultTag === tag._id} onChange={() => {
-                  this.changeTagChange(tag._id);
+                <FormRadio value={tag.name} name="tag" defaultChecked={DefaultTag === tag.name} onChange={() => {
+                  this.changeTagChange(tag.name);
                 }}>{tag.name}</FormRadio>
               </span>
             </Col>

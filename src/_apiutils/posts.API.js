@@ -19,7 +19,10 @@ export const PostsAPI = {
                 }) : [];
                 return ServerResponse;
             })
-            .catch(error => { console.log("API error", error); return typeof error.response.data !== "undefined" ? error.response.data : [] });
+            .catch(error => {
+                console.log("API error", error);
+                return typeof error.response !== "undefined" ? error.response.data : { status: false, data: { error: null } }
+            });
         return data;
     },
     /**

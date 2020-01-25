@@ -44,6 +44,18 @@ On Windows, use this command:
    > npm run devstart
 ```
 
+Using Docker:
+
+```command
+   $ docker-composer up
+    Attaching to mongo, qpoint-apis
+    qpoint-apis |
+
+   $ docker exec -it <Container name> npm run seeder
+    > cdac-qpoint-v1@1.0.0 seeder /path/to/server-qpoint-v1
+    > node ./seeders/dbSeeder
+```
+
 ## Run the tests
 
 ```command

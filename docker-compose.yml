@@ -1,0 +1,22 @@
+version: "2"
+services:
+  api:
+    container_name: qpoint-apis
+    restart: always
+    environment:
+      - NODE_ENV=dev
+      - MONGODB_URI=mongodb://mongo:27017/cdacqpointv1
+      - PORT=5000
+      - SEND_MAIL=true
+    build: ./
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/qpoint-apis
+    links:
+      - mongo
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"

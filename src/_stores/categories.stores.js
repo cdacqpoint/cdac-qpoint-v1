@@ -8,7 +8,7 @@ let _store = {
     categories: [],
     keyword: "",
     offset: 0,
-    limit: 10
+    limit: 32
 };
 
 async function fetchCategories() {

@@ -95,7 +95,7 @@ class Categories extends React.Component {
                                     <Col lg="3" md="3" sm="12" xs="12" className="mb-4 px-2" key={idx}>
                                         <div className="text-sm-left my-2">
                                             <a href={categories.url} className="badge badge-primary">{categories.name}</a><span
-                                                className="text-muted mx-1">x{categories.totalCount}</span>
+                                                className="text-muted mx-1">x{categories.posts.length}</span>
                                         </div>
                                     </Col>
                                 ))}

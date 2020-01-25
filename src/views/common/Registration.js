@@ -97,16 +97,16 @@ export default class Registration extends Component{
                               <div className="wrapper">
  	                                 <div className="form-container">
  		                                  <h1>Sign Up</h1>
-                                              <form onSubmit={this.handleSubmit}>
-                                                <label className="align-left">
+                                              <form className="form" onSubmit={this.handleSubmit}>
+                                                <label className="label align-left">
       	                                        	Firstname
                                                	</label>
-                                              	<input type="text" name="firstname"  placeholder="Enter your Firstname" value={this.state.firstname} onChange={this.handleInputChange} required=""/>
-                                                 <label className="align-left">
+                                              	<input type="text" name="firstname"  placeholder="Enter your Firstname" value={this.state.firstname} className="input" onChange={this.handleInputChange} required=""/>
+                                                 <label className="align-left label">
         	                                         Lastname
                                                   </label>
-                                                  <input type="text" name="lastname"  placeholder="Enter your Lastname" value={this.state.lastname} onChange={this.handleInputChange} required=""/>
-                                                  <label className="align-left">
+                                                  <input type="text" name="lastname"  placeholder="Enter your Lastname" value={this.state.lastname} onChange={this.handleInputChange}  className="input" required=""/>
+                                                  <label className="align-left label">
         	                                      Course Name
                                                   </label>
                                                   <select required name="coursename" value={this.state.coursename} onChange={this.handleChange}>
@@ -136,14 +136,14 @@ export default class Registration extends Component{
 
                                                      {/* <label className="align-left">Student Id/ Faculty Id</label>
                                                         <input type="text" name="id" placeholder="Please add your Id" required=""/> */}
-                                                     <label className="align-left">Email Address</label>
-                                                         <input type="Email" name="email" placeholder="Enter your Email Address" value={this.state.email} onChange={this.handleInputChange} required=""/>
-                                                     <label className="align-left">Password</label>
-                                                         <input type="Password" name="password" placeholder="Enter your Password" value={this.state.password} onChange={this.handleInputChange} required="" />
-                                                     <label className="align-left">Confirm Password</label>	
-                                                          <input type="Password" name="passwordconfirm" placeholder="Enter your password again" value={this.state.passwordconfirm} onChange={this.handleInputChange} required=""/>
+                                                     <label className="align-left label">Email Address</label>
+                                                         <input type="Email" name="email" placeholder="Enter your Email Address" value={this.state.email} onChange={this.handleInputChange} required="" className="input"/>
+                                                     <label className="align-left label">Password</label>
+                                                         <input type="Password" name="password" placeholder="Enter your Password" value={this.state.password} onChange={this.handleInputChange}  className="input" required="" />
+                                                     <label className="align-left label">Confirm Password</label>	
+                                                          <input type="Password" name="passwordconfirm" placeholder="Enter your password again" value={this.state.passwordconfirm} onChange={this.handleInputChange} required=""  className="input"/>
 
-        	                                        <input type="submit" name="Login" value="Sign Up" className="login" onClick={this.handleClick}/>
+        	                                        <input type="submit" name="Login" value="Sign Up" class="input" className="login" onClick={this.handleClick}/>
         	
 
 

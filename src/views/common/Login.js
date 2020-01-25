@@ -82,20 +82,20 @@ export default class Login extends Component{
                               <div className="wrapper">
  	                                 <div className="form-container">
  		                                  <h1>Login</h1>
-                                              <form onSubmit={this.handleSubmit}>
+                                              <form className="form" onSubmit={this.handleSubmit}>
                                               <div className="cta-container">
-      	               	                        <input type="submit" name="Student" value="Student" className="primary-cta" id="id1"/>
-      	              	                        <input type="submit" name="Faculty" value="Faculty" className="primary-cta" id="id2"/>
+      	               	                        <input type="submit" name="Student" value="Student" className="primary-cta input" id="id1"/>
+      	              	                        <input type="submit" name="Faculty" value="Faculty" className="primary-cta input" id="id2"/>
                                               </div>
-                     	              <label className="align-left">
+                     	              <label className="label align-left">
       	             	                 Username
                     	               </label>
-      	                                      <input type="text" name="email"  placeholder="Enter your Username" value={this.state.email} onChange={this.handleInputChange} required=""/>
-                                       <label className="align-left">
+      	                                      <input className="input" type="text" name="email"  placeholder="Enter your Username" value={this.state.email} onChange={this.handleInputChange} required=""/>
+                                       <label className="label align-left">
         	                             Password
                                        </label>
-                                               <input type="Password" name="password"  placeholder="Enter the Password" value={this.state.password} onChange={this.handleInputChange} required=""/>
-        	                                   <input type="submit" name="Login" value="Login" className="login" onClick={this.handleClick}/>
+                                               <input className="input" type="Password" name="password"  placeholder="Enter the Password" value={this.state.password} onChange={this.handleInputChange} required=""/>
+        	                                   <input className="input login" type="submit" name="Login" value="Login" onClick={this.handleClick}/>
         	                                     {/* <a href={defaultUrl}>Forgot Password?</a> */}
                                                 
             </form>

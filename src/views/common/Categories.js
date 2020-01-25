@@ -58,7 +58,7 @@ class Categories extends React.Component {
     render() {
         //Filtered Categories
         let filteredCategories = this.state.CategoriesList;
-        const defaultUrl = "#";
+        //const defaultUrl = "#";
         return (
             <Container fluid className="main-content-container px-4">
                 {/* Page Header */}
@@ -103,7 +103,7 @@ class Categories extends React.Component {
                         </Container>
                     </div>
                 </Row>
-                <nav aria-label="Page navigation example">
+                {/* <nav aria-label="Page navigation example">
                     <ul className="pagination justify-content-end">
                         <li className="page-item disabled">
                             <a className="page-link" href={defaultUrl} tabIndex="-1" aria-disabled="true">Previous</a>
@@ -121,7 +121,7 @@ class Categories extends React.Component {
                             <a className="page-link" href={defaultUrl}>Next</a>
                         </li>
                     </ul>
-                </nav>
+                </nav> */}
             </Container>
         )
     }

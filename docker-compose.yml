@@ -10,7 +10,7 @@ services:
       - SEND_MAIL=true
     build: ./
     ports:
-      - "5000:5000"
+      - "80:5000"
     volumes:
       - .:/usr/src/qpoint-apis
     links:

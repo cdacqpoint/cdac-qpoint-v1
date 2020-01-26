@@ -51,7 +51,7 @@ MainFooter.defaultProps = {
     },
     {
       title: "Categories",
-      to: "/components-overview"
+      to: "/categories"
     }
   ]
 };

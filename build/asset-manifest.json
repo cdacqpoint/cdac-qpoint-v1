@@ -1,0 +1,17 @@
+{
+  "main.css": "./static/css/main.1123457a.chunk.css",
+  "main.js": "./static/js/main.afbd0f94.chunk.js",
+  "main.js.map": "./static/js/main.afbd0f94.chunk.js.map",
+  "static/css/1.1bd202f0.chunk.css": "./static/css/1.1bd202f0.chunk.css",
+  "static/js/1.97b499ae.chunk.js": "./static/js/1.97b499ae.chunk.js",
+  "static/js/1.97b499ae.chunk.js.map": "./static/js/1.97b499ae.chunk.js.map",
+  "runtime~main.js": "./static/js/runtime~main.4a686d48.js",
+  "runtime~main.js.map": "./static/js/runtime~main.4a686d48.js.map",
+  "static/media/0.jpg": "./static/media/0.73476783.jpg",
+  "static/media/shards-dashboards-logo.svg": "./static/media/shards-dashboards-logo.60a85991.svg",
+  "static/css/main.1123457a.chunk.css.map": "./static/css/main.1123457a.chunk.css.map",
+  "static/css/1.1bd202f0.chunk.css.map": "./static/css/1.1bd202f0.chunk.css.map",
+  "index.html": "./index.html",
+  "precache-manifest.fe908d47df284c15d3446248558a02ad.js": "./precache-manifest.fe908d47df284c15d3446248558a02ad.js",
+  "service-worker.js": "./service-worker.js"
+}
